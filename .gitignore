@@ -1,22 +1,68 @@
 # Ren'Py generated files
 *.rpyc
 *.rpymc
+*.rpyb
+/game/script_version.txt
+/game/cache.zip
 
 # Cache
 game/cache/
 
 # Save data
 game/saves/
+*.save
+
+# Local player / pronunciation data (keep source code and word lists)
+/game/data/*.db
+/game/data/*.db-*
+/game/data/*.sqlite
+/game/data/*.sqlite-*
+/game/data/*.sqlite3
+/game/data/*.sqlite3-*
+
+# Recorded speech (do not ignore game audio assets)
+/game/recordings/
+/recordings/
+
+# Python cache and local virtual environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local secrets (share example configuration only)
+.env
+.env.*
+!.env.example
+!.env.sample
 
 # Logs
 log.txt
 traceback.txt
 errors.txt
+*.log
+/lint.txt
+
+# Local build output
+/build/
+/dist/
 
 # OS
 .DS_Store
 Thumbs.db
+Desktop.ini
 
 # IDE
 .vscode/
 .idea/
+
+
+
+# DB Browser for SQLite project files
+*.sqbpro
+
+# User-recorded audio data
+/game/data/recordings/
