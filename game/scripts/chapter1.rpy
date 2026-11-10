@@ -3,12 +3,6 @@
 # Chapter 1. 목소리의 힘 - 1층의 괴물들
 # ==================================================
 
-# n, mc, ghost는 기존 정의를 재사용한다.
-
-define dust = Character("먼지 괴물", color="#DDBB99")
-define echo = Character("메아리 괴물", color="#B9A7FF")
-define shadow = Character("그림자 괴물", color="#A7B4CE")
-
 
 label chapter1:
 

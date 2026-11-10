@@ -9,7 +9,7 @@ label start:
         $ player_name = "MC"
 
     # DB에 사용자 이름 저장
-    $ save_player_to_db(player_name)
+    #$ save_player_to_db(player_name)
 
     jump intro
 
