@@ -343,5 +343,5 @@ label ch2_finish:
     # Chapter 3 연결
     # --------------------------------------------------
 
-    return
+    jump chapter3
 
