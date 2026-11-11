@@ -6,6 +6,8 @@
 
 label chapter1:
 
+    $ current_chapter = 1
+
     # ==========================================
     # SCENE 1. 첫 번째 층
     # ==========================================
@@ -119,7 +121,8 @@ label ch1_m1_clear:
 
     n "괴물이 사라지자 막혀 있던 복도에 길이 열린다."
 
-    # TODO 첫 번째 괴물 클리어 기록
+    $ cleared_monsters.add((1, 1))
+    call progress_autosave from ch1_m1_autosaved
     # ch1_m2_start로 이동
 
     # [임시 테스트] 첫 번째 괴물 정화 후 다음 괴물로 이동
@@ -225,7 +228,8 @@ label ch1_m2_clear:
     ghost "이제 이 층의 마지막 괴물만 남았어!"
     mc "좋아! 끝까지 해 볼게."
 
-    # TODO 두 번째 괴물 클리어 기록
+    $ cleared_monsters.add((1, 2))
+    call progress_autosave from ch1_m2_autosaved
     # ch1_m3_start로 이동
 
     # [임시 테스트] 두 번째 괴물 정화 후 다음 괴물로 이동
@@ -333,7 +337,8 @@ label ch1_m3_clear:
     n "그림자 괴물은 마지막 말을 남기고 빛 속으로 사라진다."
     n "동시에 굳게 닫혀 있던 엘리베이터 문이 열린다."
 
-    # TODO 세 번째 괴물 클리어 기록
+    $ cleared_monsters.add((1, 3))
+    call progress_autosave from ch1_m3_autosaved
     # Chapter 1 전체 클리어 처리
     # ch1_finish로 이동
 
@@ -355,7 +360,9 @@ label ch1_finish:
     n "엘리베이터 문이 천천히 닫히고, 다음 층을 향해 움직이기 시작한다."
 
     # --------------------------------------------------
-    # TODO Chapter 1 완료 기록
+    $ completed_chapters.add(1)
+    $ current_chapter = 2
+    call progress_autosave from ch1_completion_autosaved
     # Chapter 2 연결
     # 전투 완료 후 Chapter 2로 이동
     # --------------------------------------------------

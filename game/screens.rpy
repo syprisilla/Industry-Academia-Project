@@ -250,8 +250,7 @@ screen quick_menu():
             textbutton _("대사록") action ShowMenu('history')
             textbutton _("넘기기") action Skip() alternate Skip(fast=True, confirm=True)
             textbutton _("자동진행") action Preference("auto-forward", "toggle")
-            textbutton _("저장하기") action ShowMenu('save')
-            textbutton _("Q.저장하기") action QuickSave()
+            textbutton _("메인화면으로 나가기") action Function(save_to_empty_slot) sensitive not _in_replay
             textbutton _("Q.불러오기") action QuickLoad()
             textbutton _("설정") action ShowMenu('preferences')
 
@@ -294,13 +293,14 @@ screen navigation():
 
         if main_menu:
 
-            textbutton _("시작하기") action Start()
+            textbutton _("이어하기") action Continue()
+            textbutton _("새 게임") action Start("start")
 
         else:
 
             textbutton _("대사록") action ShowMenu("history")
 
-            textbutton _("저장하기") action ShowMenu("save")
+            textbutton _("저장 기록") action ShowMenu("save")
 
         textbutton _("불러오기") action ShowMenu("load")
 
@@ -581,7 +581,7 @@ screen save():
 
     tag menu
 
-    use file_slots(_("저장하기"))
+    use file_slots(_("저장 기록"))
 
 
 screen load():
@@ -594,6 +594,12 @@ screen load():
 screen file_slots(title):
 
     default page_name_value = FilePageNameInputValue(pattern=_("{} 페이지"), auto=_("자동 세이브"), quick=_("퀵세이브"))
+
+    $ page = FilePageName(auto="auto", quick="quick")
+    $ slot_count = gui.file_slot_cols * gui.file_slot_rows
+    if page in ("auto", "quick"):
+        $ legacy_slots = renpy.list_slots(r"^" + page + r"-[0-9]+$")
+        $ slot_count = max([slot_count] + [int(name.split("-")[1]) for name in legacy_slots])
 
     use game_menu(title):
 
@@ -615,32 +621,46 @@ screen file_slots(title):
                     value page_name_value
 
             ## 파일 슬롯 그리드.
-            grid gui.file_slot_cols gui.file_slot_rows:
+            vpgrid:
+                cols gui.file_slot_cols
                 style_prefix "slot"
 
                 xalign 0.5
                 yalign 0.5
+                ysize gui.file_slot_rows * gui.slot_button_height + (gui.file_slot_rows - 1) * gui.slot_spacing
 
                 spacing gui.slot_spacing
+                mousewheel True
+                draggable True
 
-                for i in range(gui.file_slot_cols * gui.file_slot_rows):
+                for i in range(slot_count):
 
                     $ slot = i + 1
 
-                    button:
-                        action FileAction(slot)
+                    fixed:
+                        xysize (gui.slot_button_width, gui.slot_button_height)
 
-                        has vbox
+                        button:
+                            action FileLoad(slot)
 
-                        add FileScreenshot(slot) xalign 0.5
+                            has vbox
 
-                        text FileTime(slot, format=_("{#file_time}%A, %B %d %Y, %H:%M"), empty=_("빈 슬롯")):
-                            style "slot_time_text"
+                            add FileScreenshot(slot) xalign 0.5
 
-                        text FileSaveName(slot):
-                            style "slot_name_text"
+                            text FileTime(slot, format=_("{#file_time}%A, %B %d %Y, %H:%M"), empty=_("빈 슬롯")):
+                                style "slot_time_text"
 
-                        key "save_delete" action FileDelete(slot)
+                            text FileSaveName(slot):
+                                style "slot_name_text"
+
+                            key "save_delete" action FileDelete(slot)
+
+                        if FileLoadable(slot):
+                            textbutton _("삭제"):
+                                style "page_button"
+                                xalign 0.5
+                                yalign 1.0
+                                action FileDelete(slot, confirm=True)
 
             ## 페이지 이동 버튼.
             vbox:
@@ -657,10 +677,10 @@ screen file_slots(title):
                     textbutton _("<") action FilePagePrevious()
                     key "save_page_prev" action FilePagePrevious()
 
-                    if config.has_autosave:
+                    if renpy.list_slots(r"^auto-"):
                         textbutton _("{#auto_page}자동") action FilePage("auto")
 
-                    if config.has_quicksave:
+                    if config.has_quicksave or renpy.list_slots(r"^quick-"):
                         textbutton _("{#quick_page}퀵") action FilePage("quick")
 
                     ## 범위(1, 10)는 1부터 9까지 숫자를 제공합니다.

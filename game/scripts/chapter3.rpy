@@ -1,6 +1,8 @@
 
 label chapter3:
 
+    $ current_chapter = 3
+
     # ==========================================
     # SCENE 1. 세 번째 층
     # ==========================================
@@ -81,7 +83,8 @@ label ch3_m1_clear:
 
     ghost "우리도 계속 가 보자!"
 
-    # TODO 첫 번째 괴물 클리어 기록
+    $ cleared_monsters.add((3, 1))
+    call progress_autosave from ch3_m1_autosaved
     jump ch3_m2_start
 
 
@@ -152,7 +155,8 @@ label ch3_m2_clear:
     ghost "걱정 마! 지금까지 잘해 왔잖아. 이번에도 함께하자!"
     mc "맞아! 반드시 저주를 풀어 주겠어!"
 
-    # TODO 두 번째 괴물 클리어 기록
+    $ cleared_monsters.add((3, 2))
+    call progress_autosave from ch3_m2_autosaved
     jump ch3_m3_start
 
 
@@ -256,7 +260,8 @@ label ch3_m3_clear:
     ghost "해냈어! 드디어 모든 저주를 풀었어!"
     mc "정말? 이제 모두 괜찮아진 거야?"
 
-    # TODO 최종 보스 클리어 기록
+    $ cleared_monsters.add((3, 3))
+    call progress_autosave from ch3_m3_autosaved
     jump ch3_finish
 
 
@@ -305,7 +310,8 @@ label ch3_finish:
 
     n "주인공과 작은 유령의 모험이 끝난다."
 
-    # TODO Chapter 3 완료 기록
-    # 최종 성공 화면 및 결과 화면 연결
+    $ completed_chapters.add(3)
+    call progress_autosave from ch3_completion_autosaved
+    centered "모든 챕터를 완료했습니다."
 
     return

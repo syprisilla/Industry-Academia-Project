@@ -1,15 +1,10 @@
 label start:
 
-    # 사용자 이름 입력
-    $ player_name = renpy.input("이름을 입력하세요.")
-    $ player_name = player_name.strip()
+    $ renpy.stop_skipping()
 
-    # 아무것도 입력하지 않으면 MC
-    if player_name == "":
-        $ player_name = "MC"
+    $ player_name = renpy.input("이름을 입력하세요.").strip() or "MC"
 
-    # DB에 사용자 이름 저장
-    #$ save_player_to_db(player_name)
+    call progress_autosave from intro_name_autosaved
 
     jump intro
 
