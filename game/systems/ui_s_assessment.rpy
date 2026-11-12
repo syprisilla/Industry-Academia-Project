@@ -3,91 +3,99 @@ screen ui_s_assessment(record_action=None):
     modal True
 
     default syllable_index = 0
+    default ui_record_state = "ready"
 
     $ syllables = ("시", "세", "사", "서", "소", "수", "스")
 
-    # 위쪽 평가 패널
     frame:
         xalign 0.5
-        ypos 50
-        xsize 1400
-        padding (50, 15)
-        background Solid("#FFF4DE")
+        ypos 55
+        xsize 1500
+        padding (30, 18)
+        background Solid("#FFF4DC")
 
         vbox:
-            xfill True
-            spacing 8
+            xalign 0.5
+            spacing 10
 
             text "초기 발음 평가":
                 xalign 0.5
                 size 28
-                color "#665779"
+                color "#70558F"
 
             text "아래 글자를 천천히 말해 주세요.":
                 xalign 0.5
                 size 26
-                color "#30263F"
+                color "#342743"
 
             text syllables[syllable_index]:
                 xalign 0.5
-                size 80
-                color "#30263F"
+                size 76
+                color "#342743"
 
-            text "{} / 7".format(syllable_index + 1):
+            text "[syllable_index + 1] / 7":
                 xalign 0.5
                 size 24
-                color "#665779"
+                color "#70558F"
 
-    # 녹음 및 진행 버튼
     vbox:
         xalign 0.5
-        ypos 340
+        ypos 365
         spacing 20
 
-        textbutton "녹음 시작":
+        button:
             xalign 0.5
-            xysize (280, 90)
+            padding (24, 14)
+            background Solid("#73558F")
+            hover_background Solid("#8B6BAB")
 
-            background Solid("#705497")
-            hover_background Solid("#9170BB")
-            insensitive_background Solid("#55505F")
+            sensitive ui_record_state != "done"
 
-            text_size 36
-            text_color "#FFFFFF"
-            text_insensitive_color "#BBBBBB"
-            text_xalign 0.5
-            text_yalign 0.5
+            action SetScreenVariable(
+                "ui_record_state",
+                "done" if ui_record_state == "recording" else "recording"
+            )
 
-            sensitive record_action is not None
-            action record_action
+            hbox:
+                spacing 14
+
+                add "images/ui/mic.png":
+                    xysize (48, 48)
+                    fit "contain"
+                    yalign 0.5
+
+                if ui_record_state == "ready":
+                    text "녹음 시작":
+                        size 32
+                        color "#FFFFFF"
+                        yalign 0.5
+
+                elif ui_record_state == "recording":
+                    text "녹음중 (누르면 완료)":
+                        size 32
+                        color "#FFFFFF"
+                        yalign 0.5
+
+                else:
+                    text "녹음 완료":
+                        size 32
+                        color "#FFFFFF"
+                        yalign 0.5
 
         if syllable_index < len(syllables) - 1:
 
             textbutton "다음 음절":
                 xalign 0.5
-                padding (35, 15)
-
-                background Solid("#705497")
-                hover_background Solid("#9170BB")
-
-                text_size 32
-                text_color "#FFFFFF"
-
-                action SetScreenVariable(
-                    "syllable_index",
-                    syllable_index + 1
-                )
+                action [
+                    SetScreenVariable("ui_record_state", "ready"),
+                    SetScreenVariable(
+                        "syllable_index",
+                        syllable_index + 1
+                    )
+                ]
 
         else:
 
-            textbutton "마치기":
+            textbutton "평가 마치기":
                 xalign 0.5
-                padding (35, 15)
-
-                background Solid("#705497")
-                hover_background Solid("#9170BB")
-
-                text_size 32
-                text_color "#FFFFFF"
-
                 action Return()

@@ -54,3 +54,16 @@ transform ui_dust_corridor:
     xalign 0.86
     ypos 0.78
     yanchor 1.0
+
+# 정화 후 캐릭터 크기와 위치
+transform ui_dust_after_position:
+    xysize (300, 300)
+    fit "contain"
+
+    xalign 0.68
+    ypos 0.73
+    yanchor 1.0
+
+    xoffset 0
+    yoffset 0
+    alpha 1.0
