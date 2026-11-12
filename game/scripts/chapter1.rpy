@@ -13,6 +13,16 @@ label chapter1:
     # ==========================================
 
     n "엘리베이터가 천천히 움직이기 시작한다."
+
+    window hide
+
+    scene ui_corridor
+    show ui_ghost at ui_ghost_corridor
+    with fade
+
+    window auto
+    #배경이 첫 번째 층 복도로 바뀐다. 유령이 복도의 왼쪽 위치로 옮겨진다
+
     n "잠시 후, 문이 열리자 어두운 복도가 모습을 드러낸다."
 
     mc "여기가 첫 번째 층이야?"
@@ -40,6 +50,10 @@ label ch1_m1_start:
     # ==========================================
 
     n "복도 구석에 쌓여 있던 먼지들이 꿈틀거리기 시작한다."
+
+    show ui_dust before at ui_dust_corridor with dissolve
+    #먼지 괴물이 등장한다.
+
     n "먼지들이 뭉치더니 커다란 괴물로 변한다."
 
     dust "으하하! 여기는 내 구역이야!"
@@ -75,11 +89,7 @@ label ch1_m1_start:
     # --------------------------------------------------
 
     # [임시 테스트] 전투 기능 구현 전 성공 대사 3회 실행
-    call ch1_m1_success_1
-    call ch1_m1_success_2
-    call ch1_m1_success_3
-
-    jump ch1_m1_clear
+    jump ch1_m1_battle
 
 
 # --------------------------------------------------
@@ -107,7 +117,9 @@ label ch1_m1_clear:
     # ==========================================
 
     n "먼지 괴물을 감싸고 있던 어두운 기운이 사라진다."
-    n "괴물은 작은 빛이 되어 공중으로 떠오른다."
+
+    show ui_dust after at ui_dust_corridor with dissolve
+    #먼지괴물 정화
 
     dust "어...? 몸이 가벼워졌어!"
     dust "고마워! 이상한 저주 때문에 내 마음대로 움직일 수 없었어."
@@ -118,6 +130,9 @@ label ch1_m1_clear:
 
     mc "그럼 다른 괴물들도 도와줘야겠네!"
     ghost "맞아! 이제 다음으로 가 보자."
+
+    hide ui_dust after with dissolve
+    #먼지 괴물이 사라진다.
 
     n "괴물이 사라지자 막혀 있던 복도에 길이 열린다."
 
