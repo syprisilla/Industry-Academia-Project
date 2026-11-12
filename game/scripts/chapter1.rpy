@@ -118,7 +118,7 @@ label ch1_m1_clear:
 
     n "먼지 괴물을 감싸고 있던 어두운 기운이 사라진다."
 
-    show ui_dust after at ui_dust_corridor with dissolve
+    show ui_dust after at ui_dust_after_position with dissolve
     #먼지괴물 정화
 
     dust "어...? 몸이 가벼워졌어!"

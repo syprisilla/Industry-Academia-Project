@@ -1,5 +1,9 @@
 screen ui_sentence(sentence, record_action=None):
 
+    default ui_record_state = "ready"
+
+    #기존 패널 코드 유지
+
     modal True
 
     # 화면 위쪽 문장 패널
@@ -33,22 +37,49 @@ screen ui_sentence(sentence, record_action=None):
         ypos 350
         spacing 20
 
-        textbutton "녹음 시작":
+        
+        button:
             xalign 0.5
-            xysize (280, 90)
+            padding (24, 14)
 
-            background Solid("#705497")
-            hover_background Solid("#9170BB")
-            insensitive_background Solid("#55505F")
+            background Solid("#73558F")
+            hover_background Solid("#8B6BAB")
 
-            text_size 36
-            text_color "#FFFFFF"
-            text_insensitive_color "#BBBBBB"
-            text_xalign 0.5
-            text_yalign 0.5
+            sensitive ui_record_state != "done"
 
-            sensitive record_action is not None
-            action record_action
+            if ui_record_state == "ready":
+                action SetScreenVariable("ui_record_state", "recording")
+            elif ui_record_state == "recording":
+                action SetScreenVariable("ui_record_state", "done")
+            else:
+                action SetScreenVariable("ui_record_state", "recording")
+
+            hbox:
+                spacing 14
+
+                add "images/ui/mic.png":
+                    xysize (48, 48)
+                    fit"contain"
+                    yalign 0.5
+
+                if ui_record_state == "ready":
+                    text "녹음 시작":
+                        size 32
+                        color "#FFFFFF"
+                        yalign 0.5
+
+                elif ui_record_state == "recording":
+                    text "녹음중 (누르면 완료)":
+                        size 32
+                        color "#FFFFFF"
+                        yalign 0.5
+
+                else:
+                    text "녹음 완료":
+                        size 32
+                        color "#FFFFFF"
+                        yalign 0.5
+
 
         textbutton "다음":
             xalign 0.5

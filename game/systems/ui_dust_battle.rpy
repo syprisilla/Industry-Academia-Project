@@ -72,6 +72,8 @@ screen ui_dust_word(word, training=False):
 
     modal True
 
+    default ui_record_state = "ready"
+
     frame:
         xalign 0.22
         ypos 65
@@ -88,6 +90,7 @@ screen ui_dust_word(word, training=False):
                     xalign 0.5
                     size 30
                     color "#70558F"
+
             else:
                 text "먼저 핵심단어로 목소리를 준비해 보자!":
                     xalign 0.5
@@ -106,12 +109,29 @@ screen ui_dust_word(word, training=False):
 
         if training:
 
-            textbutton "녹음 시작":
+            # 녹음 상태 표시 버튼 (실제 녹음 미연결)
+            button:
                 xalign 0.5
+                padding (24, 14)
+                background Solid("#62596F")
                 sensitive False
                 action NullAction()
 
-            text "개발용 테스트 · 실제 녹음 및 발음 판정 아님":
+                hbox:
+                    spacing 14
+
+                    add "images/ui/mic.png":
+                        xysize (48, 48)
+                        fit "contain"
+                        yalign 0.5
+
+                    text "녹음 시작":
+                        size 32
+                        color "#DDDDDD"
+                        yalign 0.5
+
+            # 녹음 버튼 밖에 별도로 표시
+            text "개발용 테스트 (실제 녹음 및 발음 판정 아님)":
                 xalign 0.5
                 size 24
                 color "#FFFFFF"
@@ -132,6 +152,7 @@ screen ui_dust_word(word, training=False):
 
         else:
 
+            # 핵심단어 화면을 닫고 훈련단어 화면으로 진행
             textbutton "훈련단어로 넘어가기":
                 xalign 0.5
                 action Return()
@@ -148,19 +169,17 @@ label ui_dust_light_attack:
     show ui_dust at ui_dust_corridor, ui_dust_hit
     pause 0.3
 
-    # 이 시점에는 success_count가 아직 증가하기 전임
+    # success_count가 증가하기 전에 이미지 변경
     if success_count == 0:
 
-        # 첫 번째 공격을 맞은 모습
+        # 첫 번째 피격 모습
         show ui_dust hit1 at ui_dust_corridor, ui_dust_still
 
     else:
 
-        # 두 번째 공격 이후의 모습
-        # 세 번째 공격 직후에도 정화 장면 전까지 유지
+        # 두 번째 피격 이후 모습
         show ui_dust hit2 at ui_dust_corridor, ui_dust_still
 
-    # 빛이 남아 있는 동안 바뀐 모습 표시
     pause 0.25
     hide ui_light_attack with Dissolve(0.35)
 
