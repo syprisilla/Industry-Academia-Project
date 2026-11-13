@@ -66,3 +66,18 @@ Desktop.ini
 
 # User-recorded audio data
 /game/data/recordings/
+
+# exe
+game/python/voice_engine/
+game/data/out/
+game/data/recordings/
+
+game/python/build/
+game/python/dist/
+game/python/*.spec
+game/python/__pycache__/
+game/python/rec_*.wav
+game/python/rec_*.png
+game/python/*_fric.wav
+game/python/*_spec.png
+game/data/word.json

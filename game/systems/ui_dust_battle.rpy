@@ -73,6 +73,7 @@ screen ui_dust_word(word, training=False):
     modal True
 
     default ui_record_state = "ready"
+    default ui_voice = {"result": None, "feedback": "", "gauges": {}}
 
     frame:
         xalign 0.22
@@ -90,7 +91,6 @@ screen ui_dust_word(word, training=False):
                     xalign 0.5
                     size 30
                     color "#70558F"
-
             else:
                 text "먼저 핵심단어로 목소리를 준비해 보자!":
                     xalign 0.5
@@ -109,53 +109,74 @@ screen ui_dust_word(word, training=False):
 
         if training:
 
-            # 녹음 상태 표시 버튼 (실제 녹음 미연결)
-            button:
-                xalign 0.5
-                padding (24, 14)
-                background Solid("#62596F")
-                sensitive False
-                action NullAction()
+            if ui_record_state == "ready":
 
+                # 녹음 시작 버튼 (voice_engine.exe 호출)
+                button:
+                    xalign 0.5
+                    padding (24, 14)
+                    background Solid("#62596F")
+                    action Function(do_record, word)
+
+                    hbox:
+                        spacing 14
+                        add "images/ui/mic.png":
+                            xysize (48, 48)
+                            fit "contain"
+                            yalign 0.5
+                        text "녹음 시작":
+                            size 32
+                            color "#DDDDDD"
+                            yalign 0.5
+
+                text "개발용 테스트 (실제 녹음 및 발음 판정 아님)":
+                    xalign 0.5
+                    size 24
+                    color "#FFFFFF"
+                    outlines [(2, "#241D35", 0, 0)]
+
+                # 비상용 수동 버튼
                 hbox:
-                    spacing 14
+                    xalign 0.5
+                    spacing 20
+                    textbutton "성공":
+                        action Return("success")
+                    textbutton "실패":
+                        action Return("fail")
+                    textbutton "인식 불가":
+                        action Return("unrecognized")
 
-                    add "images/ui/mic.png":
-                        xysize (48, 48)
-                        fit "contain"
-                        yalign 0.5
+            else:
 
-                    text "녹음 시작":
-                        size 32
-                        color "#DDDDDD"
-                        yalign 0.5
+                # 게이지 이미지 2장
+                hbox:
+                    xalign 0.5
+                    spacing 20
+                    for feat in ("cog_hz", "sd_hz"):
+                        if feat in ui_voice["gauges"]:
+                            add im.Image(ui_voice["gauges"][feat]):
+                                xysize (380, 150)
+                                fit "contain"
 
-            # 녹음 버튼 밖에 별도로 표시
-            text "개발용 테스트 (실제 녹음 및 발음 판정 아님)":
-                xalign 0.5
-                size 24
-                color "#FFFFFF"
-                outlines [(2, "#241D35", 0, 0)]
+                # 피드백 문구
+                text ui_voice["feedback"]:
+                    xalign 0.5
+                    size 30
+                    color "#FFFFFF"
+                    outlines [(2, "#241D35", 0, 0)]
 
-            hbox:
-                xalign 0.5
-                spacing 20
-
-                textbutton "성공":
-                    action Return("success")
-
-                textbutton "실패":
-                    action Return("fail")
-
-                textbutton "인식 불가":
-                    action Return("unrecognized")
+                # 확인 -> 판정 결과를 battle_manager 로 반환
+                textbutton "확인":
+                    xalign 0.5
+                    action Return(ui_voice["result"])
 
         else:
 
-            # 핵심단어 화면을 닫고 훈련단어 화면으로 진행
+            # 핵심단어 화면 -> 훈련단어 화면으로
             textbutton "훈련단어로 넘어가기":
                 xalign 0.5
                 action Return()
+
 
 
 # 성공했을 때 실행할 공격 연출
@@ -171,13 +192,8 @@ label ui_dust_light_attack:
 
     # success_count가 증가하기 전에 이미지 변경
     if success_count == 0:
-
-        # 첫 번째 피격 모습
         show ui_dust hit1 at ui_dust_corridor, ui_dust_still
-
     else:
-
-        # 두 번째 피격 이후 모습
         show ui_dust hit2 at ui_dust_corridor, ui_dust_still
 
     pause 0.25
