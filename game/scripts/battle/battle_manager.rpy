@@ -27,11 +27,8 @@ label ch1_m1_battle:
 
         if ui_battle_result == "success":
 
-            # 빛 공격 → 괴물 흔들림
+            # 음파가 명중하면 피격 모습과 HP를 갱신한다.
             call ui_dust_light_attack
-
-            # 피격 후 HP 감소
-            $ success_count += 1
 
             window auto
 

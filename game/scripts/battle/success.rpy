@@ -10,6 +10,7 @@ label ch1_m1_success_1:
 
     dust "으악! 이게 무슨 힘이야?!"
     mc "우와! 진짜 공격이 됐어!"
+    show ui_ghost intro_happy with Dissolve(0.2)
     ghost "잘했어! 네 목소리의 힘이야!"
 
     ghost "이제 두 번만 더 성공하면 돼!"
@@ -23,6 +24,7 @@ label ch1_m1_success_2:
     n "괴물의 표정이 온화해진다."
 
     dust "으으... 내 몸이 작아지고 있어.."
+    show ui_ghost intro_talk with Dissolve(0.2)
     ghost "이제 한 번만 더 성공하면 돼!"
 
     return
@@ -34,6 +36,7 @@ label ch1_m1_success_3:
 
     dust "으아아! 내 몸이...!"
     mc "해냈어!"
+    show ui_ghost intro_happy with Dissolve(0.2)
     ghost "마지막 공격도 성공했어!"
 
     return
@@ -49,6 +52,7 @@ label ch1_m2_success_1:
 
     echo "으악! 내 메아리가 흔들리고 있어!"
     mc "좋아! 이번에도 성공했어!"
+    show ui_ghost intro_happy with Dissolve(0.2)
     ghost "아주 좋아! 괴물의 힘이 약해지고 있어!"
 
     echo "흥! 아직 끝난 게 아니야!"
@@ -65,6 +69,7 @@ label ch1_m2_success_2:
 
     echo "안 돼! 내 목소리들이 사라지고 있어!"
     mc "이번에도 맞혔어!"
+    show ui_ghost intro_talk with Dissolve(0.2)
     ghost "잘하고 있어! 이제 한 번만 더 성공하면 돼."
 
     mc "마지막까지 힘내 볼게!"
@@ -79,6 +84,7 @@ label ch1_m2_success_3:
 
     echo "으아아! 내 메아리가...!"
     mc "해냈다!"
+    show ui_ghost intro_happy with Dissolve(0.2)
     ghost "좋아! 이번에도 성공이야!"
 
     return
@@ -95,6 +101,7 @@ label ch1_m3_success_1:
 
     shadow "크윽! 이 빛은 무엇이냐!"
     mc "성공했어!"
+    show ui_ghost intro_happy with Dissolve(0.2)
     ghost "잘했어! 네 목소리가 저주를 약하게 만들고 있어!"
 
     shadow "하지만 아직 나를 지나갈 수는 없다!"
@@ -111,6 +118,7 @@ label ch1_m3_success_2:
 
     shadow "이럴 수가... 내 힘이 사라지고 있어!"
     mc "거의 다 됐어!"
+    show ui_ghost intro_talk with Dissolve(0.2)
     ghost "그래! 이제 한 번만 더 성공하면 돼!"
 
     mc "마지막 공격이야!"
@@ -125,6 +133,7 @@ label ch1_m3_success_3:
 
     shadow "으아아아! 저주가... 풀리고 있다!"
     mc "해냈어! 마지막 공격도 성공이야!"
+    show ui_ghost intro_happy with Dissolve(0.2)
     ghost "정말 잘했어!"
 
     return
