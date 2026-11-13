@@ -1,6 +1,7 @@
 label start:
 
     $ renpy.stop_skipping()
+    $ play_scene_music(scene_field_music)
 
     $ player_name = renpy.input("이름을 입력하세요.").strip() or "MC"
 
@@ -25,6 +26,7 @@ label intro:
     # SCENE 1. 낯선 아파트
     # ==========================================
 
+    $ play_scene_music(scene_field_music)
     scene apartment field with fade
 
     n "차가운 바람이 뺨을 스친다. 눈을 뜨니 낯선 벌판 한가운데다."
@@ -35,6 +37,7 @@ label intro:
     show apartment exterior with fade
     n "나는 불빛을 따라 걸어가 아파트 안으로 들어선다."
 
+    $ play_scene_music(scene_entrance_music)
     show apartment entrance with fade
 
     n "그 순간, 등 뒤에서 출입문이 닫힌다."
@@ -67,10 +70,13 @@ label intro:
 
     window hide
 
+    $ renpy.music.set_pause(True, channel="music")
     call screen ui_sentence(
         "사자가 숲속에서 사과를 찾았어요."
     )   #다음을 누르면 기존 대사가 이어짐
 
+    $ renpy.music.set_pause(False, channel="music")
+    $ play_scene_music(scene_entrance_music)
     window auto
     #화면 확인용 임시 예제
 
@@ -93,8 +99,11 @@ label intro:
 
     window hide
 
+    $ renpy.music.set_pause(True, channel="music")
     call screen ui_s_assessment()
+    $ renpy.music.set_pause(False, channel="music")
 
+    $ play_scene_music(scene_entrance_music)
     window auto
     #시 → 세 → 사 → 서 → 소 → 수 → 스 순서로 바뀌고, 마지막에 ‘마치기’를 누르면 기존 단어 선정 대사로 이어짐
 
@@ -138,6 +147,7 @@ label intro:
 
     # 기능 연동 시 핵심단어 선정 성공 이후에만 이 장면에 진입한다.
 
+    $ play_scene_sound(scene_elevator_sound)
     show apartment elevator_on behind ui_ghost
     show ui_ghost intro_relief
     with dissolve

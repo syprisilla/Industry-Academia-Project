@@ -100,126 +100,92 @@ screen ui_dust_hp():
 
     zorder 10
 
-    frame:
-        xalign 0.95
-        ypos 65
-        xsize 360
-        padding (24, 18)
-        background Solid("#241D35DD")
+    fixed:
+        xysize (328, 157)
+        xpos 1538
+        ypos 124
+
+        add intro_ch1_ui + "panel_hp.png" xysize (328, 157) fit "fill" alpha 0.88
 
         vbox:
-            spacing 12
+            xpos 28
+            ypos 15
+            spacing 4
 
-            text "먼지 괴물":
-                size 30
-                color "#FFFFFF"
+            text "먼지 괴물" style "intro_ch1_text" size 28
+            text "남은 HP: [3 - success_count] / 3" style "intro_ch1_caption" size 23
 
-            text "남은 HP: [3 - success_count] / 3":
-                size 26
-                color "#FFFFFF"
-
-            bar:
-                value StaticValue(3 - success_count, 3)
-                xsize 312
-                ysize 24
-                left_bar Solid("#B89ADB")
-                right_bar Solid("#44394F")
-                thumb None
+            hbox:
+                spacing 4
+                for segment in range(3):
+                    add intro_ch1_ui + ("hp_segment_full.png" if segment < 3 - success_count else "hp_segment_empty.png"):
+                        xysize (86, 24)
+                        fit "fill"
 
 
-# 핵심단어 / 훈련단어 표시
 screen ui_dust_word(word, training=False):
 
     modal True
-
     default ui_record_state = "ready"
 
-    frame:
-        xalign 0.22
-        ypos 65
-        xsize 1100
-        padding (30, 20)
-        background Solid("#FFF4DC")
+    fixed:
+        xysize (1140, 252)
+        xpos 342
+        ypos 116
 
-        vbox:
+        add intro_ch1_ui + ("panel_training_word.png" if training else "panel_core_word.png"):
+            xysize (1140, 252)
+            fit "fill"
+            alpha 0.84
+
+        text ("훈련단어를 말해서 공격해 보자!" if training else "먼저 핵심단어로 목소리를 준비해 보자!"):
+            style "intro_ch1_caption"
             xalign 0.5
-            spacing 10
+            ypos 29
+            size 34
 
+        fixed:
+            xysize (300, 116)
+            align (0.5, 0.76)
             if training:
-                text "훈련단어를 말해서 공격해 보자!":
-                    xalign 0.5
-                    size 30
-                    color "#70558F"
+                add intro_ch1_ui + "panel_word_focus.png" xysize (300, 116) fit "fill"
+            text word style "intro_ch1_text" align (0.5, 0.5) size 70 bold True
 
-            else:
-                text "먼저 핵심단어로 목소리를 준비해 보자!":
-                    xalign 0.5
-                    size 30
-                    color "#70558F"
+    if training:
+        fixed:
+            xysize (500, 118)
+            xalign 0.5
+            ypos 535
 
-            text word:
-                xalign 0.5
-                size 64
-                color "#342743"
+            # 이 전투의 버튼은 기존과 같이 실제 녹음에 연결되어 있지 않다.
+            use intro_ch1_recorder(ui_record_state, None, enabled=False, width=500)
 
-    vbox:
-        xalign 0.5
-        ypos 300
-        spacing 18
+        fixed:
+            xysize (460, 56)
+            xalign 0.5
+            ypos 674
+            use intro_ch1_status("개발용 테스트 (실제 녹음 및 발음 판정 아님)")
 
-        if training:
-
-            # 녹음 상태 표시 버튼 (실제 녹음 미연결)
-            button:
-                xalign 0.5
-                padding (24, 14)
-                background Solid("#62596F")
-                sensitive False
-                action NullAction()
-
-                hbox:
-                    spacing 14
-
-                    add "images/ui/mic.png":
-                        xysize (48, 48)
-                        fit "contain"
-                        yalign 0.5
-
-                    text "녹음 시작":
-                        size 32
-                        color "#DDDDDD"
-                        yalign 0.5
-
-            # 녹음 버튼 밖에 별도로 표시
-            text "개발용 테스트 (실제 녹음 및 발음 판정 아님)":
-                xalign 0.5
-                size 24
-                color "#FFFFFF"
-                outlines [(2, "#241D35", 0, 0)]
-
-            hbox:
-                xalign 0.5
-                spacing 20
-
-                textbutton "성공":
-                    action Return("success")
-
-                textbutton "실패":
-                    action Return("fail")
-
-                textbutton "인식 불가":
-                    action Return("unrecognized")
-
-        else:
-
-            # 핵심단어 화면을 닫고 훈련단어 화면으로 진행
-            textbutton "훈련단어로 넘어가기":
-                xalign 0.5
-                action Return()
+        hbox:
+            xalign 0.5
+            ypos 758
+            spacing 12
+            use intro_ch1_button("다음", "next", None, width=140, height=60, enabled=False)
+            use intro_ch1_button("성공", "success", Return("success"), width=140, height=60)
+            use intro_ch1_button("실패", "fail", Return("fail"), width=140, height=60)
+            use intro_ch1_button("인식 불가", "unrecognized", Return("unrecognized"), width=160, height=60)
+    else:
+        fixed:
+            xysize (420, 84)
+            xalign 0.5
+            ypos 533
+            use intro_ch1_button("훈련단어로 넘어가기", "continue", Return(),
+                width=420, height=84, icon="icon_next")
 
 
 # 성공 횟수는 음파가 명중한 순간 한 번만 갱신한다.
 label ui_dust_light_attack:
+    $ play_scene_sound(scene_wave_sound)
     show dust_wave_launch at ui_dust_wave_launch
     pause 0.12
     show dust_wave_flight at ui_dust_wave_flight

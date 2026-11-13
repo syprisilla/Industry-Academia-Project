@@ -16,6 +16,7 @@ label chapter1:
 
     window hide
 
+    $ play_scene_music(scene_corridor_music, volume=scene_corridor_volume)
     scene apartment corridor_1
     show ui_ghost intro_idle at ui_ghost_corridor, ui_ghost_idle
     with fade
@@ -47,6 +48,8 @@ label chapter1:
 
 label ch1_m1_start:
 
+    $ play_scene_music(scene_corridor_music, volume=scene_corridor_volume)
+
     # ==========================================
     # SCENE 2. 첫 번째 괴물 등장
     # ==========================================
@@ -54,6 +57,7 @@ label ch1_m1_start:
     show apartment corridor_2 behind ui_ghost with fade
     n "복도 구석에 쌓여 있던 먼지들이 꿈틀거리기 시작한다."
 
+    $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
     show ui_dust before at ui_dust_corridor, ui_dust_emerge
     show ui_ghost intro_surprised
     #먼지 괴물이 등장한다.
@@ -148,6 +152,7 @@ label ch1_m1_clear:
 
 
     hide ui_dust after with dissolve
+    $ play_scene_music(scene_corridor_music, volume=scene_corridor_volume)
     n "괴물이 사라지자 막혀 있던 복도에 길이 열린다."
 
     $ cleared_monsters.add((1, 1))
@@ -218,6 +223,7 @@ label ch1_m2_start:
     # --------------------------------------------------
 
     # [임시 테스트] 전투 기능 구현 전 성공 대사 3회 실행
+    $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
     call ch1_m2_success_1
     call ch1_m2_success_2
     call ch1_m2_success_3
@@ -259,6 +265,7 @@ label ch1_m2_clear:
     show ui_ghost intro_happy with Dissolve(0.2)
     ghost "잘했어! 두 번째 괴물의 저주도 풀었네."
 
+    $ play_scene_music(scene_corridor_music, volume=scene_corridor_volume)
     n "메아리 괴물은 환한 빛과 함께 사라진다."
 
     ghost "이제 이 층의 마지막 괴물만 남았어!"
@@ -328,6 +335,7 @@ label ch1_m3_start:
     # --------------------------------------------------
 
     # [임시 테스트] 전투 기능 구현 전 성공 대사 3회 실행
+    $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
     call ch1_m3_success_1
     call ch1_m3_success_2
     call ch1_m3_success_3
@@ -378,7 +386,9 @@ label ch1_m3_clear:
     shadow "이 아파트의 위층에는 더 깊은 저주가 잠들어 있다."
     shadow "직접 올라가 보면 알게 될 것이다..."
 
+    $ play_scene_music(scene_corridor_music, volume=scene_corridor_volume)
     n "그림자 괴물은 마지막 말을 남기고 빛 속으로 사라진다."
+    $ play_scene_sound(scene_elevator_sound)
     n "동시에 굳게 닫혀 있던 엘리베이터 문이 열린다."
 
     $ cleared_monsters.add((1, 3))
@@ -403,6 +413,7 @@ label ch1_finish:
     show apartment elevator_on behind ui_ghost with dissolve
     show ui_ghost intro_talk with Dissolve(0.2)
     n "주인공과 작은 유령은 함께 엘리베이터에 올라탄다."
+    $ play_scene_sound(scene_elevator_sound)
     n "엘리베이터 문이 천천히 닫히고, 다음 층을 향해 움직이기 시작한다."
 
     # --------------------------------------------------
@@ -415,4 +426,6 @@ label ch1_finish:
 
     hide ui_ghost
     show ui_ghost at ui_ghost_corridor, ui_ghost_settle
+    $ stop_scene_music()
+    stop sound
     jump chapter2

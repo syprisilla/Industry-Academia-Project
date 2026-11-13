@@ -1,88 +1,53 @@
 screen ui_sentence(sentence, record_action=None):
 
+    modal True
     default ui_record_state = "ready"
 
-    #기존 패널 코드 유지
-
-    modal True
-
-    # 화면 위쪽 문장 패널
-    frame:
+    fixed:
+        xysize (1640, 270)
         xalign 0.5
-        ypos 90
-        xsize 1400
-        yminimum 220
-        padding (50, 35)
-        background Solid("#FFF4DE")
+        ypos 140
 
-        vbox:
-            xfill True
-            spacing 20
+        add intro_ch1_ui + "panel_sentence.png" xysize (1640, 270) fit "fill" alpha 0.82
 
-            text "아래 문장을 읽어 주세요":
-                xalign 0.5
-                size 30
-                color "#665779"
+        text "아래 문장을 읽어 주세요" style "intro_ch1_caption":
+            xalign 0.5
+            ypos 32
 
-            text sentence:
-                xalign 0.5
-                xmaximum 1300
-                textalign 0.5
-                size 48
-                color "#30263F"
+        text sentence style "intro_ch1_text":
+            xalign 0.5
+            yalign 0.63
+            xmaximum 1440
+            size 66
+            bold True
 
-    # 패널 아래 버튼
     vbox:
         xalign 0.5
-        ypos 350
-        spacing 20
+        ypos 543
+        spacing 14
 
-        
-        button:
+        fixed:
+            xysize (620, 128)
             xalign 0.5
-            padding (24, 14)
 
-            background Solid("#73558F")
-            hover_background Solid("#8B6BAB")
+            fixed:
+                xysize (620, 118)
+                align (0.5, 0.5)
+                use intro_ch1_recorder(ui_record_state,
+                    SetScreenVariable("ui_record_state", "done" if ui_record_state == "recording" else "recording"),
+                    width=620)
 
-            sensitive ui_record_state != "done"
+        $ status = {"ready": "아직 녹음하지 않았어요.", "recording": "녹음 중이에요.", "done": "녹음이 완료되었어요."}[ui_record_state]
+        text status style "intro_ch1_caption" xalign 0.5 size 28
 
-            if ui_record_state == "ready":
-                action SetScreenVariable("ui_record_state", "recording")
-            elif ui_record_state == "recording":
-                action SetScreenVariable("ui_record_state", "done")
-            else:
-                action SetScreenVariable("ui_record_state", "recording")
-
-            hbox:
-                spacing 14
-
-                add "images/ui/mic.png":
-                    xysize (48, 48)
-                    fit"contain"
-                    yalign 0.5
-
-                if ui_record_state == "ready":
-                    text "녹음 시작":
-                        size 32
-                        color "#FFFFFF"
-                        yalign 0.5
-
-                elif ui_record_state == "recording":
-                    text "녹음중 (누르면 완료)":
-                        size 32
-                        color "#FFFFFF"
-                        yalign 0.5
-
-                else:
-                    text "녹음 완료":
-                        size 32
-                        color "#FFFFFF"
-                        yalign 0.5
-
+        fixed:
+            xysize (600, 62)
+            xalign 0.5
+            use intro_ch1_status("버튼을 누르고, 문장을 또박또박 읽어 보세요!", wide=True)
 
         textbutton "다음":
             xalign 0.5
-            padding (35, 12)
-            text_size 32
             action Return()
+            text_style "intro_ch1_caption"
+            text_size 27
+            text_color ("#EDE5FF" if ui_record_state == "done" else "#BDB1CD")
