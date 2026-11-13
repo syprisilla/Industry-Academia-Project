@@ -352,6 +352,10 @@ screen main_menu():
 
     add gui.main_menu_background
 
+    # Crop the scaled artwork to the right of the 420px navigation panel.
+    add Transform(Transform(gui.main_menu_artwork, ysize=1080, fit="cover"), crop=(210, 0, 1500, 1080)):
+        xalign 1.0
+
     ## 이 빈 프레임은 기본 메뉴를 어둡게 만듭니다.
     frame:
         style "main_menu_frame"
@@ -365,7 +369,7 @@ screen main_menu():
         vbox:
             style "main_menu_vbox"
 
-            text "[config.name!t]":
+            text _("바른 발음"):
                 style "main_menu_title"
 
             text "[config.version]":
@@ -386,16 +390,20 @@ style main_menu_frame:
 
 style main_menu_vbox:
     xalign 1.0
-    xoffset -30
+    xoffset -52
     xmaximum 1200
     yalign 1.0
     yoffset -30
 
 style main_menu_text:
     properties gui.text_properties("main_menu", accent=True)
+    color "#9de4ff"
+    outlines [(2, "#08151e", 0, 0)]
 
 style main_menu_title:
     properties gui.text_properties("title")
+    size 68
+    bold True
 
 style main_menu_version:
     properties gui.text_properties("version")

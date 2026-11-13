@@ -25,38 +25,44 @@ label intro:
     # SCENE 1. 낯선 아파트
     # ==========================================
 
-    scene ui_castle with fade
-    #성 이미지가 나타난다.
+    scene apartment field with fade
 
     n "차가운 바람이 뺨을 스친다. 눈을 뜨니 낯선 벌판 한가운데다."
     mc "여긴 어디지...?"
     n "주변을 둘러보지만 아무도 보이지 않는다."
     n "멀리, 불이 켜진 아파트 하나가 보인다."
     mc "저기라면 누군가 있을지도 몰라."
+    show apartment exterior with fade
     n "나는 불빛을 따라 걸어가 아파트 안으로 들어선다."
 
-    scene ui_castle_inside with fade
-    #성 내부 이미지가 나타난다.
+    show apartment entrance with fade
 
     n "그 순간, 등 뒤에서 출입문이 닫힌다."
     mc "어? 문이 안 열려!"
 
-    show ui_ghost at ui_ghost_position with dissolve
+    show ui_ghost intro_idle at ui_ghost_position, ghost_float with dissolve
     #유령 이미지를 지정한 크기와 위치에 부드럽게 나타나게 한다.
 
     n "작은 유령 하나가 내 앞에 나타난다."
+    show ui_ghost intro_worried with Dissolve(0.2)
     ghost "너도 이곳에 갇혀버렸구나! 이 아파트는 괴물들의 저주에 걸렸어."
     mc "그럼 여기서 어떻게 나가?"
+    show ui_ghost intro_explain with Dissolve(0.2)
     ghost "맨 위층에 있는 저주의 근원을 없애야 해. 하지만 괴물들을 물리치려면 특별한 힘이 필요해!"
     mc "특별한 힘? 나한테도 그런 게 있을까?"
+    show ui_ghost intro_idea with Dissolve(0.2)
     ghost "물론이지. 네 목소리에 그 힘이 숨어 있거든!"
 
     # ==========================================
     # SCENE 2. 마이크 테스트 & 비교 문장 녹음 
     # ==========================================
 
+    show apartment lobby behind ui_ghost with dissolve
+    show ui_ghost intro_talk_closed with Dissolve(0.2)
     ghost "이 아파트에서는 목소리가 힘이 될 수 있어. 네 목소리가 어떤 힘을 가지고 있는지 먼저 알아보자!"
+    show ui_ghost intro_talk with Dissolve(0.2)
     ghost "먼저 이 문장을 읽어봐."
+    show ui_ghost intro_idle with Dissolve(0.2)
     ghost "서두르지 말고, 편안하게 읽으면 돼."
 
     window hide
@@ -79,7 +85,9 @@ label intro:
     # SCENE 3. 초기 발음 평가
     # ==========================================
 
+    show ui_ghost intro_happy with Dissolve(0.2)
     ghost "좋아! 이제 어떤 발음으로 괴물들을 물리칠 수 있을지 알아보자!"
+    show ui_ghost intro_explain with Dissolve(0.2)
     ghost "화면에 나타나는 글자를 하나씩 말해봐!"
     mc "알겠어! 천천히 해 볼게."
 
@@ -100,7 +108,9 @@ label intro:
     # SCENE 4. 짝자극 핵심 단어 선정
     # ==========================================
 
+    show ui_ghost intro_happy with Dissolve(0.2)
     ghost "조금만 더 하면 괴물을 물리칠 방법을 찾을 수 있을 것 같아!"
+    show ui_ghost intro_curious with Dissolve(0.2)
     ghost "이번에는 화면에 나오는 단어들을 읽어 줄래?"
 
     window hide
@@ -128,13 +138,13 @@ label intro:
 
     # 기능 연동 시 핵심단어 선정 성공 이후에만 이 장면에 진입한다.
 
-    scene ui_castle_inside_on
-    show ui_ghost at ui_ghost_position
+    show apartment elevator_on behind ui_ghost
+    show ui_ghost intro_relief
     with dissolve
-    #엘레베이터에 불이 켜진 배경으로 바뀐다.
 
     n "단어를 얻자, 닫혀 있던 엘리베이터의 불이 켜진다."
     mc "엘리베이터에 불이 들어왔어!"
+    show ui_ghost intro_move with Dissolve(0.2)
     ghost "이제 위층으로 올라갈 수 있겠어."
     mc "좋아. 함께 가자!"
 
