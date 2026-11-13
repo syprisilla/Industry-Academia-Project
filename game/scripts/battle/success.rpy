@@ -48,6 +48,7 @@ label ch1_m1_success_3:
 
 label ch1_m2_success_1:
 
+    $ play_scene_sound(scene_wave_sound)
     n "주인공의 목소리가 빛으로 변해 메아리 괴물에게 날아간다."
 
     echo "으악! 내 메아리가 흔들리고 있어!"
@@ -64,6 +65,7 @@ label ch1_m2_success_1:
 
 label ch1_m2_success_2:
 
+    $ play_scene_sound(scene_wave_sound)
     n "두 번째 빛이 메아리 괴물에게 닿는다."
     n "괴물 주변을 맴돌던 이상한 목소리들이 점점 작아진다."
 
@@ -79,6 +81,7 @@ label ch1_m2_success_2:
 
 label ch1_m2_success_3:
 
+    $ play_scene_sound(scene_wave_sound)
     n "마지막 빛이 메아리 괴물에게 날아간다."
     n "괴물 주변에서 울리던 메아리가 한순간에 멈춘다."
 
@@ -96,6 +99,7 @@ label ch1_m2_success_3:
 
 label ch1_m3_success_1:
 
+    $ play_scene_sound(scene_wave_sound)
     n "주인공의 목소리가 강한 빛으로 변한다."
     n "빛이 그림자 괴물에게 날아가 부딪힌다."
 
@@ -113,6 +117,7 @@ label ch1_m3_success_1:
 
 label ch1_m3_success_2:
 
+    $ play_scene_sound(scene_wave_sound)
     n "두 번째 빛이 그림자 괴물에게 닿는다."
     n "괴물의 몸을 감싸고 있던 어두운 그림자가 갈라지기 시작한다."
 
@@ -128,6 +133,7 @@ label ch1_m3_success_2:
 
 label ch1_m3_success_3:
 
+    $ play_scene_sound(scene_wave_sound)
     n "주인공의 목소리가 눈부신 빛으로 변한다."
     n "빛이 그림자 괴물의 몸을 감싸며 어두운 기운을 몰아낸다."
 

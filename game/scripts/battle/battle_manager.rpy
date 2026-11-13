@@ -19,11 +19,13 @@ label ch1_m1_battle:
         window hide
 
         # 1. 핵심단어로 준비
+        $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
         call screen ui_dust_word(ui_battle_core_word)
 
         # 2. 훈련단어로 공격 시도
         call screen ui_dust_word(ui_battle_training_word, training=True)
         $ ui_battle_result = _return
+        $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
 
         if ui_battle_result == "success":
 
