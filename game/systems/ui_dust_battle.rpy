@@ -18,9 +18,10 @@ transform ui_light_flight:
 
 # 괴물 피격: 좌우로 짧게 흔들기
 transform ui_dust_hit:
-    xoffset 0
-
-    linear 0.05 xoffset 22
+    subpixel True
+    alpha 1.0
+    zoom 1.0
+    linear 0.05 xoffset 22 yoffset 0
     linear 0.05 xoffset -22
     linear 0.05 xoffset 16
     linear 0.05 xoffset -16
@@ -28,7 +29,7 @@ transform ui_dust_hit:
     linear 0.05 xoffset 0
 
 
-# 피격 후 위치 복원
+# 기존 저장에서 복원할 수 있는 이전 피격 후 트랜스폼.
 transform ui_dust_still:
     xoffset 0
     yoffset 0
@@ -173,12 +174,12 @@ label ui_dust_light_attack:
     if success_count == 0:
 
         # 첫 번째 피격 모습
-        show ui_dust hit1 at ui_dust_corridor, ui_dust_still
+        show ui_dust hit1 at ui_dust_corridor, ui_dust_idle
 
     else:
 
         # 두 번째 피격 이후 모습
-        show ui_dust hit2 at ui_dust_corridor, ui_dust_still
+        show ui_dust hit2 at ui_dust_corridor, ui_dust_idle
 
     pause 0.25
     hide ui_light_attack with Dissolve(0.35)

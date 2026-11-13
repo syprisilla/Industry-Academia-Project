@@ -67,3 +67,58 @@ transform ui_dust_after_position:
     xoffset 0
     yoffset 0
     alpha 1.0
+
+
+# 위치 트랜스폼 뒤에 붙여 사용하는 캐릭터 동작.
+transform ui_ghost_idle:
+    subpixel True
+    block:
+        ease 1.25 yoffset -14
+        ease 1.25 yoffset 0
+        repeat
+
+
+transform ui_ghost_react:
+    subpixel True
+    easeout 0.16 xoffset -16 yoffset -34
+    easein 0.34 xoffset 0 yoffset -8
+    ui_ghost_idle
+
+
+transform ui_ghost_settle:
+    subpixel True
+    ease 0.3 xoffset 0 yoffset 0
+
+
+transform ui_dust_idle:
+    subpixel True
+    block:
+        ease 0.8 xoffset -5 yoffset -3
+        ease 0.8 xoffset 5 yoffset 0
+        repeat
+
+
+transform ui_dust_emerge:
+    subpixel True
+    alpha 0.0
+    zoom 0.82
+    yoffset 24
+    easeout 0.55 alpha 1.0 zoom 1.0 yoffset 0
+    ui_dust_idle
+
+
+transform ui_dust_threaten:
+    subpixel True
+    easeout 0.22 alpha 1.0 zoom 1.07 xoffset -16 yoffset -6
+    easein 0.34 zoom 1.0 xoffset 0 yoffset 0
+    ui_dust_idle
+
+
+transform ui_dust_purified:
+    subpixel True
+    alpha 1.0
+    xoffset 0
+    yoffset 14
+    zoom 0.86
+    easeout 0.52 zoom 1.0 yoffset 0
+    ui_ghost_idle

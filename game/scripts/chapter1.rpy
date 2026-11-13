@@ -17,7 +17,7 @@ label chapter1:
     window hide
 
     scene ui_corridor
-    show ui_ghost at ui_ghost_corridor
+    show ui_ghost at ui_ghost_corridor, ui_ghost_idle
     with fade
 
     window auto
@@ -51,13 +51,16 @@ label ch1_m1_start:
 
     n "복도 구석에 쌓여 있던 먼지들이 꿈틀거리기 시작한다."
 
-    show ui_dust before at ui_dust_corridor with dissolve
+    show ui_dust before at ui_dust_corridor, ui_dust_emerge
     #먼지 괴물이 등장한다.
 
     n "먼지들이 뭉치더니 커다란 괴물로 변한다."
 
+    show ui_dust before at ui_dust_corridor, ui_dust_threaten
     dust "으하하! 여기는 내 구역이야!"
     mc "으악! 먼지가 말을 하잖아!"
+    show ui_dust before at ui_dust_corridor, ui_dust_threaten
+    show ui_ghost at ui_ghost_corridor, ui_ghost_react
     dust "누구도 나를 지나갈 수 없어!"
 
     ghost "드디어 첫 번째 괴물이 나타났어!"
@@ -118,7 +121,7 @@ label ch1_m1_clear:
 
     n "먼지 괴물을 감싸고 있던 어두운 기운이 사라진다."
 
-    show ui_dust after at ui_dust_after_position with dissolve
+    show ui_dust after at ui_dust_after_position, ui_dust_purified with Dissolve(0.52)
     #먼지괴물 정화
 
     dust "어...? 몸이 가벼워졌어!"
@@ -134,6 +137,7 @@ label ch1_m1_clear:
     hide ui_dust after with dissolve
     #먼지 괴물이 사라진다.
 
+    show ui_ghost at ui_ghost_corridor, ui_ghost_settle
     n "괴물이 사라지자 막혀 있던 복도에 길이 열린다."
 
     $ cleared_monsters.add((1, 1))
