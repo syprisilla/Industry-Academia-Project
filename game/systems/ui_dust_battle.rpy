@@ -176,7 +176,7 @@ screen ui_dust_word(word, training=False):
                     xalign 0.5
                     padding (24, 14)
                     background Solid("#62596F")
-                    action Function(do_record, word)
+                    action SetScreenVariable("ui_record_state", "recording")
 
                     hbox:
                         spacing 14
@@ -205,20 +205,30 @@ screen ui_dust_word(word, training=False):
                         action Return("fail")
                     textbutton "인식 불가":
                         action Return("unrecognized")
+            elif ui_record_state == "recording":
+                # 녹음 중 메시지 + 타이머가 실제 녹음 실행
+                text "🎙 녹음 중... 말하세요!":
+                    xalign 0.5
+                    size 36
+                    color "#FFFFFF"
+                    outlines [(2, "#241D35", 0, 0)]
+
+                timer 0.05 action Function(do_record, word)
 
             else:
 
-                # 게이지 이미지 2장
-                hbox:
-                    xalign 0.5
-                    spacing 20
-                    for feat in ("cog_hz", "sd_hz"):
-                        if feat in ui_voice["gauges"]:
-                            add im.Image(ui_voice["gauges"][feat]):
-                                xysize (380, 150)
-                                fit "contain"
+                # 폴백(마찰음 약함)이 아닐 때만 게이지 표시
+                if not ui_voice.get("segment_estimated"):
+                    hbox:
+                        xalign 0.5
+                        spacing 20
+                        for feat in ("cog_hz", "sd_hz"):
+                            if feat in ui_voice["gauges"]:
+                                add im.Image(ui_voice["gauges"][feat]):
+                                    xysize (380, 150)
+                                    fit "contain"
 
-                # 피드백 문구
+                # 피드백 문구 (폴백이면 "ㅅ 소리를 내보자" 쪽이 옴)
                 text ui_voice["feedback"]:
                     xalign 0.5
                     size 30

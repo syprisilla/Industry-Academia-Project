@@ -259,7 +259,7 @@ def _draw_syllable_image(syllable: str, out_png) -> None:
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-
+    import matplotlib.patheffects as pe
     # Gauge 와 같은 한글 폰트 사용
     try:
         from Gauge import _ensure_font
@@ -271,8 +271,9 @@ def _draw_syllable_image(syllable: str, out_png) -> None:
 
     fig, ax = plt.subplots(figsize=(4, 4), dpi=100)
     ax.axis("off")
-    ax.text(0.5, 0.5, syllable, ha="center", va="center",
-            fontsize=200, color="#342743")
+    txt = ax.text(0.5, 0.5, syllable, ha="center", va="center",
+            fontsize=200, color="#FFFFFF")
+    txt.set_path_effects([pe.withStroke(linewidth=8, foreground="#241D35")])
     fig.savefig(str(out_png), dpi=100, transparent=True, bbox_inches="tight")
     plt.close(fig)
 
