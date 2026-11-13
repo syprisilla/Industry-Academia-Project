@@ -1,81 +1,50 @@
 default ui_selected_training_word = ""
 
-
 screen ui_word_selection(title, words):
 
     modal True
     default selected_word = None
 
     add "apartment lobby"
-    add Solid("#15152599")
+    add Solid("#10152F42")
 
     add "ui_ghost intro_idle" at ghost_float:
         xysize (480, 560)
         fit "contain"
         align (0.05, 0.55)
 
-    frame:
-        xalign 0.85
-        yalign 0.45
-        xsize 1100
-        padding (45, 40)
-        background Solid("#29263EEB")
+    fixed:
+        xysize (1150, 648)
+        xpos 640
+        ypos 172
+
+        add intro_ch1_ui + "panel_assessment.png" xysize (1150, 648) fit "fill" alpha 0.85
 
         vbox:
-            spacing 30
-            xfill True
+            xalign 0.5
+            ypos 36
+            spacing 17
 
-            text title:
-                xalign 0.5
-                size 52
-                color "#FFF2C7"
-
-            text "연습할 단어를 하나 골라 주세요.":
-                xalign 0.5
-                size 30
-                color "#FFFFFF"
+            text title style "intro_ch1_text" xalign 0.5 size 51 bold True
+            text "연습할 단어를 하나 골라 주세요." style "intro_ch1_caption" xalign 0.5
 
             viewport:
-                xsize 1010
-                ysize 340
+                xsize 940
+                ysize 313
                 mousewheel True
                 draggable True
                 scrollbars "vertical"
 
                 vpgrid:
                     cols 3
-                    spacing 20
+                    spacing 18
 
                     for word in words:
-                        textbutton word:
-                            xysize (310, 145)
+                        use intro_ch1_button(word, "next", SetScreenVariable("selected_word", word),
+                            width=285, height=135, chosen=selected_word == word)
 
-                            background Solid("#48415F")
-                            hover_background Solid("#625779")
-                            selected_background Solid("#8265A7")
-                            selected_hover_background Solid("#9375B8")
-
-                            text_size 44
-                            text_color "#FFFFFF"
-                            text_xalign 0.5
-                            text_yalign 0.5
-
-                            selected selected_word == word
-                            action SetScreenVariable(
-                                "selected_word", word
-                            )
-
-            textbutton "선택 완료":
+            fixed:
+                xysize (330, 82)
                 xalign 0.5
-                padding (45, 18)
-
-                background Solid("#705497")
-                hover_background Solid("#9170BB")
-                insensitive_background Solid("#454052")
-
-                text_size 34
-                text_color "#FFFFFF"
-                text_insensitive_color "#999999"
-
-                sensitive selected_word is not None
-                action Return(selected_word)
+                use intro_ch1_button("선택 완료", "continue", Return(selected_word),
+                    width=330, height=82, enabled=selected_word is not None, icon="icon_next")
