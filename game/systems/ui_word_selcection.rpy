@@ -6,10 +6,10 @@ screen ui_word_selection(title, words):
     modal True
     default selected_word = None
 
-    add "ui_castle_inside"
+    add "apartment lobby"
     add Solid("#15152599")
 
-    add "images/characters/ghost.png":
+    add "ui_ghost intro_idle" at ghost_float:
         xysize (480, 560)
         fit "contain"
         align (0.05, 0.55)

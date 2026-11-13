@@ -4,6 +4,7 @@ label ch1_m1_fail(reason="unknown"):
 
     dust "하하! 이번에는 아무 일도 없었네!"
 
+    show ui_ghost intro_worried with Dissolve(0.2)
     if reason == "substitution":
         ghost "이번에는 첫소리가 조금 다르게 들렸어."
         ghost "첫소리에 집중해서 다시 말해 보자!"
@@ -16,6 +17,7 @@ label ch1_m1_fail(reason="unknown"):
         ghost "이번에는 목소리의 힘이 제대로 전달되지 않았나 봐."
         ghost "괜찮아! 다시 해 보면 돼."
 
+    show ui_ghost intro_idle with Dissolve(0.2)
     mc "알겠어! 다시 해 볼게."
 
     return

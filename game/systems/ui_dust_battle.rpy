@@ -16,11 +16,71 @@ transform ui_light_flight:
     linear 0.8 xpos 0.78 ypos 0.48
 
 
+# 음파와 정화 효과는 복도에서 괴물의 몸 중심에 맞춘다.
+image dust_wave_launch = "images/effects/dust_wave_launch.png"
+image dust_wave_flight = "images/effects/dust_wave_flight.png"
+image dust_wave_impact = "images/effects/dust_wave_impact.png"
+image dust_wave_sparkles = "images/effects/dust_wave_sparkles.png"
+image dust_wave_purify_ring = "images/effects/dust_wave_purify_ring.png"
+image dust_wave_purify_burst = "images/effects/dust_wave_purify_burst.png"
+
+transform ui_dust_wave_launch:
+    subpixel True
+    anchor (0.5, 0.5)
+    pos (0.25, 0.50)
+    xysize (180, 180)
+    fit "contain"
+    zoom 0.65
+    alpha 0.0
+    easeout 0.12 alpha 0.9 zoom 1.0
+    linear 0.26 alpha 0.0 zoom 1.16
+
+transform ui_dust_wave_flight:
+    subpixel True
+    anchor (0.5, 0.5)
+    pos (0.25, 0.50)
+    xysize (380, 220)
+    fit "contain"
+    alpha 0.0
+    parallel:
+        linear 0.08 alpha 1.0
+    parallel:
+        easein 0.7 pos (1435, 536)
+
+transform ui_dust_wave_glint:
+    subpixel True
+    anchor (0.5, 0.5)
+    pos (0.30, 0.46)
+    xysize (105, 105)
+    fit "contain"
+    alpha 0.0
+    parallel:
+        pause 0.13
+        linear 0.12 alpha 0.7
+        linear 0.35 alpha 0.0
+    parallel:
+        easein 0.7 pos (1350, 501)
+
+transform ui_dust_wave_center:
+    subpixel True
+    anchor (0.5, 0.5)
+    pos (1435, 536)
+
+transform ui_dust_wave_expand(size, duration, end_zoom, peak=1.0, turn=0):
+    xysize (size, size)
+    fit "contain"
+    zoom 0.68
+    alpha 0.0
+    rotate 0
+    easeout 0.1 alpha peak zoom 0.9
+    easeout duration alpha 0.0 zoom end_zoom rotate turn
+
 # 괴물 피격: 좌우로 짧게 흔들기
 transform ui_dust_hit:
-    xoffset 0
-
-    linear 0.05 xoffset 22
+    subpixel True
+    alpha 1.0
+    zoom 1.0
+    linear 0.05 xoffset 22 yoffset 0
     linear 0.05 xoffset -22
     linear 0.05 xoffset 16
     linear 0.05 xoffset -16
@@ -28,7 +88,7 @@ transform ui_dust_hit:
     linear 0.05 xoffset 0
 
 
-# 피격 후 위치 복원
+# 기존 저장에서 복원할 수 있는 이전 피격 후 트랜스폼.
 transform ui_dust_still:
     xoffset 0
     yoffset 0
@@ -179,24 +239,41 @@ screen ui_dust_word(word, training=False):
 
 
 
-# 성공했을 때 실행할 공격 연출
+# 성공 횟수는 음파가 명중한 순간 한 번만 갱신한다.
 label ui_dust_light_attack:
+    show dust_wave_launch at ui_dust_wave_launch
+    pause 0.12
+    show dust_wave_flight at ui_dust_wave_flight
+    show dust_wave_sparkles at ui_dust_wave_glint
+    pause 0.7
 
-    # 빛이 괴물에게 날아감
-    show ui_light_attack at ui_light_flight
-    pause 0.95
+    hide dust_wave_launch
+    hide dust_wave_flight
+    hide dust_wave_sparkles
 
-    # 현재 모습 그대로 흔들림
-    show ui_dust at ui_dust_corridor, ui_dust_hit
+    $ success_count += 1
+    $ dust_hit_pose = ("ui_dust hit1", "ui_dust hit2", "ui_dust hit3")[success_count - 1]
+    show expression dust_hit_pose as ui_dust at ui_dust_corridor, ui_dust_hit
+    show dust_wave_impact at ui_dust_wave_center, ui_dust_wave_expand(410, 0.42, 1.08 + 0.14 * success_count)
+    show dust_wave_sparkles at ui_dust_wave_center, ui_dust_wave_expand(450, 0.44, 1.25, 0.45 + 0.17 * success_count)
     pause 0.3
 
-    # success_count가 증가하기 전에 이미지 변경
-    if success_count == 0:
-        show ui_dust hit1 at ui_dust_corridor, ui_dust_still
-    else:
-        show ui_dust hit2 at ui_dust_corridor, ui_dust_still
+
+    show expression dust_hit_pose as ui_dust at ui_dust_corridor, ui_dust_idle
 
     pause 0.25
-    hide ui_light_attack with Dissolve(0.35)
+    hide dust_wave_impact
+    hide dust_wave_sparkles
+    return
 
+
+label ui_dust_purification:
+    show dust_wave_purify_ring at ui_dust_wave_center, ui_dust_wave_expand(530, 0.85, 1.28, 1.0, 30)
+    pause 0.32
+    show dust_wave_purify_burst at ui_dust_wave_center, ui_dust_wave_expand(560, 0.72, 1.35)
+    pause 0.15
+    show ui_dust after at ui_dust_corridor, ui_dust_purified
+    pause 0.69
+    hide dust_wave_purify_ring
+    hide dust_wave_purify_burst
     return
