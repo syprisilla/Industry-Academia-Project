@@ -42,11 +42,13 @@ init python:
                 "segment_estimated": data.get("segment_estimated", False)}
 
     def do_record(word):
-        """녹음 실행 후 screen 변수(ui_voice, ui_record_state)를 설정한다."""
+        """녹음 실행 후 screen 변수(ui_voice, ui_record_state)를 설정한다.예전 함수"""
         result = run_voice_engine(word)
         renpy.set_screen_variable("ui_voice", result)
         renpy.set_screen_variable("ui_record_state", "result")
         renpy.restart_interaction()   # 화면 갱신
+
+
 
 
     def do_syll_record(syllable, order, seconds=3):
@@ -57,10 +59,10 @@ init python:
             subprocess.run([exe, "syll-record", syllable, str(order), str(seconds)],
                            check=True, capture_output=True,
                            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
-            renpy.set_screen_variable("syll_state", "done")
+            renpy.set_screen_variable("ui_record_state", "done")
         except Exception as e:
             renpy.log("syll-record 실패: %r" % e)
-            renpy.set_screen_variable("syll_state", "done")   # 실패해도 넘어가게(해당 글자는 선정서 제외됨)
+            renpy.set_screen_variable("ui_record_state", "done")   # 실패해도 넘어가게(해당 글자는 선정서 제외됨)
         renpy.restart_interaction()
 
     def do_syll_select():

@@ -153,31 +153,65 @@ screen ui_dust_word(word, training=False):
                 add intro_ch1_ui + "panel_word_focus.png" xysize (300, 116) fit "fill"
             text word style "intro_ch1_text" align (0.5, 0.5) size 70 bold True
 
+
     if training:
-        fixed:
-            xysize (500, 118)
-            xalign 0.5
-            ypos 535
 
+        if ui_record_state == "result":
 
-            # 이 전투의 버튼은 기존과 같이 실제 녹음에 연결되어 있지 않다.
-            use intro_ch1_recorder(ui_record_state, None, enabled=False, width=500)
+            # 녹음 결과: 게이지(폴백 아니면) + 피드백 + 확인
+            fixed:
+                xysize (900, 400)
+                xalign 0.5
+                ypos 500
 
-        fixed:
-            xysize (460, 56)
-            xalign 0.5
-            ypos 674
-            use intro_ch1_status("개발용 테스트 (실제 녹음 및 발음 판정 아님)")
+                vbox:
+                    xalign 0.5
+                    spacing 20
 
+                    if not ui_voice.get("segment_estimated"):
+                        hbox:
+                            xalign 0.5
+                            spacing 20
+                            for feat in ("cog_hz", "sd_hz"):
+                                if feat in ui_voice["gauges"]:
+                                    add im.Image(ui_voice["gauges"][feat]):
+                                        xysize (360, 142)
+                                        fit "contain"
 
-        hbox:
-            xalign 0.5
-            ypos 758
-            spacing 12
-            use intro_ch1_button("다음", "next", None, width=140, height=60, enabled=False)
-            use intro_ch1_button("성공", "success", Return("success"), width=140, height=60)
-            use intro_ch1_button("실패", "fail", Return("fail"), width=140, height=60)
-            use intro_ch1_button("인식 불가", "unrecognized", Return("unrecognized"), width=160, height=60)
+                    text ui_voice["feedback"]:
+                        xalign 0.5
+                        size 30
+                        color "#FFFFFF"
+                        outlines [(2, "#241D35", 0, 0)]
+
+                    use intro_ch1_button("확인", "continue", Return(ui_voice["result"]),
+                        width=200, height=70)
+
+        else:
+
+            # 녹음 버튼 (ready/recording)
+            fixed:
+                xysize (500, 118)
+                xalign 0.5
+                ypos 535
+                use intro_ch1_recorder(ui_record_state, Function(do_record, word),
+                    enabled=True, width=500)
+
+            fixed:
+                xysize (460, 56)
+                xalign 0.5
+                ypos 674
+                use intro_ch1_status("개발용 테스트 (실제 녹음 및 발음 판정 아님)")
+
+            hbox:
+                xalign 0.5
+                ypos 758
+                spacing 12
+                use intro_ch1_button("다음", "next", None, width=140, height=60, enabled=False)
+                use intro_ch1_button("성공", "success", Return("success"), width=140, height=60)
+                use intro_ch1_button("실패", "fail", Return("fail"), width=140, height=60)
+                use intro_ch1_button("인식 불가", "unrecognized", Return("unrecognized"), width=160, height=60)
+
     else:
         fixed:
             xysize (420, 84)
