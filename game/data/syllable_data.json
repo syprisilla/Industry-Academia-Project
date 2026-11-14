@@ -1,0 +1,83 @@
+[
+  {
+    "syllable": "시",
+    "order": 1,
+    "timestamp": "2026-11-14T15:35:27",
+    "status": "ok",
+    "segment_estimated": true,
+    "features": {
+      "duration_ms": 120.0,
+      "norm_energy": 0.0006482553237549126,
+      "cog_hz": 2730.4261565759484,
+      "sd_hz": 3718.9497371429093,
+      "skewness": 3.315563547068663,
+      "kurtosis": 11.428108948265642
+    }
+  },
+  {
+    "syllable": "세",
+    "order": 2,
+    "timestamp": "2026-11-14T15:35:40",
+    "status": "ok",
+    "segment_estimated": true,
+    "features": {
+      "duration_ms": 120.0,
+      "norm_energy": 0.0018994642374272894,
+      "cog_hz": 1774.7917648488935,
+      "sd_hz": 1135.268401026671,
+      "skewness": 7.259907188156051,
+      "kurtosis": 84.76049912564257
+    }
+  },
+  {
+    "syllable": "사",
+    "order": 3,
+    "timestamp": "2026-11-14T15:35:47",
+    "status": "ok",
+    "segment_estimated": true,
+    "features": {
+      "duration_ms": 120.0,
+      "norm_energy": 0.0009632711175006181,
+      "cog_hz": 1413.6065336112458,
+      "sd_hz": 2742.3717538532032,
+      "skewness": 6.1520716862931515,
+      "kurtosis": 38.81313390323935
+    }
+  },
+  {
+    "syllable": "서",
+    "order": 4,
+    "timestamp": "2026-11-14T15:35:57",
+    "status": "unmeasurable",
+    "reason": "too_quiet_or_noisy"
+  },
+  {
+    "syllable": "소",
+    "order": 5,
+    "timestamp": "2026-11-14T15:36:06",
+    "status": "ok",
+    "segment_estimated": true,
+    "features": {
+      "duration_ms": 120.0,
+      "norm_energy": 0.007477062384714131,
+      "cog_hz": 8141.777070596346,
+      "sd_hz": 8035.01120019221,
+      "skewness": 0.433457101197136,
+      "kurtosis": -1.4705506754874063
+    }
+  },
+  {
+    "syllable": "수",
+    "order": 6,
+    "timestamp": "2026-11-14T15:36:11",
+    "status": "unmeasurable",
+    "reason": "too_quiet_or_noisy"
+  },
+  {
+    "syllable": "스",
+    "order": 7,
+    "timestamp": "2026-11-14T15:36:17",
+    "status": "unmeasurable",
+    "reason": "too_quiet_or_noisy"
+  }
+]
