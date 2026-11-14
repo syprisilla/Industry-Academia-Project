@@ -93,6 +93,8 @@ label ch1_m1_start:
 
     mc "좋아! 한번 해 볼게!"
 
+    call ch1_articulation_guide from ch1_m1_articulation_guide_done
+
     # --------------------------------------------------
     # TODO 첫 번째 괴물 전투 시작
     # 핵심단어 제시 -> 훈련단어 제시
