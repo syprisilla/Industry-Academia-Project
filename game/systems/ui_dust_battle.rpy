@@ -156,7 +156,12 @@ screen ui_dust_word(word, training=False):
 
     if training:
 
-        if ui_record_state == "result":
+        if ui_record_state == "result" and ui_voice["result"] == "unrecognized":
+
+            # 인식 불가는 결과 패널 없이 바로 안내 화면으로 넘어간다.
+            timer 0.01 action Return("unrecognized")
+
+        elif ui_record_state == "result":
 
             # 녹음 결과: 게이지(폴백 아니면) + 피드백 + 확인
             fixed:
@@ -210,7 +215,7 @@ screen ui_dust_word(word, training=False):
                 use intro_ch1_button("다음", "next", None, width=140, height=60, enabled=False)
                 use intro_ch1_button("성공", "success", Return("success"), width=140, height=60)
                 use intro_ch1_button("실패", "fail", Return("fail"), width=140, height=60)
-                use intro_ch1_button("인식 불가", "unrecognized", Return("unrecognized"), width=160, height=60)
+                use intro_ch1_button("인식 불가", "unrecognized", [Function(ui_unrec_next_test), Return("unrecognized")], width=160, height=60)
 
     else:
         fixed:

@@ -27,6 +27,8 @@ init python:
             return fail
 
         if data.get("status") != "ok":
+            # 인식 불가 원인(too_quiet/clipping/no_device)을 안내 화면에 전달
+            ui_unrec_set_kind(data.get("reason") or data.get("status"))
             return fail
 
         result = "success" if data.get("success") else "fail"
