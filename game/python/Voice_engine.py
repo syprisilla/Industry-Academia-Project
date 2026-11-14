@@ -20,9 +20,9 @@ from pathlib import Path
 try:  # 패키지로 import 될 때 / 같은 폴더에서 실행될 때 둘 다 지원
     from .Audio_recording import list_input_devices, mic_test, record
     from .Pronunciation_analysis import analyze, save_debug_plot
-    from . import judge as judge_mod
-    from . import gauge as gauge_mod
-    from . import feedback as feedback_mod
+    from . import Judge as judge_mod
+    from . import Gauge as gauge_mod
+    from . import Feedback as feedback_mod
 except ImportError:
     from Audio_recording import list_input_devices, mic_test, record
     from Pronunciation_analysis import analyze, save_debug_plot
