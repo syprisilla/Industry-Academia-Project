@@ -596,15 +596,16 @@ screen load():
 
     tag menu
 
-    use file_slots(_("불러오기"))
+    use file_slots(_("불러오기"), show_chapters=True)
 
 
-screen file_slots(title):
+screen file_slots(title, show_chapters=False):
 
     default page_name_value = FilePageNameInputValue(pattern=_("{} 페이지"), auto=_("자동 세이브"), quick=_("퀵세이브"))
 
     $ page = FilePageName(auto="auto", quick="quick")
     $ slot_count = gui.file_slot_cols * gui.file_slot_rows
+    $ slots_height = gui.file_slot_rows * gui.slot_button_height + (gui.file_slot_rows - 1) * gui.slot_spacing
     if page in ("auto", "quick"):
         $ legacy_slots = renpy.list_slots(r"^" + page + r"-[0-9]+$")
         $ slot_count = max([slot_count] + [int(name.split("-")[1]) for name in legacy_slots])
@@ -630,45 +631,75 @@ screen file_slots(title):
 
             ## 파일 슬롯 그리드.
             vpgrid:
-                cols gui.file_slot_cols
+                cols 1
                 style_prefix "slot"
 
                 xalign 0.5
                 yalign 0.5
-                ysize gui.file_slot_rows * gui.slot_button_height + (gui.file_slot_rows - 1) * gui.slot_spacing
+                ysize slots_height
 
                 spacing gui.slot_spacing
                 mousewheel True
                 draggable True
 
-                for i in range(slot_count):
+                $ row_width = gui.file_slot_cols * gui.slot_button_width + (gui.file_slot_cols - 1) * gui.slot_spacing
 
-                    $ slot = i + 1
+                for first_slot in range(1, slot_count + 1, gui.file_slot_cols):
+                    hbox:
+                        xysize (row_width, gui.slot_button_height)
+                        spacing gui.slot_spacing
 
-                    fixed:
-                        xysize (gui.slot_button_width, gui.slot_button_height)
+                        if show_chapters and first_slot == 1:
+                            $ card_width = (row_width - 2 * gui.slot_spacing) // 3
 
-                        button:
-                            action FileLoad(slot)
+                            for chapter in (1, 2, 3):
+                                $ unlocked = chapter in persistent.unlocked_chapters
 
-                            has vbox
+                                button:
+                                    xysize (card_width, gui.slot_button_height)
+                                    insensitive_background Frame("gui/button/slot_idle_background.png", gui.slot_button_borders)
+                                    action (Function(renpy.full_restart, label="start_unlocked_chapter_{}".format(chapter)) if unlocked else None)
+                                    sensitive unlocked
 
-                            add FileScreenshot(slot) xalign 0.5
+                                    vbox:
+                                        align (0.5, 0.5)
+                                        spacing 4
 
-                            text FileTime(slot, format=_("{#file_time}%A, %B %d %Y, %H:%M"), empty=_("빈 슬롯")):
-                                style "slot_time_text"
+                                        text _("Chapter [chapter]"):
+                                            style "slot_button_text"
+                                            xalign 0.5
+                                            size 28
 
-                            text FileSaveName(slot):
-                                style "slot_name_text"
+                                        if not unlocked:
+                                            add "gui/chapter_lock.png" xalign 0.5
+                                            text _("잠금됨") style "slot_time_text" xalign 0.5
 
-                            key "save_delete" action FileDelete(slot)
+                        else:
+                            for slot in range(first_slot, min(first_slot + gui.file_slot_cols, slot_count + 1)):
+                                fixed:
+                                    xysize (gui.slot_button_width, gui.slot_button_height)
 
-                        if FileLoadable(slot):
-                            textbutton _("삭제"):
-                                style "page_button"
-                                xalign 0.5
-                                yalign 1.0
-                                action FileDelete(slot, confirm=True)
+                                    button:
+                                        action FileLoad(slot)
+
+                                        has vbox
+
+                                        add FileScreenshot(slot) xalign 0.5
+
+                                        text FileTime(slot, format=_("{#file_time}%A, %B %d %Y, %H:%M"), empty=_("빈 슬롯")):
+                                            style "slot_time_text"
+
+                                        text FileSaveName(slot):
+                                            style "slot_name_text"
+
+                                        key "save_delete" action FileDelete(slot)
+
+                                    if FileLoadable(slot):
+                                        textbutton _("삭제"):
+                                            style "page_button"
+                                            xalign 0.5
+                                            yalign 1.0
+                                            action FileDelete(slot, confirm=True)
 
             ## 페이지 이동 버튼.
             vbox:

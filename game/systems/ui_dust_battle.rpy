@@ -199,7 +199,7 @@ screen ui_dust_word(word, training=False):
                 xysize (500, 118)
                 xalign 0.5
                 ypos 535
-                use intro_ch1_recorder(ui_record_state, Function(do_record, word),
+                use intro_ch1_recorder(ui_record_state, Function(record_with_battle_audio, word, scene_battle_music),
                     enabled=True, width=500)
 
             fixed:
@@ -223,7 +223,7 @@ screen ui_dust_word(word, training=False):
             xalign 0.5
             ypos 533
             use intro_ch1_button("훈련단어로 넘어가기", "continue", Return(),
-                width=420, height=84, icon="icon_next")
+                width=420, height=84)
 
 
 

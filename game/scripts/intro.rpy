@@ -3,7 +3,8 @@ label start:
     $ renpy.stop_skipping()
     $ play_scene_music(scene_field_music)
 
-    $ player_name = renpy.input("이름을 입력하세요.").strip() or "MC"
+    $ player_name = renpy.input("이름을 입력하세요.").strip() or player_name
+    $ remember_player_name(player_name)
 
     call progress_autosave from intro_name_autosaved
 
@@ -163,4 +164,5 @@ label intro:
     # 핵심단어 선정 완료 후 Chapter 1으로 이동
     # --------------------------------------------------
 
+    call show_chapter_end("images/chapter_end/intro.png") from intro_end_card_done
     jump chapter1

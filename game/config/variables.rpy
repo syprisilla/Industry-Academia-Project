@@ -2,7 +2,20 @@
 # 사용자 이름
 # --------------------------------------------------
 
-default player_name = "MC"
+default persistent.last_player_name = None
+default player_name = persistent.last_player_name or "MC"
+
+init python:
+    def remember_player_name(name):
+        if persistent.last_player_name != name:
+            persistent.last_player_name = name
+            renpy.save_persistent()
+
+    def remember_legacy_player_name():
+        if persistent.last_player_name is None and player_name and player_name != "MC":
+            remember_player_name(player_name)
+
+    config.after_load_callbacks.append(remember_legacy_player_name)
 
 
 # --------------------------------------------------

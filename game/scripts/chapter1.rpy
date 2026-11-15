@@ -24,6 +24,7 @@ label chapter1:
     window auto
     #배경이 첫 번째 층 복도로 바뀐다. 유령이 복도의 왼쪽 위치로 옮겨진다
 
+    $ play_scene_sound(scene_elevator_sound)
     n "잠시 후, 문이 열리자 어두운 복도가 모습을 드러낸다."
 
     mc "여기가 첫 번째 층이야?"
@@ -188,6 +189,7 @@ label ch1_m2_start:
 
     echo "따라 해... 따라 해...!"
 
+    $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
     n "복도 천장에서 둥근 괴물 하나가 내려온다."
 
     mc "이번에는 또 다른 괴물이야!"
@@ -225,7 +227,6 @@ label ch1_m2_start:
     # --------------------------------------------------
 
     # [임시 테스트] 전투 기능 구현 전 성공 대사 3회 실행
-    $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
     call ch1_m2_success_1
     call ch1_m2_success_2
     call ch1_m2_success_3
@@ -300,6 +301,7 @@ label ch1_m3_start:
     ghost "잠깐! 뭔가 이상해..."
 
     n "그 순간, 바닥에 드리워진 그림자가 움직이기 시작한다."
+    $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
     n "그림자는 점점 커지더니 거대한 괴물로 변한다."
 
     shadow "누구냐... 감히 이곳까지 들어오다니."
@@ -337,7 +339,6 @@ label ch1_m3_start:
     # --------------------------------------------------
 
     # [임시 테스트] 전투 기능 구현 전 성공 대사 3회 실행
-    $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
     call ch1_m3_success_1
     call ch1_m3_success_2
     call ch1_m3_success_3
@@ -390,7 +391,6 @@ label ch1_m3_clear:
 
     $ play_scene_music(scene_corridor_music, volume=scene_corridor_volume)
     n "그림자 괴물은 마지막 말을 남기고 빛 속으로 사라진다."
-    $ play_scene_sound(scene_elevator_sound)
     n "동시에 굳게 닫혀 있던 엘리베이터 문이 열린다."
 
     $ cleared_monsters.add((1, 3))
@@ -415,17 +415,18 @@ label ch1_finish:
     show apartment elevator_on behind ui_ghost with dissolve
     show ui_ghost intro_talk with Dissolve(0.2)
     n "주인공과 작은 유령은 함께 엘리베이터에 올라탄다."
-    $ play_scene_sound(scene_elevator_sound)
     n "엘리베이터 문이 천천히 닫히고, 다음 층을 향해 움직이기 시작한다."
 
     # --------------------------------------------------
     $ completed_chapters.add(1)
+    $ unlock_chapter(1)
     $ current_chapter = 2
     call progress_autosave from ch1_completion_autosaved
     # Chapter 2 연결
     # 전투 완료 후 Chapter 2로 이동
     # --------------------------------------------------
 
+    call show_chapter_end("images/chapter_end/chapter1.png") from ch1_end_card_done
     hide ui_ghost
     show ui_ghost at ui_ghost_corridor, ui_ghost_settle
     $ stop_scene_music()

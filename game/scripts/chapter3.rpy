@@ -2,17 +2,19 @@
 label chapter3:
 
     $ current_chapter = 3
+    $ play_scene_music(scene_ch3_corridor_music, volume=scene_corridor_volume)
 
     # ==========================================
     # SCENE 1. 세 번째 층
     # ==========================================
 
+    $ play_scene_sound(scene_elevator_sound)
     n "엘리베이터가 3층에 멈춘다."
     n "문이 열리자 오래된 편지들이 바닥에 흩어져 있다."
 
     mc "여기가 마지막 층인가 봐."
 
-    n "그때, 바닥의 편지들이 혼자 움직이기 시작한다."
+    n "그때, 바닥의 편지들이 혼자 움직이며 괴물로 변한다."
 
     jump ch3_m1_start
 
@@ -27,6 +29,7 @@ label ch3_m1_start:
     # SCENE 2. 첫 번째 괴물 등장
     # ==========================================
 
+    $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
     ch3_letter "거짓말쟁이! 돌아온다고 했잖아! 모두 저리 가!"
     mc "누가 돌아온다는 거야?"
 
@@ -78,7 +81,8 @@ label ch3_m1_clear:
     mc "그래서 아직도 이 편지들을 놓지 못하고 있었구나..."
     ch3_letter "응... 이제 이 편지를 마지막으로 남기고 갈게. 고마워."
 
-    n "편지 괴물은 작은 편지로 돌아간다."
+    n "편지 괴물은 작은 빛이 되어 사라진다."
+    $ play_scene_music(scene_ch3_corridor_music, volume=scene_corridor_volume)
     n "복도 안쪽에서 무언가 자라는 소리가 들린다."
 
     ghost "우리도 계속 가 보자!"
@@ -98,6 +102,7 @@ label ch3_m2_start:
     # SCENE 5. 두 번째 괴물 등장
     # ==========================================
 
+    $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
     n "복도 한가운데 가시덩굴이 길을 막고 있다."
     n "덩굴 사이에는 작은 꽃 한 송이가 보인다."
 
@@ -150,6 +155,8 @@ label ch3_m2_clear:
     mc "원흉이라고?"
     ch3_vine "지금까지 만난 괴물들에게 저주를 건 최종 보스야."
     ch3_vine "지금까지의 괴물들과는 비교도 안 될 만큼 강해. 조심해야 해!"
+    n "가시덩굴 괴물은 작은 빛이 되어 사라진다."
+    $ play_scene_music(scene_ch3_corridor_music, volume=scene_corridor_volume)
 
     mc "그렇게 강한 괴물이라니... 조금 무서운걸."
     ghost "걱정 마! 지금까지 잘해 왔잖아. 이번에도 함께하자!"
@@ -179,6 +186,7 @@ label ch3_m3_start:
 
     n "그 순간, 문이 저절로 열리며 검은 그림자가 나타난다."
 
+    $ play_scene_music(scene_boss_music, volume=scene_battle_volume)
     ch3_boss "크하하하! 결국 여기까지 왔구나!"
     mc "너... 네가 모든 괴물에게 저주를 건 거야?"
 
@@ -255,6 +263,7 @@ label ch3_m3_clear:
     ch3_boss "으아아악! 내 힘이 사라지고 있어!"
 
     n "저주의 주인이 검은 연기와 함께 사라진다."
+    $ play_scene_music(scene_ending_music)
     n "동시에 아파트 전체를 감싸고 있던 어둠이 걷힌다."
 
     ghost "해냈어! 드디어 모든 저주를 풀었어!"
@@ -311,7 +320,9 @@ label ch3_finish:
     n "주인공과 작은 유령의 모험이 끝난다."
 
     $ completed_chapters.add(3)
+    $ unlock_chapter(3)
     call progress_autosave from ch3_completion_autosaved
     centered "모든 챕터를 완료했습니다."
+    call show_chapter_end("images/chapter_end/chapter3.png") from ch3_end_card_done
 
     return
