@@ -419,6 +419,7 @@ label ch1_finish:
 
     # --------------------------------------------------
     $ completed_chapters.add(1)
+    $ unlock_chapter(1)
     $ current_chapter = 2
     call progress_autosave from ch1_completion_autosaved
     # Chapter 2 연결

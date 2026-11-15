@@ -320,6 +320,7 @@ label ch3_finish:
     n "주인공과 작은 유령의 모험이 끝난다."
 
     $ completed_chapters.add(3)
+    $ unlock_chapter(3)
     call progress_autosave from ch3_completion_autosaved
     centered "모든 챕터를 완료했습니다."
 
