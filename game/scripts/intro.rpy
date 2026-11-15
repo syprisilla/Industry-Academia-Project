@@ -3,7 +3,7 @@ label start:
     $ renpy.stop_skipping()
     $ play_scene_music(scene_field_music)
 
-    $ player_name = renpy.input("이름을 입력하세요.", default=persistent.last_player_name or "").strip() or player_name
+    $ player_name = renpy.input("이름을 입력하세요.").strip() or player_name
     $ remember_player_name(player_name)
 
     call progress_autosave from intro_name_autosaved
