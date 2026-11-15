@@ -149,6 +149,7 @@ label ch1_m3_success_3:
 # MONSTER 1. 속삭임 괴물 성공 대사
 # ==================================================
 label ch2_m1_success_1:
+    $ play_scene_sound(scene_wave_sound)
 
     n "주인공의 목소리가 빛으로 변해 괴물에게 날아간다."
 
@@ -161,6 +162,7 @@ label ch2_m1_success_1:
     return
 
 label ch2_m1_success_2:
+    $ play_scene_sound(scene_wave_sound)
 
     n "또 한 번 빛이 날아가 괴물을 감싼다."
 
@@ -173,6 +175,7 @@ label ch2_m1_success_2:
     return
 
 label ch2_m1_success_3:
+    $ play_scene_sound(scene_wave_sound)
 
     n "마지막 빛이 괴물에게 닿는다."
 
@@ -188,6 +191,7 @@ label ch2_m1_success_3:
 # ==================================================
 
 label ch2_m2_success_1:
+    $ play_scene_sound(scene_wave_sound)
     n "목소리의 빛이 장난감 괴물에게 닿자 상자의 자물쇠 하나가 풀린다."
     ch2_toy "앗! 내 상자가 열리고 있어!"
     mc "성공했어!"
@@ -196,6 +200,7 @@ label ch2_m2_success_1:
     return
 
 label ch2_m2_success_2:
+    $ play_scene_sound(scene_wave_sound)
     n "두 번째 빛이 장난감 상자를 환하게 비춘다."
     ch2_toy "친구들을 꼭 가둬 두어야만 하는 걸까...?"
     mc "저주가 조금씩 풀리고 있어!"
@@ -204,6 +209,7 @@ label ch2_m2_success_2:
     return
 
 label ch2_m2_success_3:
+    $ play_scene_sound(scene_wave_sound)
     n "마지막 빛이 장난감 괴물을 감싸며 검은 기운이 사라진다."
     ch2_toy "아... 내가 왜 그렇게 화가 났던 거지?"
     mc "해냈어!"
@@ -216,6 +222,7 @@ label ch2_m2_success_3:
 # ==================================================
 
 label ch2_m3_success_1:
+    $ play_scene_sound(scene_wave_sound)
     n "목소리의 빛이 시계 괴물에게 닿자 시곗바늘이 조금 움직인다."
     ch2_clock "안 돼! 시간이 움직이면 안 돼!"
     mc "와! 공격이 통했어!"
@@ -224,6 +231,7 @@ label ch2_m3_success_1:
     return
 
 label ch2_m3_success_2:
+    $ play_scene_sound(scene_wave_sound)
     n "두 번째 빛이 시계에 닿자 멈춰 있던 초침이 조금씩 돌아간다."
     ch2_clock "그날로 돌아갈 수 없다는 거야...?"
     mc "조금만 더 하면 될 것 같아!"
@@ -232,6 +240,7 @@ label ch2_m3_success_2:
     return
 
 label ch2_m3_success_3:
+    $ play_scene_sound(scene_wave_sound)
     n "마지막 빛이 시계 괴물에게 닿으며 검은 기운이 흩어진다."
     ch2_clock "아... 이제 앞으로 나아가야겠구나."
     mc "해냈어!"
@@ -246,6 +255,7 @@ label ch2_m3_success_3:
 # ==================================================
 
 label ch3_m1_success_1:
+    $ play_scene_sound(scene_wave_sound)
 
     n "주인공의 목소리가 빛으로 변해 편지 괴물에게 날아간다."
     n "괴물 주변을 날아다니던 편지들이 멈춘다."
@@ -258,6 +268,7 @@ label ch3_m1_success_1:
 
 
 label ch3_m1_success_2:
+    $ play_scene_sound(scene_wave_sound)
 
     n "두 번째 빛이 편지 괴물에게 닿는다."
     n "괴물을 감싸고 있던 검은 기운이 조금씩 사라진다."
@@ -270,6 +281,7 @@ label ch3_m1_success_2:
 
 
 label ch3_m1_success_3:
+    $ play_scene_sound(scene_wave_sound)
 
     n "마지막 빛이 편지 괴물의 몸을 감싼다."
     n "괴물에게서 검은 기운이 완전히 사라진다."
@@ -286,6 +298,7 @@ label ch3_m1_success_3:
 # ==================================================
 
 label ch3_m2_success_1:
+    $ play_scene_sound(scene_wave_sound)
 
     n "주인공의 목소리가 빛으로 변해 가시덩굴 괴물에게 날아간다."
     n "괴물의 몸에 돋아난 가시들이 조금씩 줄어든다."
@@ -298,6 +311,7 @@ label ch3_m2_success_1:
 
 
 label ch3_m2_success_2:
+    $ play_scene_sound(scene_wave_sound)
 
     n "두 번째 빛이 가시덩굴 괴물에게 닿는다."
     n "복도를 가득 막고 있던 덩굴들이 조금씩 풀리기 시작한다."
@@ -310,6 +324,7 @@ label ch3_m2_success_2:
 
 
 label ch3_m2_success_3:
+    $ play_scene_sound(scene_wave_sound)
 
     n "마지막 빛이 가시덩굴 괴물의 몸을 감싼다."
     n "괴물을 감싸고 있던 검은 기운이 완전히 사라진다."
@@ -326,6 +341,7 @@ label ch3_m2_success_3:
 # ==================================================
 
 label ch3_m3_success_1:
+    $ play_scene_sound(scene_wave_sound)
 
     n "주인공의 목소리가 강한 빛으로 변해 최종 보스에게 날아간다."
     n "보스가 들고 있던 검은 구슬에 작은 금이 생긴다."
@@ -340,6 +356,7 @@ label ch3_m3_success_1:
 
 
 label ch3_m3_success_2:
+    $ play_scene_sound(scene_wave_sound)
 
     n "두 번째 빛이 검은 구슬에 부딪힌다."
     n "구슬에 생긴 금이 점점 커지기 시작한다."
@@ -354,6 +371,7 @@ label ch3_m3_success_2:
 
 
 label ch3_m3_success_3:
+    $ play_scene_sound(scene_wave_sound)
 
     n "주인공의 마지막 목소리가 눈부신 빛으로 변한다."
     n "빛이 검은 구슬을 관통하며 강한 충격이 일어난다."

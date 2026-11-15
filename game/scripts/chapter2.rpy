@@ -10,13 +10,16 @@
 label chapter2:
 
     $ current_chapter = 2
+    $ play_scene_music(scene_ch2_corridor_music, volume=scene_corridor_volume)
 
     # ==========================================
     # SCENE 2. 첫 번째 괴물 등장
     # ==========================================
 
+    $ play_scene_sound(scene_elevator_sound)
     n "복도 곳곳에서 작은 속삭임들이 들려오기 시작한다."
 
+    $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
     whisper "히히! 새로운 손님이 왔구나!"
     mc "으악! 또 괴물이야!"
 
@@ -95,6 +98,7 @@ label ch2_m1_clear:
     mc "알겠어 나만 믿어!"
 
     n "속삭임 괴물은 작은 빛이 되어 사라진다."
+    $ play_scene_music(scene_ch2_corridor_music, volume=scene_corridor_volume)
     n "무언가 데굴데굴 굴러오는 소리가 들린다."
 
     mc "어? 저기 바닥에 뭐가 굴러가는데?"
@@ -125,6 +129,7 @@ label ch2_m2_start:
     ghost "그런데 상자 안에서 무언가 움직이고 있어!"
 
     n "상자 뚜껑이 벌컥 열리더니 낡은 곰 인형과 장난감들이 한데 뭉친다."
+    $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
     n "장난감들은 커다란 괴물로 변해 주인공 앞을 가로막는다."
 
     mc "으악! 장난감이 괴물이 됐어!"
@@ -210,6 +215,7 @@ label ch2_m2_clear:
     ch2_toy "내 이야기를 들어줘서 고마워!"
 
     n "장난감 괴물은 따뜻한 빛과 함께 사라진다."
+    $ play_scene_music(scene_ch2_corridor_music, volume=scene_corridor_volume)
     n "복도 끝에서 규칙적인 시계 소리가 들려오기 시작한다."
 
     $ cleared_monsters.add((2, 2))
@@ -237,6 +243,7 @@ label ch2_m3_start:
     ghost "정말이네. 계속 같은 시간에 멈춰 있어!"
 
     n "그 순간, 시계에서 커다란 종소리가 울린다."
+    $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
     n "시곗바늘이 거꾸로 돌아가더니 시계가 거대한 괴물로 변한다."
 
     mc "으악! 시계까지 괴물이 됐어!"
@@ -318,6 +325,7 @@ label ch2_m3_clear:
     mc "알겠어! 꼭 다른 친구들도 도와줄게!"
 
     n "시계 괴물은 마지막 인사를 남기고 부드러운 빛 속으로 사라진다."
+    $ play_scene_music(scene_ch2_corridor_music, volume=scene_corridor_volume)
 
     ghost "와! 문이 열렸어!"
     mc "저 안에 엘리베이터가 있어!"
