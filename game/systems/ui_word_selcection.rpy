@@ -47,4 +47,4 @@ screen ui_word_selection(title, words):
                 xysize (330, 82)
                 xalign 0.5
                 use intro_ch1_button("선택 완료", "continue", Return(selected_word),
-                    width=330, height=82, enabled=selected_word is not None, icon="icon_next")
+                    width=330, height=82, enabled=selected_word is not None)

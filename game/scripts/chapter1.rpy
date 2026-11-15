@@ -426,6 +426,7 @@ label ch1_finish:
     # 전투 완료 후 Chapter 2로 이동
     # --------------------------------------------------
 
+    call show_chapter_end("images/chapter_end/chapter1.png") from ch1_end_card_done
     hide ui_ghost
     show ui_ghost at ui_ghost_corridor, ui_ghost_settle
     $ stop_scene_music()

@@ -359,5 +359,6 @@ label ch2_finish:
     # Chapter 3 연결
     # --------------------------------------------------
 
+    call show_chapter_end("images/chapter_end/chapter2.png") from ch2_end_card_done
     jump chapter3
 

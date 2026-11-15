@@ -223,7 +223,7 @@ screen ui_dust_word(word, training=False):
             xalign 0.5
             ypos 533
             use intro_ch1_button("훈련단어로 넘어가기", "continue", Return(),
-                width=420, height=84, icon="icon_next")
+                width=420, height=84)
 
 
 

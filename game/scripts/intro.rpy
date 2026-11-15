@@ -164,4 +164,5 @@ label intro:
     # 핵심단어 선정 완료 후 Chapter 1으로 이동
     # --------------------------------------------------
 
+    call show_chapter_end("images/chapter_end/intro.png") from intro_end_card_done
     jump chapter1

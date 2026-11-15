@@ -323,5 +323,6 @@ label ch3_finish:
     $ unlock_chapter(3)
     call progress_autosave from ch3_completion_autosaved
     centered "모든 챕터를 완료했습니다."
+    call show_chapter_end("images/chapter_end/chapter3.png") from ch3_end_card_done
 
     return
