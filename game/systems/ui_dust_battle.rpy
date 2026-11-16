@@ -1,10 +1,10 @@
-# 빛 공격 이미지
+# Light attack image
 image ui_light_attack = "images/effects/light_attack.png"
 
 default success_count = 0
 
 
-# 빛이 왼쪽에서 괴물 쪽으로 이동
+# Move the light from the left toward the monster.
 transform ui_light_flight:
     xysize (360, 360)
     fit "contain"
@@ -16,7 +16,7 @@ transform ui_light_flight:
     linear 0.8 xpos 0.78 ypos 0.48
 
 
-# 음파와 정화 효과는 복도에서 괴물의 몸 중심에 맞춘다.
+# Center the sound wave and curse-breaking effects on the monster in the hall.
 image dust_wave_launch = "images/effects/dust_wave_launch.png"
 image dust_wave_flight = "images/effects/dust_wave_flight.png"
 image dust_wave_impact = "images/effects/dust_wave_impact.png"
@@ -75,7 +75,7 @@ transform ui_dust_wave_expand(size, duration, end_zoom, peak=1.0, turn=0):
     easeout 0.1 alpha peak zoom 0.9
     easeout duration alpha 0.0 zoom end_zoom rotate turn
 
-# 괴물 피격: 좌우로 짧게 흔들기
+# Shake the monster briefly from side to side on impact.
 transform ui_dust_hit:
     subpixel True
     alpha 1.0
@@ -88,14 +88,14 @@ transform ui_dust_hit:
     linear 0.05 xoffset 0
 
 
-# 기존 저장에서 복원할 수 있는 이전 피격 후 트랜스폼.
+# Legacy hit transform retained for existing saves.
 transform ui_dust_still:
     xoffset 0
     yoffset 0
     alpha 1.0
 
 
-# 괴물 HP 표시
+# Monster HP display
 screen ui_dust_hp():
 
     zorder 10
@@ -112,8 +112,8 @@ screen ui_dust_hp():
             ypos 15
             spacing 4
 
-            text "먼지 괴물" style "intro_ch1_text" size 28
-            text "남은 HP: [3 - success_count] / 3" style "intro_ch1_caption" size 23
+            text "Dust Monster" style "intro_ch1_text" size 28
+            text "HP Left: [3 - success_count] / 3" style "intro_ch1_caption" size 23
 
             hbox:
                 spacing 4
@@ -139,7 +139,7 @@ screen ui_dust_word(word, training=False):
             fit "fill"
             alpha 0.84
 
-        text ("훈련단어를 말해서 공격해 보자!" if training else "먼저 핵심단어로 목소리를 준비해 보자!"):
+        text ("Say the practice word to attack!" if training else "Warm up with your key word first!"):
             style "intro_ch1_caption"
             xalign 0.5
             ypos 29
@@ -158,12 +158,12 @@ screen ui_dust_word(word, training=False):
 
         if ui_record_state == "result" and ui_voice["result"] == "unrecognized":
 
-            # 인식 불가는 결과 패널 없이 바로 안내 화면으로 넘어간다.
+            # Unrecognized recordings go straight to mic help.
             timer 0.01 action Return("unrecognized")
 
         elif ui_record_state == "result":
 
-            # 녹음 결과: 게이지(폴백 아니면) + 피드백 + 확인
+            # Show feedback, an OK button, and gauges when detection succeeded.
             fixed:
                 xysize (900, 400)
                 xalign 0.5
@@ -189,46 +189,46 @@ screen ui_dust_word(word, training=False):
                         color "#FFFFFF"
                         outlines [(2, "#241D35", 0, 0)]
 
-                    use intro_ch1_button("확인", "continue", Return(ui_voice["result"]),
+                    use intro_ch1_button("OK", "continue", Return(ui_voice["result"]),
                         width=200, height=70)
 
         else:
 
-            # 녹음 버튼 (ready/recording)
+            # Record button (ready/recording)
             fixed:
                 xysize (500, 118)
                 xalign 0.5
                 ypos 535
-                use intro_ch1_recorder(ui_record_state, Function(do_record, word),
+                use intro_ch1_recorder(ui_record_state, Function(record_with_battle_audio, word, scene_battle_music),
                     enabled=True, width=500)
 
             fixed:
                 xysize (460, 56)
                 xalign 0.5
                 ypos 674
-                use intro_ch1_status("개발용 테스트 (실제 녹음 및 발음 판정 아님)")
+                use intro_ch1_status("Test mode (recording and scoring are off)")
 
             hbox:
                 xalign 0.5
                 ypos 758
                 spacing 12
-                use intro_ch1_button("다음", "next", None, width=140, height=60, enabled=False)
-                use intro_ch1_button("성공", "success", Return("success"), width=140, height=60)
-                use intro_ch1_button("실패", "fail", Return("fail"), width=140, height=60)
-                use intro_ch1_button("인식 불가", "unrecognized", [Function(ui_unrec_next_test), Return("unrecognized")], width=160, height=60)
+                use intro_ch1_button("Next", "next", None, width=140, height=60, enabled=False)
+                use intro_ch1_button("Success", "success", Return("success"), width=140, height=60)
+                use intro_ch1_button("Try Again", "fail", Return("fail"), width=140, height=60)
+                use intro_ch1_button("No Reading", "unrecognized", [Function(ui_unrec_next_test), Return("unrecognized")], width=160, height=60)
 
     else:
         fixed:
             xysize (420, 84)
             xalign 0.5
             ypos 533
-            use intro_ch1_button("훈련단어로 넘어가기", "continue", Return(),
-                width=420, height=84, icon="icon_next")
+            use intro_ch1_button("Practice Word", "continue", Return(),
+                width=420, height=84)
 
 
 
 
-# 성공 횟수는 음파가 명중한 순간 한 번만 갱신한다.
+# Update the hit count once, when the sound wave lands.
 label ui_dust_light_attack:
     $ play_scene_sound(scene_wave_sound)
     show dust_wave_launch at ui_dust_wave_launch

@@ -1,6 +1,6 @@
 
 # ==================================================
-# Chapter 1. 목소리의 힘 - 1층의 괴물들
+# Chapter 1. The Power of Your Voice - First Floor Monsters
 # ==================================================
 
 
@@ -9,10 +9,10 @@ label chapter1:
     $ current_chapter = 1
 
     # ==========================================
-    # SCENE 1. 첫 번째 층
+    # SCENE 1. First floor
     # ==========================================
 
-    n "엘리베이터가 천천히 움직이기 시작한다."
+    n "The elevator slowly starts to move."
 
     window hide
 
@@ -22,28 +22,29 @@ label chapter1:
     with fade
 
     window auto
-    #배경이 첫 번째 층 복도로 바뀐다. 유령이 복도의 왼쪽 위치로 옮겨진다
+    #Switch to the first-floor hallway and move Little Ghost to the left.
 
-    n "잠시 후, 문이 열리자 어두운 복도가 모습을 드러낸다."
+    $ play_scene_sound(scene_elevator_sound)
+    n "A moment later, the doors open onto a dark hallway."
 
-    mc "여기가 첫 번째 층이야?"
+    mc "Is this the first floor?"
     show ui_ghost intro_worried with Dissolve(0.2)
-    ghost "응! 여기부터 괴물들이 나타날 거야."
-    mc "정말 내가 괴물들을 물리칠 수 있을까?"
+    ghost "Yep! This is where the monsters start to show up."
+    mc "Do you really think I can beat them?"
     show ui_ghost intro_talk_closed with Dissolve(0.2)
-    ghost "물론이지! 아까 네 목소리에 특별한 힘이 있다고 했잖아."
-    mc "그런데 그 힘을 어떻게 사용하는 거야?"
-    ghost "걱정하지 마. 내가 옆에서 알려 줄게!"
+    ghost "Of course! Remember, there's a special power in your voice."
+    mc "But how do I use it?"
+    ghost "Don't worry. I'll be right here to show you!"
 
-    n "그때, 복도 끝에서 바스락거리는 소리가 들린다."
+    n "Just then, something rustles at the end of the hall."
 
-    mc "어? 무슨 소리지?"
+    mc "Huh? What's that sound?"
 
     jump ch1_m1_start
 
 
 # ==================================================
-# MONSTER 1. 먼지 괴물
+# MONSTER 1. Dust Monster
 # ==================================================
 
 label ch1_m1_start:
@@ -51,181 +52,181 @@ label ch1_m1_start:
     $ play_scene_music(scene_corridor_music, volume=scene_corridor_volume)
 
     # ==========================================
-    # SCENE 2. 첫 번째 괴물 등장
+    # SCENE 2. The first monster appears
     # ==========================================
 
     show apartment corridor_2 behind ui_ghost with fade
-    n "복도 구석에 쌓여 있던 먼지들이 꿈틀거리기 시작한다."
+    n "A pile of dust in the corner starts to wiggle."
 
     $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
     show ui_dust before at ui_dust_corridor, ui_dust_emerge
     show ui_ghost intro_surprised
-    #먼지 괴물이 등장한다.
+    #The Dust Monster appears.
 
-    n "먼지들이 뭉치더니 커다란 괴물로 변한다."
+    n "The dust clumps together and turns into a huge monster."
 
     show ui_dust talk with Dissolve(0.16)
-    dust "으하하! 여기는 내 구역이야!"
-    mc "으악! 먼지가 말을 하잖아!"
+    dust "Mwahaha! This is my floor!"
+    mc "Whoa! The dust can talk!"
     show ui_dust angry at ui_dust_corridor, ui_dust_threaten
     show ui_ghost intro_surprised at ui_ghost_corridor, ui_ghost_react
-    dust "누구도 나를 지나갈 수 없어!"
+    dust "Nobody gets past me!"
 
     show ui_dust before
     show ui_ghost intro_worried with Dissolve(0.2)
-    ghost "드디어 첫 번째 괴물이 나타났어!"
+    ghost "There's our first monster!"
     show ui_ghost intro_talk_closed with Dissolve(0.2)
-    ghost "지금이 네 목소리의 힘을 사용할 때야."
+    ghost "Time to use the power of your voice."
 
-    mc "그런데 어떻게 공격하는 건데?"
+    mc "But how do I attack?"
 
     # ==========================================
-    # SCENE 3. 전투 방법 설명
+    # SCENE 3. Explain how to battle
     # ==========================================
 
     show ui_ghost intro_explain with Dissolve(0.2)
-    ghost "먼저 네가 잘 말할 수 있는 단어로 목소리를 준비해 보자."
-    ghost "그다음 화면에 나타나는 연습 단어를 말하면 돼!"
-    mc "단어를 말하기만 하면 되는 거야?"
+    ghost "First, warm up your voice with a word that's easy for you."
+    ghost "Then say the practice word that pops up on the screen!"
+    mc "All I have to do is say the word?"
     show ui_ghost intro_talk_closed with Dissolve(0.2)
-    ghost "응! 정확하게 말하면 목소리의 힘이 괴물에게 전달될 거야."
-    ghost "세 번 공격에 성공하면 괴물의 저주를 풀 수 있어!"
+    ghost "Yep! Say it clearly, and your voice will send its power right at the monster."
+    ghost "Land three hits and you'll break the monster's curse!"
 
-    mc "좋아! 한번 해 볼게!"
+    mc "Okay! I'll give it a try!"
 
     call ch1_articulation_guide from ch1_m1_articulation_guide_done
 
     # --------------------------------------------------
-    # TODO 첫 번째 괴물 전투 시작
-    # 핵심단어 제시 -> 훈련단어 제시
-    # 음성 녹음 및 발음 분석
-    # 성공 횟수 0/3, 괴물 HP 3
+    # TODO Start the first monster battle
+    # Show the key word, then the practice word
+    # Record speech and analyze pronunciation
+    # Successful hits 0/3, monster HP 3
     #
-    # 성공 -> ch1_m1_success_1
-    # 실패 -> ch1_m1_fail
-    # 측정 불가 -> ch1_m1_unrecognized
+    # Success -> ch1_m1_success_1
+    # Failure -> ch1_m1_fail
+    # Unrecognized -> ch1_m1_unrecognized
     # --------------------------------------------------
 
-    # [임시 테스트] 전투 기능 구현 전 성공 대사 3회 실행
+    # [Temporary test] Play three success scenes before battle is implemented
     jump ch1_m1_battle
 
 
 # --------------------------------------------------
-# MONSTER 1. 발음 요청
+# MONSTER 1. Prompt the player to speak
 # --------------------------------------------------
 
 label ch1_m1_prompt:
 
     show ui_ghost intro_talk with Dissolve(0.2)
-    ghost "준비됐지? 화면에 나오는 단어를 천천히 말해 봐!"
+    ghost "Ready? Say the word on the screen slowly!"
 
-    # TODO 핵심단어 -> 훈련단어 발음 진행
-    # 훈련단어 발음 결과에 따라 해당 대사 호출
+    # TODO Practice saying the key word, then the practice word
+    # Play the dialogue for the practice word result
 
     return
 
 
 # --------------------------------------------------
-# MONSTER 1. 전투 완료
+# MONSTER 1. Battle complete
 # --------------------------------------------------
 
 label ch1_m1_clear:
 
     # ==========================================
-    # SCENE 4. 첫 번째 괴물 정화
+    # SCENE 4. Break the first monster's curse
     # ==========================================
 
-    n "먼지 괴물을 감싸고 있던 어두운 기운이 사라진다."
+    n "The darkness around the Dust Monster fades away."
 
     call ui_dust_purification from ch1_m1_purification_done
-    #먼지괴물 정화
+    #Break the Dust Monster's curse
 
     show ui_ghost intro_relief with Dissolve(0.2)
-    dust "어...? 몸이 가벼워졌어!"
-    dust "고마워! 이상한 저주 때문에 내 마음대로 움직일 수 없었어."
+    dust "Huh...? I feel lighter!"
+    dust "Thank you! A strange curse was making me do things I didn't want to do."
 
-    mc "저주 때문에 괴물이 된 거였어?"
-    ghost "맞아. 이 아파트의 괴물들은 저주에 걸려 있어."
-    ghost "네 목소리는 그 저주를 풀 수 있는 거야!"
+    mc "So the curse turned you into a monster?"
+    ghost "That's right. The monsters in this building are under a curse."
+    ghost "And your voice can break it!"
 
-    mc "그럼 다른 괴물들도 도와줘야겠네!"
+    mc "Then we should help the other monsters too!"
     show ui_ghost intro_happy with Dissolve(0.2)
-    ghost "맞아! 이제 다음으로 가 보자."
+    ghost "Exactly! Come on, let's keep going."
 
 
     hide ui_dust after with dissolve
     $ play_scene_music(scene_corridor_music, volume=scene_corridor_volume)
-    n "괴물이 사라지자 막혀 있던 복도에 길이 열린다."
+    n "With the monster gone, the way down the hall is clear."
 
     $ cleared_monsters.add((1, 1))
     call progress_autosave from ch1_m1_autosaved
-    # ch1_m2_start로 이동
+    # Go to ch1_m2_start
 
-    # [임시 테스트] 첫 번째 괴물 정화 후 다음 괴물로 이동
+    # [Temporary test] Move to the next monster after freeing the first
     jump ch1_m2_start
 
 
 # ==================================================
-# MONSTER 2. 메아리 괴물
+# MONSTER 2. Echo Monster
 # ==================================================
 
 label ch1_m2_start:
 
     # ==========================================
-    # SCENE 5. 두 번째 괴물 등장
+    # SCENE 5. The second monster appears
     # ==========================================
 
     show apartment corridor_3 behind ui_ghost with fade
-    n "주인공과 작은 유령은 열린 복도를 따라 걸어간다."
+    n "Our hero and Little Ghost walk down the hallway."
     show ui_ghost intro_curious with Dissolve(0.2)
-    n "그때, 어디선가 이상한 목소리가 들려온다."
+    n "Just then, a strange voice rings out."
 
-    mc "어디선가 이상한 소리가 들려..."
+    mc "I hear a weird sound..."
 
-    echo "들려... 들려... 들려..."
+    echo "Sound... sound... sound..."
 
-    mc "어? 내 말을 따라 하잖아?"
+    mc "Huh? It's copying me!"
 
-    echo "따라 해... 따라 해...!"
+    echo "Copying me... copying me!"
 
-    n "복도 천장에서 둥근 괴물 하나가 내려온다."
+    $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
+    n "A round monster drops down from the ceiling."
 
-    mc "이번에는 또 다른 괴물이야!"
+    mc "It's another monster!"
     show ui_ghost intro_worried with Dissolve(0.2)
-    ghost "조심해! 저건 메아리 괴물이야."
-    ghost "다른 사람의 목소리를 빼앗아 똑같이 따라 하는 괴물이지!"
+    ghost "Look out! That's the Echo Monster."
+    ghost "It steals people's voices and copies them perfectly!"
 
-    echo "네 목소리도 가져가 버릴 거야!"
+    echo "I'll take your voice too!"
 
-    mc "내 목소리는 줄 수 없어!"
+    mc "You can't have my voice!"
     show ui_ghost intro_talk_closed with Dissolve(0.2)
-    ghost "걱정 마! 아까 배운 방법으로 싸우면 돼."
+    ghost "Don't worry! Just do what we practiced."
 
     # ==========================================
-    # SCENE 6. 두 번째 전투 준비
+    # SCENE 6. Prepare for the second battle
     # ==========================================
 
     show ui_ghost intro_explain with Dissolve(0.2)
-    ghost "이번에도 익숙한 단어로 먼저 목소리를 준비하자."
-    ghost "그리고 화면에 나타나는 연습 단어를 말해 봐!"
+    ghost "Let's warm up with a familiar word again."
+    ghost "Then say the practice word on the screen!"
 
-    mc "알겠어! 이번에는 내가 해 볼게."
+    mc "Got it! I'll take it from here."
 
-    echo "히히! 과연 내 메아리를 이길 수 있을까?"
+    echo "Hee hee! Let's see if you can beat my echoes!"
 
     # --------------------------------------------------
-    # TODO 두 번째 괴물 전투 시작
-    # 핵심단어 -> 훈련단어 제시
-    # 음성 녹음 및 발음 분석
-    # 성공 횟수 0/3, 괴물 HP 3
+    # TODO Start the second monster battle
+    # Show the key word, then the practice word
+    # Record speech and analyze pronunciation
+    # Successful hits 0/3, monster HP 3
     #
-    # 성공 -> ch1_m2_success_1
-    # 실패 -> ch1_m2_fail
-    # 측정 불가 -> ch1_m2_unrecognized
+    # Success -> ch1_m2_success_1
+    # Failure -> ch1_m2_fail
+    # Unrecognized -> ch1_m2_unrecognized
     # --------------------------------------------------
 
-    # [임시 테스트] 전투 기능 구현 전 성공 대사 3회 실행
-    $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
+    # [Temporary test] Play three success scenes before battle is implemented
     call ch1_m2_success_1
     call ch1_m2_success_2
     call ch1_m2_success_3
@@ -234,110 +235,110 @@ label ch1_m2_start:
 
 
 # --------------------------------------------------
-# MONSTER 2. 발음 요청
+# MONSTER 2. Prompt the player to speak
 # --------------------------------------------------
 
 label ch1_m2_prompt:
 
     show ui_ghost intro_talk with Dissolve(0.2)
-    ghost "좋아! 화면에 나오는 단어를 말해 보자!"
+    ghost "Great! Let's say the word on the screen!"
 
-    # TODO 핵심단어 -> 훈련단어 발음 진행
-    # 훈련단어 발음 결과에 따라 해당 대사 호출
+    # TODO Practice saying the key word, then the practice word
+    # Play the dialogue for the practice word result
 
     return
 
 # --------------------------------------------------
-# MONSTER 2. 전투 완료
+# MONSTER 2. Battle complete
 # --------------------------------------------------
 
 label ch1_m2_clear:
 
     # ==========================================
-    # SCENE 7. 두 번째 괴물 정화
+    # SCENE 7. Break the second monster's curse
     # ==========================================
 
-    n "메아리 괴물을 감싸고 있던 어두운 기운이 흩어진다."
-    n "괴물의 몸에서 작은 빛들이 하나둘 빠져나온다."
+    n "The darkness around the Echo Monster melts away."
+    n "Tiny lights float out of the monster one by one."
 
-    echo "어...? 이제 이상한 소리가 들리지 않아!"
-    echo "드디어 내 목소리를 되찾았어!"
+    echo "Huh...? The strange voices are gone!"
+    echo "I finally have my own voice back!"
 
-    mc "정말 다행이다!"
+    mc "What a relief!"
     show ui_ghost intro_happy with Dissolve(0.2)
-    ghost "잘했어! 두 번째 괴물의 저주도 풀었네."
+    ghost "Nice work! You broke the second monster's curse too."
 
     $ play_scene_music(scene_corridor_music, volume=scene_corridor_volume)
-    n "메아리 괴물은 환한 빛과 함께 사라진다."
+    n "The Echo Monster disappears in a flash of light."
 
-    ghost "이제 이 층의 마지막 괴물만 남았어!"
-    mc "좋아! 끝까지 해 볼게."
+    ghost "There's just one monster left on this floor!"
+    mc "Okay! I'll see this through."
 
     $ cleared_monsters.add((1, 2))
     call progress_autosave from ch1_m2_autosaved
-    # ch1_m3_start로 이동
+    # Go to ch1_m3_start
 
-    # [임시 테스트] 두 번째 괴물 정화 후 다음 괴물로 이동
+    # [Temporary test] Move to the next monster after freeing the second
     jump ch1_m3_start
 
 
 # ==================================================
-# MONSTER 3. 그림자 괴물
+# MONSTER 3. Shadow Monster
 # ==================================================
 
 label ch1_m3_start:
 
     # ==========================================
-    # SCENE 8. 세 번째 괴물 등장
+    # SCENE 8. The third monster appears
     # ==========================================
 
     show apartment corridor_4 behind ui_ghost with fade
-    n "복도 끝에 도착하자 커다란 문이 나타난다."
-    n "문 너머에는 위층으로 올라가는 엘리베이터가 보인다."
+    n "A big door stands at the end of the hallway."
+    n "Beyond it is an elevator that goes upstairs."
 
-    mc "저기야! 이제 위층으로 갈 수 있겠어!"
+    mc "There it is! Now we can go up!"
     show ui_ghost intro_worried with Dissolve(0.2)
-    ghost "잠깐! 뭔가 이상해..."
+    ghost "Wait! Something feels wrong..."
 
-    n "그 순간, 바닥에 드리워진 그림자가 움직이기 시작한다."
-    n "그림자는 점점 커지더니 거대한 괴물로 변한다."
+    n "Just then, a shadow on the floor starts to move."
+    $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
+    n "It grows bigger and bigger until it turns into a giant monster."
 
-    shadow "누구냐... 감히 이곳까지 들어오다니."
+    shadow "Who goes there...? How dare you come this far!"
     show ui_ghost intro_surprised with Dissolve(0.2)
-    mc "으악! 이번 괴물은 엄청 커!"
+    mc "Whoa! This one's huge!"
 
     show ui_ghost intro_worried with Dissolve(0.2)
-    ghost "저건 이 층의 마지막 괴물이야!"
-    mc "저 괴물을 물리쳐야 위층으로 갈 수 있는 거지?"
+    ghost "That's the last monster on this floor!"
+    mc "We have to beat it before we can go upstairs, right?"
     show ui_ghost intro_talk_closed with Dissolve(0.2)
-    ghost "맞아! 하지만 걱정하지 마."
-    ghost "지금까지 해 온 것처럼 하면 돼."
+    ghost "That's right! But don't worry."
+    ghost "Just do what you've been doing all along."
 
     # ==========================================
-    # SCENE 9. 마지막 전투 준비
+    # SCENE 9. Prepare for the last battle
     # ==========================================
 
     show ui_ghost intro_explain with Dissolve(0.2)
-    ghost "이번에도 먼저 익숙한 단어를 말해 보자."
-    ghost "그다음 연습 단어로 괴물을 공격하는 거야!"
+    ghost "Start with a familiar word again."
+    ghost "Then use the practice word to attack the monster!"
 
-    mc "응! 이제 어떻게 하는지 알아!"
+    mc "Yep! I know how to do it now!"
 
-    shadow "그렇다면 어디 한번 해 보아라!"
+    shadow "Then show me what you've got!"
 
     # --------------------------------------------------
-    # TODO 세 번째 괴물 전투 시작
-    # 핵심단어 -> 훈련단어 제시
-    # 음성 녹음 및 발음 분석
-    # 성공 횟수 0/3, 괴물 HP 3
+    # TODO Start the third monster battle
+    # Show the key word, then the practice word
+    # Record speech and analyze pronunciation
+    # Successful hits 0/3, monster HP 3
     #
-    # 성공 -> ch1_m3_success_1
-    # 실패 -> ch1_m3_fail
-    # 측정 불가 -> ch1_m3_unrecognized
+    # Success -> ch1_m3_success_1
+    # Failure -> ch1_m3_fail
+    # Unrecognized -> ch1_m3_unrecognized
     # --------------------------------------------------
 
-    # [임시 테스트] 전투 기능 구현 전 성공 대사 3회 실행
-    $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
+    # [Temporary test] Play three success scenes before battle is implemented
     call ch1_m3_success_1
     call ch1_m3_success_2
     call ch1_m3_success_3
@@ -346,86 +347,86 @@ label ch1_m3_start:
 
 
 # --------------------------------------------------
-# MONSTER 3. 발음 요청
+# MONSTER 3. Prompt the player to speak
 # --------------------------------------------------
 
 label ch1_m3_prompt:
 
     show ui_ghost intro_talk with Dissolve(0.2)
-    ghost "마지막 괴물이야! 준비되면 단어를 말해 봐!"
+    ghost "This is the last monster! Say the word when you're ready!"
 
-    # TODO 핵심단어 -> 훈련단어 발음 진행
-    # 훈련단어 발음 결과에 따라 해당 대사 호출
+    # TODO Practice saying the key word, then the practice word
+    # Play the dialogue for the practice word result
 
     return
 
 # --------------------------------------------------
-# MONSTER 3. 전투 완료
+# MONSTER 3. Battle complete
 # --------------------------------------------------
 
 label ch1_m3_clear:
 
     # ==========================================
-    # SCENE 10. 마지막 괴물 정화
+    # SCENE 10. Break the last monster's curse
     # ==========================================
 
-    n "그림자 괴물을 감싸고 있던 어둠이 완전히 사라진다."
-    n "괴물의 몸이 작아지며 부드러운 빛으로 변한다."
+    n "The darkness around the Shadow Monster disappears."
+    n "The monster shrinks and turns into a soft light."
 
-    shadow "드디어... 저주에서 벗어났구나."
-    mc "이제 괜찮아?"
-    shadow "그래. 네 목소리 덕분이다."
+    shadow "At last... I'm free of the curse."
+    mc "Are you okay now?"
+    shadow "Yes. Thanks to your voice."
 
     show ui_ghost intro_happy with Dissolve(0.2)
-    ghost "해냈어! 이 층의 괴물들을 모두 도와줬어!"
-    mc "정말? 내가 세 마리나 물리친 거야?"
-    ghost "응! 이제 네 목소리의 힘을 알겠지?"
+    ghost "You did it! You helped every monster on this floor!"
+    mc "Really? I beat all three?"
+    ghost "Yep! Now you know what your voice can do!"
 
-    mc "응! 처음에는 무서웠는데 이제 조금 자신이 생겼어!"
+    mc "Yeah! I was scared at first, but now I feel braver!"
 
-    shadow "하지만 아직 끝난 것은 아니다."
-    mc "응?"
-    shadow "이 아파트의 위층에는 더 깊은 저주가 잠들어 있다."
-    shadow "직접 올라가 보면 알게 될 것이다..."
+    shadow "There is still more to do."
+    mc "Huh?"
+    shadow "A deeper curse lies asleep on the floors above."
+    shadow "You'll see for yourself when you get there..."
 
     $ play_scene_music(scene_corridor_music, volume=scene_corridor_volume)
-    n "그림자 괴물은 마지막 말을 남기고 빛 속으로 사라진다."
-    $ play_scene_sound(scene_elevator_sound)
-    n "동시에 굳게 닫혀 있던 엘리베이터 문이 열린다."
+    n "With those last words, the Shadow Monster fades into the light."
+    n "At the same moment, the elevator doors slide open."
 
     $ cleared_monsters.add((1, 3))
     call progress_autosave from ch1_m3_autosaved
-    # Chapter 1 전체 클리어 처리
-    # ch1_finish로 이동
+    # Chapter 1 completion
+    # Go to ch1_finish
 
-    # [임시 테스트] 세 번째 괴물 정화 후 Chapter 1 종료 장면으로 이동
+    # [Temporary test] Go to the Chapter 1 ending after freeing the third monster
     jump ch1_finish
 
 
 # ==================================================
-# CHAPTER 1. 완료
+# CHAPTER 1. Complete
 # ==================================================
 
 label ch1_finish:
 
     # ==========================================
-    # SCENE 11. 다음 층으로
+    # SCENE 11. On to the next floor
     # ==========================================
 
     show apartment elevator_on behind ui_ghost with dissolve
     show ui_ghost intro_talk with Dissolve(0.2)
-    n "주인공과 작은 유령은 함께 엘리베이터에 올라탄다."
-    $ play_scene_sound(scene_elevator_sound)
-    n "엘리베이터 문이 천천히 닫히고, 다음 층을 향해 움직이기 시작한다."
+    n "Our hero and Little Ghost step into the elevator together."
+    n "The doors slowly close, and the elevator starts toward the next floor."
 
     # --------------------------------------------------
     $ completed_chapters.add(1)
+    $ unlock_chapter(1)
     $ current_chapter = 2
     call progress_autosave from ch1_completion_autosaved
-    # Chapter 2 연결
-    # 전투 완료 후 Chapter 2로 이동
+    # Continue to Chapter 2
+    # Go to Chapter 2 after the battle
     # --------------------------------------------------
 
+    call show_chapter_end("images/chapter_end/chapter1.png") from ch1_end_card_done
     hide ui_ghost
     show ui_ghost at ui_ghost_corridor, ui_ghost_settle
     $ stop_scene_music()

@@ -1,10 +1,18 @@
 default current_chapter = 0
 default completed_chapters = set()
 default cleared_monsters = set()
+default persistent.unlocked_chapters = set()
 
 define config.has_autosave = False
 
 init python:
+    def unlock_chapter(chapter):
+        if chapter not in persistent.unlocked_chapters:
+            persistent.unlocked_chapters.add(chapter)
+            renpy.save_persistent()
+
+    renpy.register_persistent("unlocked_chapters", lambda old, new, current: (old or set()) | (new or set()) | (current or set()))
+
     def save_to_empty_slot():
         occupied = set(renpy.list_slots())
         slots_per_page = gui.file_slot_cols * gui.file_slot_rows
@@ -31,3 +39,18 @@ label progress_autosave:
     $ renpy.block_rollback()
     $ renpy.force_autosave(take_screenshot=True, block=True)
     return
+
+label start_unlocked_chapter_1:
+    scene apartment elevator_on
+    show ui_ghost intro_move
+    jump chapter1
+
+label start_unlocked_chapter_2:
+    scene apartment elevator_on
+    show ui_ghost at ui_ghost_corridor, ui_ghost_settle
+    jump chapter2
+
+label start_unlocked_chapter_3:
+    scene apartment elevator_on
+    show ui_ghost at ui_ghost_corridor
+    jump chapter3

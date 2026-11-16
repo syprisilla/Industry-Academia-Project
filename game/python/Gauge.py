@@ -1,36 +1,36 @@
-"""게이지 이미지 그리기.
+"""Render gauge images.
 
-* judge 결과의 per_feature 를 받아, 지표마다 가로 게이지 PNG 한 장을 저장한다.
-*  [회색 전체 막대] + [초록 목표 범위 띠] + [내 발음 위치 막대]  형태.
-* Ren'Py 가 이 PNG 를 불러와 화면에 띄운다.
-* 한글이 깨지면 FONT_PATH 에 한글 TTF 경로를 넣을 것.
+* Read per_feature from the judgment and save one horizontal gauge PNG per feature.
+* Each gauge has a gray track, a green target band, and a marker for the measured value.
+* Ren'Py loads the PNG for display.
+* Set FONT_PATH to a Hangul-capable TTF if Hangul does not render.
 """
 from __future__ import annotations
 
 from pathlib import Path
 
-# 한글 폰트 경로 (없으면 기본 폰트 — 한글이 □ 로 나올 수 있음). 프로젝트 폰트로 바꿀 것.\
+# Path to the project font. The fallback font may show squares for Hangul.
 import sys
 from pathlib import Path
 
 def _find_font() -> str | None:
-    """SourceHanSansLite.ttf 를 여러 후보 경로에서 찾는다. exe/스크립트 둘 다 대응."""
+    """Find SourceHanSansLite.ttf when running from an executable or a script."""
     name = "SourceHanSansLite.ttf"
     candidates = []
-    if getattr(sys, "frozen", False):               # exe: PyInstaller 번들 폴더
+    if getattr(sys, "frozen", False):               # PyInstaller bundle directory
         candidates.append(Path(sys._MEIPASS) / name)
         candidates.append(Path(sys.executable).resolve().parent / name)
     here = Path(__file__).resolve().parent
-    candidates += [here.parent / name,              # game/SourceHanSansLite.ttf (스크립트 실행 시)
+    candidates += [here.parent / name,              # game/SourceHanSansLite.ttf when run as a script
                    here / name]
     for c in candidates:
         if c.exists():
             return str(c)
-    return None                                     # 못 찾으면 기본 폰트(한글 □)
+    return None                                     # Use the default font if the project font is missing.
 
 FONT_PATH = _find_font()
 
-# 색 (연한 회색 막대, 연녹색 목표 범위, 주황 내 위치)
+# Colors for the light gray track, light green target, and orange marker.
 _TRACK = "#E7E6E1"
 _RANGE_IN = "#9FD3B8"
 _MARK = "#D8A13A"
@@ -45,7 +45,7 @@ def _ensure_font():
 
 
 def draw_gauge(per_feature_item: dict, out_png, width_px: int = 760, height_px: int = 300) -> str:
-    """지표 하나의 게이지 PNG 를 저장하고 경로를 돌려준다."""
+    """Save a gauge PNG for one feature and return its path."""
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -60,22 +60,24 @@ def draw_gauge(per_feature_item: dict, out_png, width_px: int = 760, height_px: 
     ax.set_xlim(0, 1); ax.set_ylim(0, 1); ax.axis("off")
 
     y, h = 0.5, 0.18
-    # 전체 막대
+    # Full track
     ax.add_patch(FancyBboxPatch((0.03, y - h / 2), 0.94, h, boxstyle="round,pad=0.0,rounding_size=0.09",
                                  facecolor=_TRACK, edgecolor="none"))
-    # 목표 범위 띠
+    # Target band
     rl, rh = g["range_low_pos"], g["range_high_pos"]
     x0 = 0.03 + 0.94 * rl
     w = 0.94 * (rh - rl)
     ax.add_patch(FancyBboxPatch((x0, y - h / 2), max(w, 0.01), h, boxstyle="round,pad=0.0,rounding_size=0.09",
                                  facecolor=_RANGE_IN, edgecolor="none"))
-    # 내 발음 위치 막대
+    # Marker for the measured pronunciation
     mx = 0.03 + 0.94 * g["value_pos"]
     ax.plot([mx, mx], [y - h / 2 - 0.08, y + h / 2 + 0.14], color=_MARK, lw=6, solid_capstyle="round")
     ax.plot([mx], [y + h / 2 + 0.16], marker="o", color=_MARK, markersize=11)
-    # 라벨
-    ax.text(mx, y - h / 2 - 0.18, "User Pronunciation", color=_MARK, ha="center", va="top", fontsize=15, fontweight="bold")
-    ax.text(x0 + w / 2, y - h / 2 - 0.42, "Target Range", color="#3B7A57", ha="center", va="top", fontsize=15, fontweight="bold")
+
+    # Labels
+    ax.text(mx, y - h / 2 - 0.18, "Your sound", color=_MARK, ha="center", va="top", fontsize=15, fontweight="bold")
+    ax.text(x0 + w / 2, y - h / 2 - 0.42, "Target range", color="#3B7A57", ha="center", va="top", fontsize=15, fontweight="bold")
+
     ax.text(0.5, 0.95, per_feature_item["label"], ha="center", va="top", fontsize=13, color="white")
 
     out_png = Path(out_png)
@@ -86,7 +88,7 @@ def draw_gauge(per_feature_item: dict, out_png, width_px: int = 760, height_px: 
 
 
 def draw_all(judge_result: dict, out_dir, prefix="gauge") -> dict:
-    """사용한 지표마다 게이지 PNG 를 저장하고 {feature: png경로} 를 돌려준다."""
+    """Save a gauge per feature and return a mapping of features to PNG paths."""
     out_dir = Path(out_dir)
     paths = {}
     for f, item in judge_result.get("per_feature", {}).items():

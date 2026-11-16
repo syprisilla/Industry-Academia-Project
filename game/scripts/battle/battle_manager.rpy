@@ -2,13 +2,13 @@ label ch1_m1_battle:
 
     $ success_count = 0
 
-    # 임시 핵심단어: 이후 평가/단어 선정 기능과 연결
+    # Temporary key word until assessment and word selection are connected
     $ ui_battle_core_word = "사과"
 
-    # 인트로에서 선택한 훈련단어 사용
+    # Use the practice word picked in the intro
     $ ui_battle_training_word = ui_selected_training_word or "수박"
 
-    # 데모에서는 두 단어가 겹치지 않도록 처리
+    # Keep the two words distinct in the demo
     if ui_battle_training_word == ui_battle_core_word:
         $ ui_battle_core_word = "사자"
 
@@ -18,18 +18,18 @@ label ch1_m1_battle:
 
         window hide
 
-        # 1. 핵심단어로 준비
+        # 1. Warm up with the key word
         $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
         call screen ui_dust_word(ui_battle_core_word)
 
-        # 2. 훈련단어로 공격 시도
+        # 2. Try attacking with the practice word
         call screen ui_dust_word(ui_battle_training_word, training=True)
         $ ui_battle_result = _return
         $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
 
         if ui_battle_result == "success":
 
-            # 음파가 명중하면 피격 모습과 HP를 갱신한다.
+            # Update the hit pose and HP when the sound wave lands.
             call ui_dust_light_attack
 
             window auto
@@ -57,5 +57,5 @@ label ch1_m1_battle:
 
     window auto
 
-    # 기존 정화 장면으로 이동
+    # Continue to the existing curse-breaking scene
     jump ch1_m1_clear

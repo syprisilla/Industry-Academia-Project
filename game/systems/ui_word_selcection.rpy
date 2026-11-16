@@ -26,7 +26,7 @@ screen ui_word_selection(title, words):
             spacing 17
 
             text title style "intro_ch1_text" xalign 0.5 size 51 bold True
-            text "연습할 단어를 하나 골라 주세요." style "intro_ch1_caption" xalign 0.5
+            text "Pick one word to practice." style "intro_ch1_caption" xalign 0.5
 
             viewport:
                 xsize 940
@@ -46,5 +46,5 @@ screen ui_word_selection(title, words):
             fixed:
                 xysize (330, 82)
                 xalign 0.5
-                use intro_ch1_button("선택 완료", "continue", Return(selected_word),
-                    width=330, height=82, enabled=selected_word is not None, icon="icon_next")
+                use intro_ch1_button("Done", "continue", Return(selected_word),
+                    width=330, height=82, enabled=selected_word is not None)

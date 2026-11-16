@@ -1,24 +1,24 @@
 # --------------------------------------------------
-# 캐릭터 정의
+# Character definitions
 # --------------------------------------------------
 
-# 나레이션
+# Narration
 define n = Character(None)
 
-# 주인공
+# Player character
 define mc = Character("[player_name]", color="#FFFFFF")
 
-# chapter1 괴물 
-define dust = Character("먼지 괴물", color="#DDBB99")
-define echo = Character("메아리 괴물", color="#B9A7FF")
-define shadow = Character("그림자 괴물", color="#A7B4CE")
+# Chapter 1 monsters
+define dust = Character("Dust Monster", color="#DDBB99")
+define echo = Character("Echo Monster", color="#B9A7FF")
+define shadow = Character("Shadow Monster", color="#A7B4CE")
 
-# chapter2 괴물 
-define whisper = Character("속삭임 괴물", color="#D8A6E8")
-define ch2_toy = Character("장난감 괴물", color="#E8B77A")
-define ch2_clock = Character("시계 괴물", color="#A1B5D8")
+# Chapter 2 monsters
+define whisper = Character("Whisper Monster", color="#D8A6E8")
+define ch2_toy = Character("Toy Monster", color="#E8B77A")
+define ch2_clock = Character("Clock Monster", color="#A1B5D8")
 
-# chapter3 괴물 
-define ch3_letter = Character("편지 괴물", color="#D6B48A")
-define ch3_vine = Character("가시덩굴 괴물", color="#85BA80")
-define ch3_boss = Character("최종 보스", color="#A5C4DD")
+# Chapter 3 monsters
+define ch3_letter = Character("Letter Monster", color="#D6B48A")
+define ch3_vine = Character("Thorny Vine Monster", color="#85BA80")
+define ch3_boss = Character("Final Boss", color="#A5C4DD")

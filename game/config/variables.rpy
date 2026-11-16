@@ -1,12 +1,25 @@
 # --------------------------------------------------
-# 사용자 이름
+# Player name
 # --------------------------------------------------
 
-default player_name = "MC"
+default persistent.last_player_name = None
+default player_name = persistent.last_player_name or "MC"
+
+init python:
+    def remember_player_name(name):
+        if persistent.last_player_name != name:
+            persistent.last_player_name = name
+            renpy.save_persistent()
+
+    def remember_legacy_player_name():
+        if persistent.last_player_name is None and player_name and player_name != "MC":
+            remember_player_name(player_name)
+
+    config.after_load_callbacks.append(remember_legacy_player_name)
 
 
 # --------------------------------------------------
-# 조사 자동 처리 함수
+# Choose a Korean particle based on the preceding word.
 # --------------------------------------------------
 
 init python:
@@ -19,11 +32,11 @@ init python:
 
         if with_batchim == "이의" and without_batchim == "의":
 
-            # 성 + 이름으로 입력한 경우
+            # The player entered a family name and given name.
             if len(word) >= 3:
                 return "의"
 
-            # 이름만 입력한 경우
+            # The player entered only a given name.
             if '가' <= last <= '힣':
                 jong = (ord(last) - ord('가')) % 28
 
@@ -36,19 +49,19 @@ init python:
 
 
         # --------------------------------------------------
-        # 일반 조사 처리
+        # General particle handling.
         # --------------------------------------------------
 
-        # 마지막 글자가 한글인지 확인
+        # Check whether the last character is a Hangul syllable.
         if '가' <= last <= '힣':
             jong = (ord(last) - ord('가')) % 28
 
-            # 받침이 있으면 with_batchim
+            # A syllable with a final consonant takes with_batchim.
             if jong != 0:
                 return with_batchim
 
-            # 받침이 없으면 without_batchim
+            # An open syllable takes without_batchim.
             return without_batchim
 
-        # 한글이 아니면 기본적으로 받침 없는 조사 사용
+        # A non-Hangul character takes without_batchim by default.
         return without_batchim

@@ -45,7 +45,7 @@ screen intro_ch1_button(label, kind, on_click, width=300, height=76, enabled=Tru
                 yalign 0.5
 
 screen intro_ch1_recorder(state, on_click, enabled=True, width=550):
-    $ label = {"ready": "녹음 시작", "recording": "녹음 완료하기", "done": "녹음 완료"}[state]
+    $ label = {"ready": "Record", "recording": "Stop Recording", "done": "Recorded"}[state]
 
     use intro_ch1_button(label, "recording" if state == "recording" else "record", on_click,
         width=width, height=118, enabled=enabled and state != "done", icon="icon_microphone")

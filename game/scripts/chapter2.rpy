@@ -1,56 +1,59 @@
 
 # ==================================================
-# Chapter 2. 빼앗긴 목소리 - 2층의 괴물들
+# Chapter 2. Stolen Voices - Second Floor Monsters
 # ==================================================
 
 # ==================================================
-# MONSTER 1. 속삭임 괴물
+# MONSTER 1. Whisper Monster
 # ==================================================
 
 label chapter2:
 
     $ current_chapter = 2
+    $ play_scene_music(scene_ch2_corridor_music, volume=scene_corridor_volume)
 
     # ==========================================
-    # SCENE 2. 첫 번째 괴물 등장
+    # SCENE 2. The first monster appears
     # ==========================================
 
-    n "복도 곳곳에서 작은 속삭임들이 들려오기 시작한다."
+    $ play_scene_sound(scene_elevator_sound)
+    n "Soft whispers begin to drift through the hall."
 
-    whisper "히히! 새로운 손님이 왔구나!"
-    mc "으악! 또 괴물이야!"
+    $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
+    whisper "Hee hee! A new visitor!"
+    mc "Whoa! Another monster!"
 
-    ghost "조심해! 저 괴물에게서 이상한 기운이 느껴져."
-    mc "저 괴물도 저주에 걸린 거야?"
-    ghost "그런 것 같아. 우리 목소리의 힘으로 도와주자!"
+    ghost "Watch out! There's some strange magic coming from that monster."
+    mc "Is that one cursed too?"
+    ghost "I think so. Let's help with the power of our voices!"
 
-    whisper "내 속삭임을 이길 수 있을까?"
+    whisper "Think you can beat my whispers?"
 
-    mc "이번에도 내가 저주를 풀어 줄게!"
+    mc "I'll break this curse too!"
 
     # ==========================================
-    # SCENE 3. 첫 번째 전투 준비
+    # SCENE 3. Prepare for the first battle
     # ==========================================
 
-    ghost "좋아! 먼저 익숙한 단어로 목소리를 준비하자."
-    ghost "그다음 화면에 나오는 연습 단어를 말해 봐!"
+    ghost "Okay! Let's warm up with a familiar word first."
+    ghost "Then say the practice word on the screen!"
 
-    mc "알겠어! 준비됐어!"
+    mc "Got it! I'm ready!"
 
     # --------------------------------------------------
-    # TODO 첫 번째 괴물 전투 시작
-    # 핵심단어 -> 훈련단어 제시
-    # 음성 녹음 및 발음 분석
-    # 성공 횟수 0/3, 괴물 HP 3
+    # TODO Start the first monster battle
+    # Show the key word, then the practice word
+    # Record speech and analyze pronunciation
+    # Successful hits 0/3, monster HP 3
     #
-    # 성공 1회 -> ch2_m1_success_1
-    # 성공 2회 -> ch2_m1_success_2
-    # 성공 3회 -> ch2_m1_success_3
-    # 실패 -> ch2_m1_fail
-    # 측정 불가 -> ch2_m1_unrecognized
+    # One hit -> ch2_m1_success_1
+    # Two hits -> ch2_m1_success_2
+    # Three hits -> ch2_m1_success_3
+    # Failure -> ch2_m1_fail
+    # Unrecognized -> ch2_m1_unrecognized
     # --------------------------------------------------
 
-    # [임시 테스트] 전투 구현 전 성공 대사 3회 실행
+    # [Temporary test] Play three success scenes before battle is implemented
     call ch2_m1_success_1
     call ch2_m1_success_2
     call ch2_m1_success_3
@@ -59,110 +62,112 @@ label chapter2:
 
 
 # --------------------------------------------------
-# MONSTER 1. 발음 요청
+# MONSTER 1. Prompt the player to speak
 # --------------------------------------------------
 
 label ch2_m1_prompt:
 
-    ghost "준비됐지? 화면에 나오는 단어를 천천히 말해 봐!"
+    ghost "Ready? Say the word on the screen slowly!"
 
-    # TODO 핵심단어 -> 훈련단어 발음 진행
+    # TODO Practice saying the key word, then the practice word
 
     return
 
 
 
 # --------------------------------------------------
-# MONSTER 1. 전투 완료
+# MONSTER 1. Battle complete
 # --------------------------------------------------
 
 label ch2_m1_clear:
 
     # ==========================================
-    # SCENE 4. 첫 번째 괴물 정화
+    # SCENE 4. Break the first monster's curse
     # ==========================================
 
-    n "속삭임 괴물을 감싸고 있던 어두운 기운이 사라진다."
-    n "복도를 가득 채웠던 이상한 속삭임도 조용해진다."
+    n "The darkness around the Whisper Monster fades."
+    n "The strange whispers that filled the hallway fall quiet."
 
-    whisper "어...? 이제 내 목소리가 들려!"
-    mc "정말? 이제 괜찮아?"
+    whisper "Huh...? I can hear my own voice!"
+    mc "Really? Are you okay now?"
 
-    whisper "응! 누군가 나를 이렇게 만들었어."
-    whisper "지금 다른 괴물들도 위험한 상황이야!."
-    whisper "내 친구들을 도와줘!"
+    whisper "Yes! Someone did this to me."
+    whisper "The other monsters are in danger too!"
+    whisper "Please help my friends!"
 
-    mc "알겠어 나만 믿어!"
+    mc "I will. Count on me!"
 
-    n "속삭임 괴물은 작은 빛이 되어 사라진다."
-    n "무언가 데굴데굴 굴러오는 소리가 들린다."
+    n "The Whisper Monster turns into a tiny light and disappears."
+    $ play_scene_music(scene_ch2_corridor_music, volume=scene_corridor_volume)
+    n "Something comes rolling down the hall."
 
-    mc "어? 저기 바닥에 뭐가 굴러가는데?"
-    ghost "저쪽으로 가 보자!"
+    mc "Huh? Is something rolling across the floor?"
+    ghost "Let's go see!"
 
     $ cleared_monsters.add((2, 1))
     call progress_autosave from ch2_m1_autosaved
-    # ch2_m2_start로 이동
+    # Go to ch2_m2_start
 
-    # [임시 테스트] 다음 괴물로 이동
+    # [Temporary test] Move to the next monster
     jump ch2_m2_start
 
 
 # ==================================================
-# MONSTER 2. 뒤섞임 괴물
+# MONSTER 2. Toy Monster
 # ==================================================
 
 label ch2_m2_start:
 
     # ==========================================
-    # SCENE 5. 두 번째 괴물 등장
+    # SCENE 5. The second monster appears
     # ==========================================
 
-    n "주인공과 작은 유령은 데굴데굴 굴러가는 작은 공을 따라간다."
-    n "공은 복도 한쪽의 낡은 장난감 상자 앞에서 멈춘다."
+    n "Our hero and Little Ghost follow a little ball as it rolls away."
+    n "The ball stops in front of an old toy box by the wall."
 
-    mc "어? 장난감 상자가 있네?"
-    ghost "그런데 상자 안에서 무언가 움직이고 있어!"
+    mc "Hey, a toy box!"
+    ghost "Something's moving inside it!"
 
-    n "상자 뚜껑이 벌컥 열리더니 낡은 곰 인형과 장난감들이 한데 뭉친다."
-    n "장난감들은 커다란 괴물로 변해 주인공 앞을 가로막는다."
+    n "The lid flies open. An old teddy bear and a pile of toys bunch together."
+    $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
+    n "The toys turn into a big monster that blocks our hero's way."
 
-    mc "으악! 장난감이 괴물이 됐어!"
+    mc "Whoa! The toys turned into a monster!"
 
-    ch2_toy "다들 날 버리고 떠났어! 너희도 결국 떠날 거잖아!"
-    mc "아니야! 우리는 널 버리러 온 게 아니야!"
+    ch2_toy "Everyone left me behind! You'll leave too!"
+    mc "We're here to help you!"
 
-    ch2_toy "거짓말! 아무도 믿지 않아!"
+    ch2_toy "Liar! I don't trust anyone!"
 
-    ghost "우리 함께 저주를 풀어 주자!"
+    ghost "Let's break the curse together!"
 
-    mc "좋아! 내가 도와줄게!"
+    mc "Okay! I'll help you!"
 
     # ==========================================
-    # SCENE 6. 두 번째 전투 준비
+    # SCENE 6. Prepare for the second battle
     # ==========================================
 
-    ghost "먼저 익숙한 단어로 목소리를 준비하자."
-    ghost "이번에도 연습 단어를 천천히 말하면 돼!"
+    ghost "First, warm up your voice with a familiar word."
+    ghost "Then say the practice word slowly, just like before!"
 
-    ch2_toy "가까이 오지 마! 절대 내 상자를 열게 두지 않을 거야!"
+    ch2_toy "Stay back! I'll never let you open my box!"
 
-    mc "걱정 마! 네 물건을 뺏지 않을 거야!"
+    mc "Don't worry! Your toys are safe with us."
 
     # --------------------------------------------------
-    # TODO 두 번째 괴물 전투 시작
-    # 핵심단어 -> 훈련단어 제시
-    # 음성 녹음 및 발음 분석
-    # 성공 횟수 0/3, 괴물 HP 3
+    # TODO Start the second monster battle
+    # Show the key word, then the practice word
+    # Record speech and analyze pronunciation
+    # Successful hits 0/3, monster HP 3
     #
-    # 성공 1회 -> ch2_m2_success_1
-    # 성공 2회 -> ch2_m2_success_2
-    # 성공 3회 -> ch2_m2_success_3
-    # 실패 -> ch2_m2_fail
-    # 측정 불가 -> ch2_m2_unrecognized
+    # One hit -> ch2_m2_success_1
+    # Two hits -> ch2_m2_success_2
+    # Three hits -> ch2_m2_success_3
+    # Failure -> ch2_m2_fail
+    # Unrecognized -> ch2_m2_unrecognized
     # --------------------------------------------------
 
-    # [임시 테스트] 전투 구현 전 성공 대사 3회 실행
+    # [Temporary test] Play three success scenes before battle is implemented
     call ch2_m2_success_1
     call ch2_m2_success_2
     call ch2_m2_success_3
@@ -173,104 +178,106 @@ label ch2_m2_start:
 
 
 # --------------------------------------------------
-# MONSTER 2. 발음 요청
+# MONSTER 2. Prompt the player to speak
 # --------------------------------------------------
 
 label ch2_m2_prompt:
 
-    ghost "좋아! 화면에 나오는 단어를 또박또박 말해 보자!"
+    ghost "Okay! Say the word on the screen nice and clearly!"
 
-    # TODO 핵심단어 -> 훈련단어 발음 진행
+    # TODO Practice saying the key word, then the practice word
 
     return
 
 
 # --------------------------------------------------
-# MONSTER 2. 전투 완료
+# MONSTER 2. Battle complete
 # --------------------------------------------------
 
 label ch2_m2_clear:
 
     # ==========================================
-    # SCENE 7. 두 번째 괴물 정화
+    # SCENE 7. Break the second monster's curse
     # ==========================================
 
-    n "장난감 괴물을 감싸고 있던 검은 기운이 흩어진다."
-    n "한데 엉켜 있던 장난감들이 제자리로 돌아오고, 상자 뚜껑이 열린다."
+    n "The darkness around the Toy Monster drifts away."
+    n "The tangled toys settle into place, and the box opens."
 
-    mc "이제 괜찮아?"
+    mc "Are you okay now?"
 
-    ch2_toy "응... 미안해. 사실 난 오래전부터 이곳에서 혼자였어."
-    ch2_toy "주인이 나를 잊어버렸다고 생각해서 너무 슬펐어."
-    ch2_toy "다른 장난감들까지 떠날까 봐 상자에 가둬 버렸지."
+    ch2_toy "Yes... I'm sorry. I've been here all alone for a long time."
+    ch2_toy "I thought my owner had forgotten me. It made me so sad."
+    ch2_toy "I was scared the other toys would leave too, so I locked them in the box."
 
-    mc "혼자 남겨져서 많이 외로웠구나."
+    mc "It must have been lonely, being left all by yourself."
 
-    ch2_toy "맞아... 이제 친구들을 자유롭게 해 줄게."
-    ch2_toy "내 이야기를 들어줘서 고마워!"
+    ch2_toy "It was... I'll let my friends out now."
+    ch2_toy "Thanks for listening to me!"
 
-    n "장난감 괴물은 따뜻한 빛과 함께 사라진다."
-    n "복도 끝에서 규칙적인 시계 소리가 들려오기 시작한다."
+    n "The Toy Monster disappears in a warm glow."
+    $ play_scene_music(scene_ch2_corridor_music, volume=scene_corridor_volume)
+    n "A steady ticking starts at the end of the hall."
 
     $ cleared_monsters.add((2, 2))
     call progress_autosave from ch2_m2_autosaved
-    # ch2_m3_start로 이동
+    # Go to ch2_m3_start
 
-    # [임시 테스트] 다음 괴물로 이동
+    # [Temporary test] Move to the next monster
     jump ch2_m3_start
 
 
 # ==================================================
-# MONSTER 3. 시계 괴물
+# MONSTER 3. Clock Monster
 # ==================================================
 
 label ch2_m3_start:
 
     # ==========================================
-    # SCENE 8. 세 번째 괴물 등장
+    # SCENE 8. The third monster appears
     # ==========================================
 
-    n "주인공과 작은 유령은 복도 끝에 도착한다."
-    n "그곳에는 커다란 시계가 달린 문이 굳게 닫혀 있다."
+    n "Our hero and Little Ghost reach the end of the hallway."
+    n "A door with a huge clock on it is shut tight."
 
-    mc "저기야! 그런데 시곗바늘이 움직이지 않아."
-    ghost "정말이네. 계속 같은 시간에 멈춰 있어!"
+    mc "There it is! But the hands aren't moving."
+    ghost "You're right. The clock is stuck at the same time!"
 
-    n "그 순간, 시계에서 커다란 종소리가 울린다."
-    n "시곗바늘이 거꾸로 돌아가더니 시계가 거대한 괴물로 변한다."
+    n "Just then, the clock rings with a loud chime."
+    $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
+    n "The hands spin backward, and the clock turns into a giant monster."
 
-    mc "으악! 시계까지 괴물이 됐어!"
+    mc "Whoa! Even the clock turned into a monster!"
 
-    ghost "저건 시계 괴물이야!"
-    ghost "저주를 풀고 무슨 일이 있었는지 물어보자!"
+    ghost "That's the Clock Monster!"
+    ghost "Let's break the curse and ask what happened!"
 
-    mc "좋아! 이번에도 내가 도와줄게!"
+    mc "Okay! I'll help this one too!"
 
     # ==========================================
-    # SCENE 9. 세 번째 전투 준비
+    # SCENE 9. Prepare for the third battle
     # ==========================================
 
-    ghost "이번이 이 층의 마지막 전투야!"
-    ghost "먼저 익숙한 단어로 목소리를 준비하자."
-    ghost "그리고 연습 단어를 또박또박 말하는 거야!"
+    ghost "This is the last battle on this floor!"
+    ghost "Let's warm up your voice with a familiar word."
+    ghost "Then say the practice word nice and clearly!"
 
-    mc "응! 나 할 수 있어!"
+    mc "Yep! I can do this!"
 
 
     # --------------------------------------------------
-    # TODO 세 번째 괴물 전투 시작
-    # 핵심단어 -> 훈련단어 제시
-    # 음성 녹음 및 발음 분석
-    # 성공 횟수 0/3, 괴물 HP 3
+    # TODO Start the third monster battle
+    # Show the key word, then the practice word
+    # Record speech and analyze pronunciation
+    # Successful hits 0/3, monster HP 3
     #
-    # 성공 1회 -> ch2_m3_success_1
-    # 성공 2회 -> ch2_m3_success_2
-    # 성공 3회 -> ch2_m3_success_3
-    # 실패 -> ch2_m3_fail
-    # 측정 불가 -> ch2_m3_unrecognized
+    # One hit -> ch2_m3_success_1
+    # Two hits -> ch2_m3_success_2
+    # Three hits -> ch2_m3_success_3
+    # Failure -> ch2_m3_fail
+    # Unrecognized -> ch2_m3_unrecognized
     # --------------------------------------------------
 
-    # [임시 테스트] 전투 구현 전 성공 대사 3회 실행
+    # [Temporary test] Play three success scenes before battle is implemented
     call ch2_m3_success_1
     call ch2_m3_success_2
     call ch2_m3_success_3
@@ -279,76 +286,79 @@ label ch2_m3_start:
 
 
 # --------------------------------------------------
-# MONSTER 3. 발음 요청
+# MONSTER 3. Prompt the player to speak
 # --------------------------------------------------
 
 label ch2_m3_prompt:
 
-    ghost "마지막 괴물이야! 준비되면 단어를 말해 봐!"
-    ghost "천천히, 또박또박 말하면 돼!"
+    ghost "This is the last monster! Say the word when you're ready!"
+    ghost "Take your time and say it clearly!"
 
-    # TODO 핵심단어 -> 훈련단어 발음 진행
+    # TODO Practice saying the key word, then the practice word
 
     return
 
 
 # --------------------------------------------------
-# MONSTER 3. 전투 완료
+# MONSTER 3. Battle complete
 # --------------------------------------------------
 
 label ch2_m3_clear:
 
     # ==========================================
-    # SCENE 10. 마지막 괴물 정화
+    # SCENE 10. Break the last monster's curse
     # ==========================================
 
-    n "시계 괴물의 몸을 감싸고 있던 검은 기운이 사라진다."
-    n "멈춰 있던 시곗바늘이 다시 천천히 움직이기 시작한다."
+    n "The darkness around the Clock Monster disappears."
+    n "The clock hands slowly start moving again."
 
-    ch2_clock "고맙다. 너희 덕분에 정신이 들었어."
+    ch2_clock "Thank you. You've helped me come to my senses."
 
-    ghost "해냈어! 이 층의 괴물들을 모두 도와줬어!"
-    mc "정말 다행이야!"
+    ghost "You did it! You helped every monster on this floor!"
+    mc "I'm so glad!"
 
-    n "시계 괴물이 옆으로 비켜서자 굳게 닫혀 있던 문이 열린다."
+    n "The Clock Monster moves aside, and the door swings open."
 
-    ch2_clock "저 문 너머로 가면 위층에 올라갈 수 있을 거야."
-    ch2_clock "하지만 조심하렴. 위층의 저주는 훨씬 강하단다."
+    ch2_clock "Go through that door and you'll be able to reach the next floor."
+    ch2_clock "But be careful. The curse is much stronger up there."
 
-    mc "알겠어! 꼭 다른 친구들도 도와줄게!"
+    mc "Got it! I'll make sure to help the others too!"
 
-    n "시계 괴물은 마지막 인사를 남기고 부드러운 빛 속으로 사라진다."
+    n "The Clock Monster says goodbye and disappears into a soft light."
+    $ play_scene_music(scene_ch2_corridor_music, volume=scene_corridor_volume)
 
-    ghost "와! 문이 열렸어!"
-    mc "저 안에 엘리베이터가 있어!"
+    ghost "Wow! The door opened!"
+    mc "There's an elevator inside!"
 
     $ cleared_monsters.add((2, 3))
     call progress_autosave from ch2_m3_autosaved
-    # ch2_finish로 이동
+    # Go to ch2_finish
 
-    # [임시 테스트] Chapter 2 종료 장면으로 이동
+    # [Temporary test] Go to the Chapter 2 ending
     jump ch2_finish
 
 
 # ==================================================
-# CHAPTER 2. 성공 엔딩
+# CHAPTER 2. Victory ending
 # ==================================================
 
 label ch2_finish:
 
     # ==========================================
-    # SCENE 11. 다음 층으로
+    # SCENE 11. On to the next floor
     # ==========================================
 
-    n "주인공과 작은 유령은 엘리베이터에 올라탄다."
-    n "엘리베이터 문이 천천히 닫히기 시작한다."
+    n "Our hero and Little Ghost step into the elevator."
+    n "The elevator doors slowly begin to close."
 
     # --------------------------------------------------
     $ completed_chapters.add(2)
+    $ unlock_chapter(2)
     $ current_chapter = 3
     call progress_autosave from ch2_completion_autosaved
-    # Chapter 3 연결
+    # Continue to Chapter 3
     # --------------------------------------------------
 
+    call show_chapter_end("images/chapter_end/chapter2.png") from ch2_end_card_done
     jump chapter3
 

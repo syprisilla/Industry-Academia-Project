@@ -23,8 +23,8 @@ screen ui_s_assessment(record_action=None):
                 ypos 26
                 spacing 8
 
-                text "초기 발음 평가" style "intro_ch1_caption" xalign 0.5 size 36
-                text "아래 글자를 천천히 말해 주세요." style "intro_ch1_text" xalign 0.5 size 30
+                text "Sound Check" style "intro_ch1_caption" xalign 0.5 size 36
+                text "Say the sound below slowly." style "intro_ch1_text" xalign 0.5 size 30
 
                 fixed:
                     xysize (310, 126)
@@ -55,12 +55,12 @@ screen ui_s_assessment(record_action=None):
                 xalign 0.5
                 ypos 708
                 if syllable_index < total_syllables - 1:
-                    use intro_ch1_button("다음 음절", "next", [
+                    use intro_ch1_button("Next Sound", "next", [
                         SetScreenVariable("ui_record_state", "ready"),
                         SetScreenVariable("syllable_index", syllable_index + 1),
                     ])
                 else:
-                    use intro_ch1_button("평가 마치기", "continue", [
+                    use intro_ch1_button("Finish", "continue", [
                         Function(do_syll_select),
                         SetScreenVariable("phase", "result"),
                     ])
@@ -76,25 +76,29 @@ screen ui_s_assessment(record_action=None):
                 xalign 0.5
                 spacing 24
 
+
                 if syll_result.get("status") == "ok":
 
                     # best/worst 두 글자 + 라벨이 그려진 PNG 한 장
+
                     add im.Image(syll_result["image"]):
                         xysize (760, 420)
                         fit "contain"
                         xalign 0.5
 
-                    use intro_ch1_button("확인", "continue",
+
+                    use intro_ch1_button("OK", "continue",
                         Return((syll_result.get("best"), syll_result.get("worst"))),
                         width=200, height=70)
 
                 else:
                     # 유효 글자 부족 / 다 폴백 → 처음부터 재녹음
-                    text "정확하게 들은 글자가 부족해요." style "intro_ch1_caption" xalign 0.5 size 34
-                    text "처음부터 다시 해볼게요." style "intro_ch1_text" xalign 0.5 size 26
+                    text "The characters I heard are not quite complete" style "intro_ch1_caption" xalign 0.5 size 34
+                    text "restart from first" style "intro_ch1_text" xalign 0.5 size 26
 
-                    use intro_ch1_button("처음부터 다시", "record", [
+                    use intro_ch1_button("restart from first", "record", [
                         SetScreenVariable("syllable_index", 0),
                         SetScreenVariable("ui_record_state", "ready"),
                         SetScreenVariable("phase", "record"),
                     ], width=280, height=70)
+

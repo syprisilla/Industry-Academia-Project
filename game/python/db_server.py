@@ -37,5 +37,5 @@ class DBHandler(BaseHTTPRequestHandler):
 
 
 server = HTTPServer(("127.0.0.1", 8765), DBHandler)
-print("SQLite 연결 서버 실행 중")
+print("SQLite connection server is running")
 server.serve_forever()

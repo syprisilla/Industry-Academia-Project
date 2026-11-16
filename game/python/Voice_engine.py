@@ -1,13 +1,13 @@
-"""Ren'Py(또는 exe)가 부르는 단일 창구. 반환값은 모두 JSON 으로 바꿀 수 있는 dict.
+"""Entry point for Ren'Py and the executable. Returns JSON-serializable dictionaries.
 
-주요 함수
-    run_mic_test()                      마이크 테스트
-    record_and_analyze(path, sec)       녹음 -> 분석 (지표까지)
-    record_judge_visualize(out_dir)     녹음 -> 분석 -> 판정 -> 게이지 이미지 -> 피드백 (한 번에)
-    analyze_file(path)                  이미 있는 WAV 분석 (테스트용)
+Main functions
+    run_mic_test()                      Check the mic
+    record_and_analyze(path, sec)       Record and extract features
+    record_judge_visualize(out_dir)     Record, analyze, score, draw gauges, and give feedback
+    analyze_file(path)                  Analyze an existing WAV file for testing
 
-exe 로 묶으면 (PyInstaller) 이 파일이 진입점.  예:
-    voice_engine.exe run OUT_DIR [SEC]     # 녹음부터 이미지까지
+This is the PyInstaller entry point. For example:
+    voice_engine.exe run OUT_DIR [SEC]     # Record and render gauges
     voice_engine.exe mic-test
     voice_engine.exe devices
 """
@@ -17,7 +17,7 @@ import json
 import sys
 from pathlib import Path
 
-try:  # 패키지로 import 될 때 / 같은 폴더에서 실행될 때 둘 다 지원
+try:  # Support package imports and running directly from this directory.
     from .Audio_recording import list_input_devices, mic_test, record
     from .Pronunciation_analysis import analyze, save_debug_plot
     from . import Judge as judge_mod
@@ -33,12 +33,12 @@ except ImportError:
 SYLLABLES = ("시", "세", "사", "서", "소", "수", "스")
 
 def _data_dir() -> Path:
-    """data 폴더 위치. exe(frozen)면 exe 폴더 기준, 아니면 이 파일 기준."""
+    """Locate data relative to the executable when frozen or this file otherwise."""
     if getattr(sys, "frozen", False):
         # onedir exe: game/python/voice_engine/voice_engine.exe -> game/data
         base = Path(sys.executable).resolve().parent.parent.parent
     else:
-        # 스크립트: game/python/Voice_engine.py -> game/data
+        # Script layout: game/python/Voice_engine.py -> game/data
         base = Path(__file__).resolve().parent.parent
     return base / "data"
 
@@ -52,7 +52,7 @@ def record_and_analyze(wav_path, seconds: float = 3.0, device=None, capture=None
     rec = record(wav_path, seconds=seconds, device=device, **kwargs)
     if not rec["ok"]:
         return {"status": "unmeasurable", "reason": rec["status"], "message": rec["message"]}
-    if rec["status"] in ("clipping", "too_quiet"):   # 소리가 찌그러졌거나 너무 작으면 분석하지 않는다
+    if rec["status"] in ("clipping", "too_quiet"):   # Skip analysis for clipped or quiet audio.
         return {"status": "unmeasurable", "reason": rec["status"], "message": rec["message"],
                 "recording": rec["report"]}
     result = analyze(wav_path)
@@ -65,10 +65,10 @@ def analyze_file(wav_path) -> dict:
 
 
 def record_judge_visualize(out_dir, seconds: float = 3.0, device=None, capture=None, make_plot=False) -> dict:
-    """녹음 -> 분석 -> 판정 -> 게이지 이미지 -> 피드백 까지 한 번에.
+    """Record, analyze, score, render gauges, and give feedback in one call.
 
-    out_dir 에 녹음(rec.wav)과 게이지 PNG 들을 저장한다.
-    반환 JSON 에 판정 결과, 게이지 이미지 경로, 피드백 문구가 들어 있다.
+    Save rec.wav and the gauge PNGs in out_dir.
+    Return the score, gauge image paths, and feedback in JSON.
     """
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -76,10 +76,10 @@ def record_judge_visualize(out_dir, seconds: float = 3.0, device=None, capture=N
 
     result = record_and_analyze(wav_path, seconds=seconds, device=device, capture=capture)
 
-    # 분석이 안 되면(측정 불가 등) 판정/게이지 없이 그대로 돌려준다
+    # Return analysis errors without scoring or generating gauges.
     if result.get("status") != "ok":
         result["success"] = None
-        result["feedback"] = "소리를 잘 듣지 못했어요. 다시 말해 볼까요?"
+        result["feedback"] = "We couldn't hear you clearly. Want to try again?"
         result["gauges"] = {}
         return result
 
@@ -95,12 +95,12 @@ def record_judge_visualize(out_dir, seconds: float = 3.0, device=None, capture=N
     return result
 
 def record_try(word: str = "사과", seconds: float = 3.0, device=None, capture=None) -> dict:
-    """try_record.py 와 같은 동작: 녹음->분석->스펙트럼/분리음성->판정->게이지->word.json.
+    """Match try_record.py: record, analyze, extract the segment, score, and write word.json.
 
-    저장 위치:
-      녹음 원본 + 분리음성 -> data/recordings/
-      스펙트럼 + 게이지    -> data/out/
-      분석 지표 JSON       -> data/word.json (덮어쓰기)
+    Output locations:
+      Original recording and extracted segment -> data/recordings/
+      Spectrum plot and gauges                 -> data/out/
+      Analysis features                        -> data/word.json (overwritten)
     """
     import json
     from datetime import datetime
@@ -118,7 +118,7 @@ def record_try(word: str = "사과", seconds: float = 3.0, device=None, capture=
     if result.get("status") != "ok":
         payload = {"word": word, "timestamp": datetime.now().isoformat(timespec="seconds"),
                    "status": result.get("status"), "reason": result.get("reason"),
-                   "success": None, "feedback": "소리를 잘 듣지 못했어요. 다시 말해 볼까요?"}
+                   "success": None, "feedback": "We couldn't hear you clearly. Want to try again?"}
         word_json.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
         result["success"] = None
         result["word_json"] = str(word_json)
@@ -126,7 +126,7 @@ def record_try(word: str = "사과", seconds: float = 3.0, device=None, capture=
 
     est = result.get("segment_estimated", False)
     save_debug_plot(wav, result, out_dir / "spectrum.png")
-    # 분리 음성 -> recordings
+    # Save the extracted segment in recordings.
     from Pronunciation_analysis import save_segment_clip
     save_segment_clip(wav, result, rec_dir / "fric.wav")
 
@@ -156,7 +156,7 @@ def record_try(word: str = "사과", seconds: float = 3.0, device=None, capture=
 
 def syll_record(syllable: str, order: int, seconds: float = 3.0,
                 device=None, capture=None) -> dict:
-    """음절 하나 녹음·분석 후 syllable_data.json 에 누적한다."""
+    """Record and analyze one sound and save it in syllable_data.json."""
     import json
     from datetime import datetime
 
@@ -179,7 +179,7 @@ def syll_record(syllable: str, order: int, seconds: float = 3.0,
         entry["status"] = result.get("status")
         entry["reason"] = result.get("reason")
 
-    # 기존 누적 읽어서 같은 글자(order) 있으면 교체, 없으면 추가
+    # Replace an existing entry with this order or append a new one.
     records = []
     if data_json.exists():
         try:
@@ -205,6 +205,7 @@ def syll_select(reset: bool = True) -> dict:
     """
     import json, random
 
+
     data_dir = _data_dir()
     out_dir = data_dir / "out"
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -212,8 +213,11 @@ def syll_select(reset: bool = True) -> dict:
     result_json = data_dir / "syllable_result.json"
 
     if not data_json.exists():
-        return {"status": "no_data", "message": "녹음 데이터가 없습니다."}
+        return {"status": "no_data", "message": "There are no recordings."}
     records = json.loads(data_json.read_text(encoding="utf-8"))
+
+
+    # Sum the z-scores for Judge.USED_FEATURES.
 
     ref = judge_mod.REFERENCE
     used = judge_mod.USED_FEATURES
@@ -223,7 +227,9 @@ def syll_select(reset: bool = True) -> dict:
     excluded = []
     for r in records:
         syl = r.get("syllable")
+
         if r.get("status") != "ok":
+
             excluded.append(syl)
             continue
         if r.get("segment_estimated"):
@@ -242,10 +248,11 @@ def syll_select(reset: bool = True) -> dict:
         else:
             excluded.append(syl)
 
+
     valid_count = len(scores) + len(fallback_syls)
     if not scores or valid_count < 2:
         return {"status": "no_candidate",
-                "message": "다시 평가해 주세요.",
+                "message": "Please re-evaluate",
                 "scores": scores, "fallback": fallback_syls, "excluded": excluded}
 
     best = min(scores, key=scores.get)
@@ -257,6 +264,7 @@ def syll_select(reset: bool = True) -> dict:
         other = {s: z for s, z in scores.items() if s != best}
         worst = max(other, key=other.get) if other else best
 
+
     img_path = out_dir / "selected_syllable.png"
     _draw_syllable_image(best, worst, img_path)
 
@@ -265,19 +273,26 @@ def syll_select(reset: bool = True) -> dict:
            "image": str(img_path).replace("\\", "/")}
     result_json.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    if reset:
+
+    if reset:   # Clear accumulated data for the next assessment.
+
         data_json.unlink(missing_ok=True)
     return out
 
 
 
 
+
 def _draw_syllable_image(best: str, worst: str, out_png) -> None:
-    """두 글자(정확도 높은/낮은)를 라벨과 함께 PNG 한 장으로 그린다."""
+    """Draw the selected sound in large type on a transparent PNG."""
+
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     import matplotlib.patheffects as pe
+
+    # Use the same Hangul font as Gauge.
+
     try:
         from Gauge import _ensure_font
         fam = _ensure_font()
@@ -314,29 +329,29 @@ if __name__ == "__main__":
         out = record_and_analyze(sys.argv[2], float(sys.argv[3]) if len(sys.argv) > 3 else 3.0)
     elif cmd == "analyze":
         out = analyze_file(sys.argv[2])
-    elif cmd == "run":   # 녹음부터 이미지까지 (exe 기본 사용)
+    elif cmd == "run":   # Record and render gauges (default executable workflow).
         out_dir = sys.argv[2] if len(sys.argv) > 2 else "out"
         sec = float(sys.argv[3]) if len(sys.argv) > 3 else 3.0
         out = record_judge_visualize(out_dir, seconds=sec)
-    elif cmd == "try":   # 녹음부터 word.json 까지 (렌파이가 부르는 기본)
+    elif cmd == "try":   # Record and write word.json for Ren'Py.
         word = sys.argv[2] if len(sys.argv) > 2 else "사과"
         sec = float(sys.argv[3]) if len(sys.argv) > 3 else 3.0
         out = record_try(word, seconds=sec)
-    elif cmd == "syll-record":   # 음절 하나 녹음·누적:  syll-record 글자 순번 [초]
+    elif cmd == "syll-record":   # Record and store one sound: syll-record SOUND ORDER [SECONDS].
         syl = sys.argv[2]
         order = int(sys.argv[3])
         sec = float(sys.argv[4]) if len(sys.argv) > 4 else 3.0
         out = syll_record(syl, order, seconds=sec)
-    elif cmd == "syll-select":   # 7개에서 최고 선정 + 글자 이미지
+    elif cmd == "syll-select":   # Pick the best of seven sounds and render it.
         out = syll_select()
-    elif cmd == "judge":          # 3단계: 이미 있는 WAV -> 분석 + 판정 (JSON만)
+    elif cmd == "judge":          # Stage 3: analyze and score an existing WAV (JSON only).
         result = analyze_file(sys.argv[2])
         if result.get("status") == "ok":
             result["judge"] = judge_mod.judge(result["features"], result.get("segment_estimated", False))
             result["success"] = result["judge"]["success"]
             result["feedback"] = feedback_mod.feedback(result["judge"])
         out = result
-    elif cmd == "visualize":      # 4단계: 이미 있는 WAV -> 판정 + 게이지 이미지
+    elif cmd == "visualize":      # Stage 4: score an existing WAV and render gauges.
         out_dir = sys.argv[3] if len(sys.argv) > 3 else "out"
         result = analyze_file(sys.argv[2])
         if result.get("status") == "ok":
