@@ -198,8 +198,13 @@ def syll_record(syllable: str, order: int, seconds: float = 3.0,
 
 
 def syll_select(reset: bool = True) -> dict:
-    """Choose the sound with the lowest total z-score and render it as an image."""
-    import json
+    """7개에서 best(가장 정확) + worst(가장 부정확) 선정.
+    best: 정상 분석 중 z-score 합 최소.
+    worst: 폴백(마찰음 약함) 중 랜덤, 폴백 없으면 z-score 합 최대.
+    best 후보가 없거나 유효 글자가 2개 미만이면 no_candidate(재녹음 유도).
+    """
+    import json, random
+
 
     data_dir = _data_dir()
     out_dir = data_dir / "out"
@@ -211,20 +216,27 @@ def syll_select(reset: bool = True) -> dict:
         return {"status": "no_data", "message": "There are no recordings."}
     records = json.loads(data_json.read_text(encoding="utf-8"))
 
+
     # Sum the z-scores for Judge.USED_FEATURES.
+
     ref = judge_mod.REFERENCE
     used = judge_mod.USED_FEATURES
 
-    scores, excluded = {}, []
+    scores = {}
+    fallback_syls = []
+    excluded = []
     for r in records:
         syl = r.get("syllable")
-        # Exclude failed analyses and estimated segments from selection.
-        if r.get("status") != "ok" or r.get("segment_estimated"):
+
+        if r.get("status") != "ok":
+
             excluded.append(syl)
             continue
+        if r.get("segment_estimated"):
+            fallback_syls.append(syl)
+            continue
         feats = r.get("features", {})
-        z = 0.0
-        ok = True
+        z, ok = 0.0, True
         for f in used:
             if f not in feats or feats[f] is None:
                 ok = False
@@ -236,31 +248,51 @@ def syll_select(reset: bool = True) -> dict:
         else:
             excluded.append(syl)
 
-    if not scores:
-        return {"status": "no_candidate", "message": "There are no sounds to choose from.",
-                "excluded": excluded}
 
-    selected = min(scores, key=scores.get)   # The lowest total z-score is the best match.
+    valid_count = len(scores) + len(fallback_syls)
+    if len(scores) < 2:
+        return {"status": "no_candidate",
+                "message": "Please re-evaluate",
+                "scores": scores, "fallback": fallback_syls, "excluded": excluded}
+
+    best = min(scores, key=scores.get)
+
+    worst_pool = [s for s in fallback_syls if s != best]
+    if worst_pool:
+        worst = random.choice(worst_pool)
+    else:
+        other = {s: z for s, z in scores.items() if s != best}
+        worst = max(other, key=other.get) if other else best
+
+
     img_path = out_dir / "selected_syllable.png"
-    _draw_syllable_image(selected, img_path)
+    _draw_syllable_image(best, worst, img_path)
 
-    out = {"status": "ok", "selected": selected,
-           "image": str(img_path).replace("\\", "/"),
-           "scores": scores, "excluded": excluded}
+    out = {"status": "ok",
+           "best": best, "worst": worst,
+           "image": str(img_path).replace("\\", "/")}
     result_json.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
 
+
     if reset:   # Clear accumulated data for the next assessment.
+
         data_json.unlink(missing_ok=True)
     return out
 
 
-def _draw_syllable_image(syllable: str, out_png) -> None:
+
+
+
+def _draw_syllable_image(best: str, worst: str, out_png) -> None:
     """Draw the selected sound in large type on a transparent PNG."""
+
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     import matplotlib.patheffects as pe
+
     # Use the same Hangul font as Gauge.
+
     try:
         from Gauge import _ensure_font
         fam = _ensure_font()
@@ -269,11 +301,23 @@ def _draw_syllable_image(syllable: str, out_png) -> None:
     except Exception:
         pass
 
-    fig, ax = plt.subplots(figsize=(4, 4), dpi=100)
-    ax.axis("off")
-    txt = ax.text(0.5, 0.5, syllable, ha="center", va="center",
-            fontsize=200, color="#FFFFFF")
-    txt.set_path_effects([pe.withStroke(linewidth=8, foreground="#241D35")])
+    fig, axes = plt.subplots(1, 2, figsize=(10, 5), dpi=100)
+    fig.subplots_adjust(wspace=0.6)
+    for ax, syl, label in ((axes[0], best, "Highest accuracy syllable"),
+                           (axes[1], worst, "Lowest accuracy syllable")):
+        ax.axis("off")
+        ax.add_patch(plt.Rectangle((0.08, 0.30), 0.84, 0.62, fill=False,
+                                    edgecolor="#FFFFFF", linewidth=3))
+        # 글자는 네모 안에 들어오도록 약간 작게
+        t = ax.text(0.5, 0.61, syl, ha="center", va="center",
+                    fontsize=95, color="#342743")
+        t.set_path_effects([pe.withStroke(linewidth=4, foreground="#FFFFFF")])
+        # 라벨은 네모 아래, 작게
+        lbl = ax.text(0.5, 0.12, label, ha="center", va="center",
+                      fontsize=17, color="#342743", fontweight="bold")
+        lbl.set_path_effects([pe.withStroke(linewidth=3, foreground="#FFFFFF")])
+        ax.set_xlim(0, 1); ax.set_ylim(0, 1)
+
     fig.savefig(str(out_png), dpi=100, transparent=True, bbox_inches="tight")
     plt.close(fig)
 

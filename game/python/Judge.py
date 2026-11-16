@@ -22,6 +22,7 @@ REFERENCE = {
     "kurtosis":    {"mean": 7.2, "std": 3.04, "label": "Kurtosis"},
     "duration_ms": {"mean": 98.75, "std": 13.27, "label": "Frication duration"},
     "norm_energy": {"mean": 0.01, "std": 0.01, "label": "Normalized energy"},
+
 }
 
 # Draw the axis over mean ± GAUGE_SPAN_SD so the target range is centered.

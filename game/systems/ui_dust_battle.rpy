@@ -180,7 +180,7 @@ screen ui_dust_word(word, training=False):
                             for feat in ("cog_hz", "sd_hz"):
                                 if feat in ui_voice["gauges"]:
                                     add im.Image(ui_voice["gauges"][feat]):
-                                        xysize (360, 142)
+                                        xysize (500, 200)  
                                         fit "contain"
 
                     text ui_voice["feedback"]:
