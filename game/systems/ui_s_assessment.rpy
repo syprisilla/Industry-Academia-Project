@@ -7,7 +7,7 @@ screen ui_s_assessment(record_action=None):
     default phase = "record"
     default syll_result = {"status": None, "selected": None, "image": ""}
 
-    $ syllables = ("시", "세", "사", "서", "소", "수", "스")
+    $ syllables = ("Si", "Se", "Sa", "Seo", "So", "Su", "Seu")
     $ total_syllables = len(syllables)
 
     if phase == "record":
@@ -68,23 +68,33 @@ screen ui_s_assessment(record_action=None):
     else:
 
         fixed:
-            xysize (700, 500)
+            xysize (900, 560)
             xalign 0.5
             ypos 120
 
             vbox:
                 xalign 0.5
-                spacing 20
+                spacing 24
 
-                if syll_result.get("selected"):
-                    text "가장 정확하게 발음한 글자예요!" style "intro_ch1_caption" xalign 0.5 size 34
+                if syll_result.get("status") == "ok":
+
+                    # best/worst 두 글자 + 라벨이 그려진 PNG 한 장
                     add im.Image(syll_result["image"]):
-                        xysize (300, 300)
+                        xysize (760, 420)
                         fit "contain"
                         xalign 0.5
-                    text syll_result["selected"] style "intro_ch1_text" xalign 0.5 size 60 bold True
-                else:
-                    text "선정할 글자를 찾지 못했어요. 다시 평가해 주세요." style "intro_ch1_text" xalign 0.5 size 30
 
-                use intro_ch1_button("확인", "continue", Return(syll_result.get("selected")),
-                    width=200, height=70)
+                    use intro_ch1_button("확인", "continue",
+                        Return((syll_result.get("best"), syll_result.get("worst"))),
+                        width=200, height=70)
+
+                else:
+                    # 유효 글자 부족 / 다 폴백 → 처음부터 재녹음
+                    text "정확하게 들은 글자가 부족해요." style "intro_ch1_caption" xalign 0.5 size 34
+                    text "처음부터 다시 해볼게요." style "intro_ch1_text" xalign 0.5 size 26
+
+                    use intro_ch1_button("처음부터 다시", "record", [
+                        SetScreenVariable("syllable_index", 0),
+                        SetScreenVariable("ui_record_state", "ready"),
+                        SetScreenVariable("phase", "record"),
+                    ], width=280, height=70)

@@ -74,8 +74,8 @@ def draw_gauge(per_feature_item: dict, out_png, width_px: int = 760, height_px: 
     ax.plot([mx, mx], [y - h / 2 - 0.08, y + h / 2 + 0.14], color=_MARK, lw=6, solid_capstyle="round")
     ax.plot([mx], [y + h / 2 + 0.16], marker="o", color=_MARK, markersize=11)
     # 라벨
-    ax.text(mx, y - h / 2 - 0.18, "내 발음", color=_MARK, ha="center", va="top", fontsize=15, fontweight="bold")
-    ax.text(x0 + w / 2, y - h / 2 - 0.42, "목표 범위", color="#3B7A57", ha="center", va="top", fontsize=15, fontweight="bold")
+    ax.text(mx, y - h / 2 - 0.18, "User Pronunciation", color=_MARK, ha="center", va="top", fontsize=15, fontweight="bold")
+    ax.text(x0 + w / 2, y - h / 2 - 0.42, "Target Range", color="#3B7A57", ha="center", va="top", fontsize=15, fontweight="bold")
     ax.text(0.5, 0.95, per_feature_item["label"], ha="center", va="top", fontsize=13, color="white")
 
     out_png = Path(out_png)

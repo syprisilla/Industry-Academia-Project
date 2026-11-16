@@ -16,8 +16,8 @@ RANGE_SD = 1.5
 # 지표별 기준값 (mean, std) — 임시값. Han et al.(2024) 정조음 표를 참고로 넣어둠.
 
 REFERENCE = {
-    "cog_hz":      {"mean": 9096.04, "std": 445.55, "label": "무게중심"},
-    "sd_hz":       {"mean": 2800.68, "std": 350.0, "label": "분산"},
+    "cog_hz":      {"mean": 9096.04, "std": 445.55, "label": "Center of gravity"},
+    "sd_hz":       {"mean": 2800.68, "std": 350.0, "label": "Variance"},
     "skewness":    {"mean": 2.08, "std": 0.37, "label": "왜도"},
     "kurtosis":    {"mean": 7.2, "std": 3.04, "label": "첨도"},
     "duration_ms": {"mean": 98.75, "std": 13.27, "label": "마찰 지속시간"},

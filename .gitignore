@@ -82,3 +82,4 @@ game/python/*_fric.wav
 game/python/*_spec.png
 game/data/word.json
 game/data/syllable_result.json
+game/data/syllable_data.json

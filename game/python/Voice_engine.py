@@ -198,8 +198,12 @@ def syll_record(syllable: str, order: int, seconds: float = 3.0,
 
 
 def syll_select(reset: bool = True) -> dict:
-    """syllable_data.json 의 7개에서 z-score 합 최소 글자 선정 + 글자 이미지 생성."""
-    import json
+    """7개에서 best(가장 정확) + worst(가장 부정확) 선정.
+    best: 정상 분석 중 z-score 합 최소.
+    worst: 폴백(마찰음 약함) 중 랜덤, 폴백 없으면 z-score 합 최대.
+    best 후보가 없거나 유효 글자가 2개 미만이면 no_candidate(재녹음 유도).
+    """
+    import json, random
 
     data_dir = _data_dir()
     out_dir = data_dir / "out"
@@ -211,20 +215,22 @@ def syll_select(reset: bool = True) -> dict:
         return {"status": "no_data", "message": "녹음 데이터가 없습니다."}
     records = json.loads(data_json.read_text(encoding="utf-8"))
 
-    # z-score 합 계산 (판정에 쓰는 지표 = Judge.USED_FEATURES)
     ref = judge_mod.REFERENCE
     used = judge_mod.USED_FEATURES
 
-    scores, excluded = {}, []
+    scores = {}
+    fallback_syls = []
+    excluded = []
     for r in records:
         syl = r.get("syllable")
-        # 분석 실패 or 폴백(마찰음 약함)은 후보 제외
-        if r.get("status") != "ok" or r.get("segment_estimated"):
+        if r.get("status") != "ok":
             excluded.append(syl)
             continue
+        if r.get("segment_estimated"):
+            fallback_syls.append(syl)
+            continue
         feats = r.get("features", {})
-        z = 0.0
-        ok = True
+        z, ok = 0.0, True
         for f in used:
             if f not in feats or feats[f] is None:
                 ok = False
@@ -236,31 +242,42 @@ def syll_select(reset: bool = True) -> dict:
         else:
             excluded.append(syl)
 
-    if not scores:
-        return {"status": "no_candidate", "message": "선정 가능한 글자가 없습니다.",
-                "excluded": excluded}
+    valid_count = len(scores) + len(fallback_syls)
+    if not scores or valid_count < 2:
+        return {"status": "no_candidate",
+                "message": "다시 평가해 주세요.",
+                "scores": scores, "fallback": fallback_syls, "excluded": excluded}
 
-    selected = min(scores, key=scores.get)   # z 합 최소 = 가장 정확
+    best = min(scores, key=scores.get)
+
+    worst_pool = [s for s in fallback_syls if s != best]
+    if worst_pool:
+        worst = random.choice(worst_pool)
+    else:
+        other = {s: z for s, z in scores.items() if s != best}
+        worst = max(other, key=other.get) if other else best
+
     img_path = out_dir / "selected_syllable.png"
-    _draw_syllable_image(selected, img_path)
+    _draw_syllable_image(best, worst, img_path)
 
-    out = {"status": "ok", "selected": selected,
-           "image": str(img_path).replace("\\", "/"),
-           "scores": scores, "excluded": excluded}
+    out = {"status": "ok",
+           "best": best, "worst": worst,
+           "image": str(img_path).replace("\\", "/")}
     result_json.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    if reset:   # 다음 평가를 위해 누적 데이터 비움
+    if reset:
         data_json.unlink(missing_ok=True)
     return out
 
 
-def _draw_syllable_image(syllable: str, out_png) -> None:
-    """선정된 글자를 큰 텍스트로 그린 투명 PNG 저장."""
+
+
+def _draw_syllable_image(best: str, worst: str, out_png) -> None:
+    """두 글자(정확도 높은/낮은)를 라벨과 함께 PNG 한 장으로 그린다."""
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     import matplotlib.patheffects as pe
-    # Gauge 와 같은 한글 폰트 사용
     try:
         from Gauge import _ensure_font
         fam = _ensure_font()
@@ -269,11 +286,20 @@ def _draw_syllable_image(syllable: str, out_png) -> None:
     except Exception:
         pass
 
-    fig, ax = plt.subplots(figsize=(4, 4), dpi=100)
-    ax.axis("off")
-    txt = ax.text(0.5, 0.5, syllable, ha="center", va="center",
-            fontsize=200, color="#FFFFFF")
-    txt.set_path_effects([pe.withStroke(linewidth=8, foreground="#241D35")])
+    fig, axes = plt.subplots(1, 2, figsize=(8, 4.6), dpi=100)
+    for ax, syl, label in ((axes[0], best, "Highest accuracy syllable"),
+                           (axes[1], worst, "Lowest accuracy syllable")):
+        ax.axis("off")
+        ax.add_patch(plt.Rectangle((0.2, 0.32), 0.6, 0.55, fill=False,
+                                    edgecolor="#FFFFFF", linewidth=3))
+        t = ax.text(0.5, 0.60, syl, ha="center", va="center",
+                    fontsize=120, color="#342743")
+        t.set_path_effects([pe.withStroke(linewidth=4, foreground="#FFFFFF")])
+        lbl = ax.text(0.5, 0.12, label, ha="center", va="center",
+                      fontsize=22, color="#342743", fontweight="bold")
+        lbl.set_path_effects([pe.withStroke(linewidth=3, foreground="#FFFFFF")])
+        ax.set_xlim(0, 1); ax.set_ylim(0, 1)
+
     fig.savefig(str(out_png), dpi=100, transparent=True, bbox_inches="tight")
     plt.close(fig)
 
