@@ -1,3 +1,17 @@
+init python:
+    def ui_assess_ghost(show):
+        # 실패 안내 동안 유령을 숨기고, 재시작하면 원래 위치·둥둥 효과로 되돌린다.
+        if show:
+            renpy.show("ui_ghost intro_explain", at_list=[ui_ghost_position, ghost_float])
+            renpy.transition(Dissolve(0.2), layer="master")
+        else:
+            renpy.hide("ui_ghost")
+
+    def ui_assess_finish():
+        do_syll_select()
+        if renpy.get_screen_variable("syll_result", screen="ui_s_assessment").get("status") != "ok":
+            ui_assess_ghost(False)
+
 screen ui_s_assessment(record_action=None):
 
     modal True
@@ -61,44 +75,67 @@ screen ui_s_assessment(record_action=None):
                     ])
                 else:
                     use intro_ch1_button("Finish", "continue", [
-                        Function(do_syll_select),
+                        Function(ui_assess_finish),
                         SetScreenVariable("phase", "result"),
                     ])
 
-    else:
+    elif syll_result.get("status") == "ok":
+
+        # best/worst 결과 카드 (시안: Sound Check Results)
+        text "Sound Check Results" style "intro_ch1_text" size 68 bold True xpos 852 xanchor 0.5 ypos 175 yanchor 0.5
 
         fixed:
-            xysize (900, 560)
+            xysize (868, 484)
+            xpos 852
+            xanchor 0.5
+            ypos 240
+            add intro_ch1_ui + "panel_assessment.png" xysize (868, 484) fit "fill" alpha 0.84
+
+            for i, (card, label, color, syl) in enumerate((
+                    ("card_clearest.png", "Clearest sound", "#8FE3C0", syll_result.get("best")),
+                    ("card_practice.png", "Sound to practice", "#C3BDF5", syll_result.get("worst")))):
+                fixed:
+                    xysize (380, 360)
+                    pos (45 + i * 398, 62)
+                    add intro_ch1_ui + card
+                    text label style "intro_ch1_text" color color size 34 bold True xalign 0.5 ypos 80 yanchor 0.5
+                    text syl style "intro_ch1_text" size 120 xalign 0.5 ypos 240 yanchor 0.5
+
+        fixed:
+            xysize (246, 64)
+            xpos 852
+            xanchor 0.5
+            ypos 778
+            use intro_ch1_button("Continue", "continue",
+                Return((syll_result.get("best"), syll_result.get("worst"))),
+                width=246, height=64)
+
+    else:
+
+        # 유효 글자 부족 / 다 폴백 → 처음부터 재녹음 (시안: Let's try again)
+        add Solid("#10152F88")
+
+        text "Sound Check" style "intro_ch1_text" size 68 bold True xalign 0.5 ypos 177 yanchor 0.5
+
+        fixed:
+            xysize (836, 470)
             xalign 0.5
-            ypos 120
+            ypos 243
+            add intro_ch1_ui + "panel_assessment.png" xysize (836, 470) fit "fill" alpha 0.84
 
-            vbox:
-                xalign 0.5
-                spacing 24
+            add intro_ch1_ui + "icon_ring.png" xysize (104, 104) xalign 0.5 ypos 122 yanchor 0.5
+            add intro_ch1_ui + "icon_microphone.png" xysize (64, 64) fit "contain" xalign 0.5 ypos 122 yanchor 0.5
+            text "Let’s try again" style "intro_ch1_text" color "#FFF1C4" size 60 bold True xalign 0.5 ypos 230 yanchor 0.5
+            text "We didn’t get enough clear recordings." style "intro_ch1_text" size 34 xalign 0.5 ypos 306 yanchor 0.5
+            text "Find a quiet spot and say each sound slowly." style "intro_ch1_caption" size 30 xalign 0.5 ypos 361 yanchor 0.5
 
-
-                if syll_result.get("status") == "ok":
-
-                    # best/worst 두 글자 + 라벨이 그려진 PNG 한 장
-
-                    add im.Image(syll_result["image"]):
-                        xysize (760, 420)
-                        fit "contain"
-                        xalign 0.5
-
-
-                    use intro_ch1_button("OK", "continue",
-                        Return((syll_result.get("best"), syll_result.get("worst"))),
-                        width=200, height=70)
-
-                else:
-                    # 유효 글자 부족 / 다 폴백 → 처음부터 재녹음
-                    text "The characters I heard are not quite complete" style "intro_ch1_caption" xalign 0.5 size 34
-                    text "restart from first" style "intro_ch1_text" xalign 0.5 size 26
-
-                    use intro_ch1_button("restart from first", "record", [
-                        SetScreenVariable("syllable_index", 0),
-                        SetScreenVariable("ui_record_state", "ready"),
-                        SetScreenVariable("phase", "record"),
-                    ], width=280, height=70)
-
+        fixed:
+            xysize (362, 64)
+            xalign 0.5
+            ypos 764
+            use intro_ch1_button("Restart Sound Check", "record", [
+                Function(ui_assess_ghost, True),
+                SetScreenVariable("syllable_index", 0),
+                SetScreenVariable("ui_record_state", "ready"),
+                SetScreenVariable("phase", "record"),
+            ], width=362, height=64)
