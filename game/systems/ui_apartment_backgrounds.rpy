@@ -1,4 +1,4 @@
-# 모든 아파트 배경은 같은 태그를 사용해 캐릭터 뒤에서 교체한다.
+# Apartment backgrounds share a tag so they can swap behind the characters.
 transform apartment_background:
     xysize (1920, 1080)
     fit "cover"

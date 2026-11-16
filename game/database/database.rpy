@@ -9,6 +9,6 @@ init python:
         )
 
         if not result.get("ok"):
-            raise Exception("DB 저장 실패")
+            raise Exception("Could not save to the database.")
 
         return result["player_id"]

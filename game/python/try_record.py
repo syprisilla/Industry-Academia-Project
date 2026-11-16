@@ -1,10 +1,10 @@
-"""실제 마이크로 한 번 녹음 -> 분석 -> 구간 분리(스펙트럼+WAV) -> 판정 -> 게이지 -> 피드백.
+"""Record from a real mic, analyze and extract frication, then score and give feedback.
 
-실행:  python try_record.py          (3초 녹음)
-       python try_record.py 4        (4초 녹음)
-출력:  녹음/분리음성 -> game/data/recordings/
-       스펙트럼/게이지 -> game/data/out/
-       분석 지표 JSON  -> game/data/word.json (덮어쓰기)
+Usage: python try_record.py          (record for 3 seconds)
+       python try_record.py 4        (record for 4 seconds)
+Outputs: recording and segment WAV -> game/data/recordings/
+         spectrum and gauges      -> game/data/out/
+         acoustic features        -> game/data/word.json (overwritten)
 """
 from __future__ import annotations
 
@@ -20,9 +20,9 @@ import Gauge as gauge_mod
 import Feedback as feedback_mod
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
-REC_DIR = DATA_DIR / "recordings"      # 녹음 원본 + 분리 음성
-OUT_DIR = DATA_DIR / "out"             # 스펙트럼 + 게이지
-WORD_JSON = DATA_DIR / "word.json"     # 분석 지표 (덮어쓰기)
+REC_DIR = DATA_DIR / "recordings"      # Recording and extracted segment
+OUT_DIR = DATA_DIR / "out"             # Spectrum and gauges
+WORD_JSON = DATA_DIR / "word.json"     # Acoustic features (overwritten)
 WORD = "사과"
 
 
@@ -31,60 +31,60 @@ def main(seconds: float = 3.0):
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     wav = REC_DIR / "rec.wav"
 
-    # 1) 녹음
-    print(f"\n● {seconds:.0f}초간 녹음합니다. '{WORD}' 라고 말하세요...")
+    # 1) Record
+    print(f"\n● Recording for {seconds:.0f} seconds. Say '{WORD}'...")
     rec = record(wav, seconds=seconds)
-    print(f"  녹음됨: {rec['message']}  (상태={rec['status']})")
+    print(f"  Recording: {rec['message']}  (status={rec['status']})")
     if not rec["ok"]:
-        print("  녹음 실패 — 마이크를 확인하세요.")
+        print("  Recording failed. Check your mic.")
         return
     if rec["status"] in ("clipping", "too_quiet", "noisy"):
-        print("  녹음 품질 문제로 분석을 건너뜁니다. 다시 녹음하세요.")
+        print("  Skipping analysis because of recording quality. Please record again.")
         return
 
-    # 2) 분석 (ㅅ 구간 탐색)
+    # 2) Analyze and locate the ㅅ segment
     result = analyze(wav)
-    print(f"\n● 분석 상태: {result['status']}  (이유={result.get('reason')})")
+    print(f"\n● Analysis status: {result['status']}  (reason={result.get('reason')})")
     if result["status"] != "ok":
-        print("  분석 불가 — 마찰구간을 찾지 못했고 추정도 실패했습니다.")
+        print("  Couldn't find or estimate the frication segment.")
         for w in result.get("warnings", []):
             print(f"  ⚠ {w}")
         return
 
     est = result.get("segment_estimated", False)
     seg = result["segment"]
-    print(f"  ㅅ 구간: {seg['start_s']*1000:.0f}~{seg['end_s']*1000:.0f} ms"
-          f"  {'(추정/폴백)' if est else '(정상 검출)'}")
+    print(f"  ㅅ segment: {seg['start_s']*1000:.0f}–{seg['end_s']*1000:.0f} ms"
+          f"  {'(estimated)' if est else '(detected)'}")
     for w in result.get("warnings", []):
         print(f"  ⚠ {w}")
 
-    # 3) 스펙트럼 PNG(out) + 구간 WAV(recordings) 생성
+    # 3) Save the spectrum PNG and segment WAV
     spec_png = OUT_DIR / "spectrum.png"
     fric_wav = REC_DIR / "fric.wav"
     save_debug_plot(wav, result, spec_png)
     save_segment_clip(wav, result, fric_wav)
-    print(f"\n● 구간 분리 자료 생성")
-    print(f"  스펙트럼: {spec_png}")
-    print(f"  구간 음성: {fric_wav}")
+    print(f"\n● Segment files created")
+    print(f"  Spectrum: {spec_png}")
+    print(f"  Segment audio: {fric_wav}")
 
-    # 4) 판정 + 피드백
+    # 4) Score and give feedback
     jr = judge_mod.judge(result["features"], est)
     fb = feedback_mod.feedback(jr)
-    print(f"\n● 판정: success={jr['success']}  (폴백={est})")
-    print(f"  피드백: {fb}")
-    print("  지표:")
+    print(f"\n● Score: success={jr['success']}  (estimated={est})")
+    print(f"  Feedback: {fb}")
+    print("  Features:")
     for f, p in jr["per_feature"].items():
-        mark = "○ 범위안" if p["in_range"] else f"✗ 범위밖({p['direction']})"
+        mark = "○ In range" if p["in_range"] else f"✗ Out of range ({p['direction']})"
         print(f"    {p['label']:<6} {p['value']:>9.1f}   {mark}"
-              f"   목표 {p['range_low']:.0f}~{p['range_high']:.0f}")
+              f"   target {p['range_low']:.0f}–{p['range_high']:.0f}")
 
-    # 5) 게이지 PNG(out)
+    # 5) Save gauge PNGs in out
     gauges = gauge_mod.draw_all(jr, OUT_DIR)
-    print(f"\n● 게이지 이미지")
+    print(f"\n● Gauge images")
     for f, path in gauges.items():
         print(f"  {f}: {path}")
 
-    # 6) 분석 지표 JSON -> word.json (덮어쓰기)
+    # 6) Write acoustic features to word.json, replacing the old file
     payload = {
         "word": WORD,
         "timestamp": datetime.now().isoformat(timespec="seconds"),
@@ -95,8 +95,8 @@ def main(seconds: float = 3.0):
         "feedback": fb,
     }
     WORD_JSON.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"\n● 지표 저장: {WORD_JSON}")
-    print(f"\n완료.\n")
+    print(f"\n● Features saved to {WORD_JSON}")
+    print(f"\nDone.\n")
 
 
 if __name__ == "__main__":

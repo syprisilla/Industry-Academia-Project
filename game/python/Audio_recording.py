@@ -1,9 +1,9 @@
-"""마이크 테스트 + 녹음 모듈 (PC 내장/외부 마이크).
+"""Microphone checks and recording for internal or external PC microphones.
 
-- sounddevice / soundfile 은 함수 안에서 import 한다 (PortAudio 가 없는 PC 에서도 모듈 import 는 되도록).
-- 모든 반환값은 JSON 으로 바꿀 수 있는 dict.
-- 아래 임계값(CLIP/MIN/SNR)은 '임시값' 이다. 실제 마이크로 녹음해 보며 조정할 것.
-- 윈도우에서는 '마이크 향상/오디오 향상' 을 끄고 녹음해야 /ㅅ/ 바람소리가 깎이지 않는다.
+- Import sounddevice and soundfile inside functions so this module loads without PortAudio.
+- All return values are JSON-serializable dictionaries.
+- CLIP, MIN, and SNR thresholds are provisional. Tune them with real microphone recordings.
+- On Windows, turn off microphone and audio enhancements to preserve the airy ㅅ sound.
 """
 from __future__ import annotations
 
@@ -11,17 +11,17 @@ from pathlib import Path
 
 import numpy as np
 
-DEFAULT_SR = 48000          # /ㅅ/ 고주파 대역을 담기 위해 48kHz 로 녹음
-CLIP_PEAK_DBFS = -1.0       # 이보다 크면 소리가 찌그러진 것으로 본다
-MIN_SPEECH_DBFS = -45.0     # 말하는 구간의 RMS 가 이보다 작으면 너무 작음
-MIN_SNR_DB = 20.0           # 말소리와 주변 소음의 차이가 이보다 작으면 소음이 큼
+DEFAULT_SR = 48000          # Capture the high frequencies of ㅅ at 48 kHz.
+CLIP_PEAK_DBFS = -1.0       # Peaks above this threshold count as clipping.
+MIN_SPEECH_DBFS = -45.0     # Speech RMS below this threshold is too quiet.
+MIN_SNR_DB = 20.0           # A smaller gap between speech and background means too much noise.
 
 _MESSAGES = {
-    "ok": "마이크 상태가 좋아요!",
-    "clipping": "소리가 너무 커요. 마이크에서 조금 떨어져 말해 볼까요?",
-    "too_quiet": "소리가 너무 작아요. 조금 더 크게 말해 볼까요?",
-    "noisy": "주변이 시끄러워요. 조용한 곳에서 다시 해 볼까요?",
-    "no_device": "마이크를 찾을 수 없어요. 마이크 연결을 확인해 주세요.",
+    "ok": "Your mic sounds great!",
+    "clipping": "That was too loud. Try moving a little farther from the mic.",
+    "too_quiet": "That was too quiet. Try speaking a little louder.",
+    "noisy": "It's noisy here. Try again somewhere quieter.",
+    "no_device": "We couldn't find your mic. Check that it's connected.",
 }
 
 
@@ -30,7 +30,7 @@ def _db(x: float) -> float:
 
 
 def list_input_devices() -> list[dict]:
-    """입력 가능한 오디오 장치 목록."""
+    """List audio input devices."""
     import sounddevice as sd
 
     devices = []
@@ -46,10 +46,10 @@ def list_input_devices() -> list[dict]:
 
 
 def _capture(seconds: float, sr: int, device=None):
-    """마이크에서 seconds 초 녹음 -> (float32 모노 배열, 실제 샘플레이트)."""
+    """Record for seconds and return a mono float32 array and the actual sample rate."""
     import sounddevice as sd
 
-    try:  # 장치가 48kHz 를 지원하지 않으면 장치 기본값으로 대체
+    try:  # Use the device default if it does not support 48 kHz.
         sd.check_input_settings(device=device, channels=1, samplerate=sr)
     except Exception:
         sr = int(sd.query_devices(device, "input")["default_samplerate"])
@@ -59,7 +59,7 @@ def _capture(seconds: float, sr: int, device=None):
 
 
 def level_report(x: np.ndarray, win_s: float = 0.05, sr: int = DEFAULT_SR) -> dict:
-    """녹음 레벨 요약: 최대치, 말소리 레벨, 소음 레벨, 둘의 차이(SNR)."""
+    """Summarize peak, speech level, noise level, and signal-to-noise ratio."""
     x = np.asarray(x, dtype=np.float64)
     w = max(1, int(win_s * sr))
     n = len(x) // w
@@ -67,8 +67,8 @@ def level_report(x: np.ndarray, win_s: float = 0.05, sr: int = DEFAULT_SR) -> di
         return {"peak_dbfs": _db(np.max(np.abs(x)) if len(x) else 0.0),
                 "speech_dbfs": -120.0, "noise_dbfs": -120.0, "snr_db": 0.0}
     rms = np.sqrt(np.mean(x[: n * w].reshape(n, w) ** 2, axis=1))
-    speech = float(np.percentile(rms, 95))   # 가장 큰 구간 = 말소리
-    noise = float(np.percentile(rms, 10))    # 가장 조용한 구간 = 주변 소음
+    speech = float(np.percentile(rms, 95))   # Loud windows represent speech.
+    noise = float(np.percentile(rms, 10))    # Quiet windows represent background noise.
     return {
         "peak_dbfs": _db(np.max(np.abs(x))),
         "speech_dbfs": _db(speech),
@@ -88,13 +88,13 @@ def judge_level(rep: dict) -> str:
 
 
 def mic_test(seconds: float = 2.0, sr: int = DEFAULT_SR, device=None, capture=_capture) -> dict:
-    """마이크 테스트. 처음 0.3초는 조용히, 이후에 "아~" 하고 말하게 안내할 것.
+    """Check the mic. Ask for silence for the first 0.3 s, then a sustained 아.
 
-    capture 인자는 테스트용(가짜 마이크를 넣을 수 있게).
+    The capture argument allows tests to inject a fake microphone.
     """
     try:
         x, sr_used = capture(seconds, sr, device)
-    except Exception as e:  # 장치 없음, 권한 거부 등
+    except Exception as e:  # Missing device, permission denied, and similar errors.
         return {"ok": False, "status": "no_device", "message": _MESSAGES["no_device"], "error": str(e)}
     rep = level_report(x, sr=sr_used)
     status = judge_level(rep)
@@ -103,7 +103,7 @@ def mic_test(seconds: float = 2.0, sr: int = DEFAULT_SR, device=None, capture=_c
 
 
 def record(path, seconds: float = 3.0, sr: int = DEFAULT_SR, device=None, capture=_capture) -> dict:
-    """seconds 초 녹음해서 WAV(16bit 모노)로 저장."""
+    """Record for seconds and save a 16-bit mono WAV file."""
     import soundfile as sf
 
     try:
