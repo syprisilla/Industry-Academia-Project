@@ -1,4 +1,4 @@
-# 발음 분석 결과창 (전투용) — 게이지 + 피드백
+# Battle pronunciation results with gauges and feedback.
 screen voice_result(data):
     modal True
 
@@ -13,7 +13,7 @@ screen voice_result(data):
             xalign 0.5
             spacing 24
 
-            # 폴백(마찰음 약함)이 아닐 때만 게이지
+            # Show gauges only when the frication segment was detected.
             if not data.get("segment_estimated"):
                 hbox:
                     xalign 0.5
@@ -29,6 +29,6 @@ screen voice_result(data):
                 size 32
                 color "#FFFFFF"
 
-            textbutton "확인":
+            textbutton "OK":
                 xalign 0.5
                 action Return()

@@ -1,64 +1,64 @@
 #chapter1
 # ==================================================
-# MONSTER 1. 먼지 괴물 성공 대사
+# MONSTER 1. Dust Monster Success dialogue
 # ==================================================
 
 label ch1_m1_success_1:
 
-    n "주인공의 목소리에서 반짝이는 빛이 뿜어져 나온다."
-    n "빛이 먼지 괴물에게 날아가 부딪힌다."
+    n "Sparkling light bursts from our hero's voice."
+    n "The light flies straight into the Dust Monster."
 
-    dust "으악! 이게 무슨 힘이야?!"
-    mc "우와! 진짜 공격이 됐어!"
+    dust "Aah! What kind of power is that?!"
+    mc "Wow! It really worked!"
     show ui_ghost intro_happy with Dissolve(0.2)
-    ghost "잘했어! 네 목소리의 힘이야!"
+    ghost "Nice work! That's the power of your voice!"
 
-    ghost "이제 두 번만 더 성공하면 돼!"
+    ghost "Just two more hits!"
 
     return
 
 
 label ch1_m1_success_2:
 
-    n "두 번째 빛이 먼지 괴물에게 날아간다."
-    n "괴물의 표정이 온화해진다."
+    n "A second flash of light shoots toward the Dust Monster."
+    n "The monster's angry face softens."
 
-    dust "으으... 내 몸이 작아지고 있어.."
+    dust "Ugh... I'm shrinking..."
     show ui_ghost intro_talk with Dissolve(0.2)
-    ghost "이제 한 번만 더 성공하면 돼!"
+    ghost "Just one more hit!"
 
     return
 
 
 label ch1_m1_success_3:
 
-    n "주인공의 목소리가 마지막 빛으로 변한다."
+    n "Our hero's voice turns into one last flash of light."
 
-    dust "으아아! 내 몸이...!"
-    mc "해냈어!"
+    dust "Aaaah! My body...!"
+    mc "I did it!"
     show ui_ghost intro_happy with Dissolve(0.2)
-    ghost "마지막 공격도 성공했어!"
+    ghost "That last hit worked too!"
 
     return
 
 
 # ==================================================
-# MONSTER 2. 메아리 괴물 성공 대사
+# MONSTER 2. Echo Monster Success dialogue
 # ==================================================
 
 label ch1_m2_success_1:
 
     $ play_scene_sound(scene_wave_sound)
-    n "주인공의 목소리가 빛으로 변해 메아리 괴물에게 날아간다."
+    n "Our hero's voice turns to light and flies toward the Echo Monster."
 
-    echo "으악! 내 메아리가 흔들리고 있어!"
-    mc "좋아! 이번에도 성공했어!"
+    echo "Aah! My echoes are wavering!"
+    mc "Yes! It worked again!"
     show ui_ghost intro_happy with Dissolve(0.2)
-    ghost "아주 좋아! 괴물의 힘이 약해지고 있어!"
+    ghost "Great job! The monster is getting weaker!"
 
-    echo "흥! 아직 끝난 게 아니야!"
+    echo "Hmph! This isn't over yet!"
 
-    ghost "우리도 계속해 보자!"
+    ghost "Let's keep going too!"
 
     return
 
@@ -66,15 +66,15 @@ label ch1_m2_success_1:
 label ch1_m2_success_2:
 
     $ play_scene_sound(scene_wave_sound)
-    n "두 번째 빛이 메아리 괴물에게 닿는다."
-    n "괴물 주변을 맴돌던 이상한 목소리들이 점점 작아진다."
+    n "A second flash of light reaches the Echo Monster."
+    n "The strange voices swirling around the monster grow quieter."
 
-    echo "안 돼! 내 목소리들이 사라지고 있어!"
-    mc "이번에도 맞혔어!"
+    echo "No! My voices are fading!"
+    mc "I hit it again!"
     show ui_ghost intro_talk with Dissolve(0.2)
-    ghost "잘하고 있어! 이제 한 번만 더 성공하면 돼."
+    ghost "Nice work! Just one more hit."
 
-    mc "마지막까지 힘내 볼게!"
+    mc "I'll give it my best right to the end!"
 
     return
 
@@ -82,35 +82,35 @@ label ch1_m2_success_2:
 label ch1_m2_success_3:
 
     $ play_scene_sound(scene_wave_sound)
-    n "마지막 빛이 메아리 괴물에게 날아간다."
-    n "괴물 주변에서 울리던 메아리가 한순간에 멈춘다."
+    n "The last flash of light flies toward the Echo Monster."
+    n "The echoes around the monster stop all at once."
 
-    echo "으아아! 내 메아리가...!"
-    mc "해냈다!"
+    echo "Aaaah! My echoes...!"
+    mc "I did it!"
     show ui_ghost intro_happy with Dissolve(0.2)
-    ghost "좋아! 이번에도 성공이야!"
+    ghost "Great! It worked again!"
 
     return
 
 
 # ==================================================
-# MONSTER 3. 그림자 괴물 성공 대사
+# MONSTER 3. Shadow Monster Success dialogue
 # ==================================================
 
 label ch1_m3_success_1:
 
     $ play_scene_sound(scene_wave_sound)
-    n "주인공의 목소리가 강한 빛으로 변한다."
-    n "빛이 그림자 괴물에게 날아가 부딪힌다."
+    n "Our hero's voice turns into a bright light."
+    n "The light shoots toward the Shadow Monster and hits it."
 
-    shadow "크윽! 이 빛은 무엇이냐!"
-    mc "성공했어!"
+    shadow "Urgh! What is this light?"
+    mc "It worked!"
     show ui_ghost intro_happy with Dissolve(0.2)
-    ghost "잘했어! 네 목소리가 저주를 약하게 만들고 있어!"
+    ghost "Nice work! Your voice is weakening the curse!"
 
-    shadow "하지만 아직 나를 지나갈 수는 없다!"
+    shadow "You still can't get past me!"
 
-    mc "그럼 한 번 더 해 볼게!"
+    mc "Then I'll try again!"
 
     return
 
@@ -118,15 +118,15 @@ label ch1_m3_success_1:
 label ch1_m3_success_2:
 
     $ play_scene_sound(scene_wave_sound)
-    n "두 번째 빛이 그림자 괴물에게 닿는다."
-    n "괴물의 몸을 감싸고 있던 어두운 그림자가 갈라지기 시작한다."
+    n "A second flash of light reaches the Shadow Monster."
+    n "The dark shadow wrapped around the monster starts to crack."
 
-    shadow "이럴 수가... 내 힘이 사라지고 있어!"
-    mc "거의 다 됐어!"
+    shadow "Impossible... My power is fading!"
+    mc "Almost there!"
     show ui_ghost intro_talk with Dissolve(0.2)
-    ghost "그래! 이제 한 번만 더 성공하면 돼!"
+    ghost "That's right! Just one more hit!"
 
-    mc "마지막 공격이야!"
+    mc "One last attack!"
 
     return
 
@@ -134,135 +134,135 @@ label ch1_m3_success_2:
 label ch1_m3_success_3:
 
     $ play_scene_sound(scene_wave_sound)
-    n "주인공의 목소리가 눈부신 빛으로 변한다."
-    n "빛이 그림자 괴물의 몸을 감싸며 어두운 기운을 몰아낸다."
+    n "Our hero's voice turns into a dazzling light."
+    n "The light wraps around the Shadow Monster and drives the darkness away."
 
-    shadow "으아아아! 저주가... 풀리고 있다!"
-    mc "해냈어! 마지막 공격도 성공이야!"
+    shadow "Aaaah! The curse... is breaking!"
+    mc "I did it! The last hit worked!"
     show ui_ghost intro_happy with Dissolve(0.2)
-    ghost "정말 잘했어!"
+    ghost "You did great!"
 
     return
 
 #chapter2
 # ==================================================
-# MONSTER 1. 속삭임 괴물 성공 대사
+# MONSTER 1. Whisper Monster Success dialogue
 # ==================================================
 label ch2_m1_success_1:
     $ play_scene_sound(scene_wave_sound)
 
-    n "주인공의 목소리가 빛으로 변해 괴물에게 날아간다."
+    n "Our hero's voice turns to light and flies toward the monster."
 
-    whisper "앗! 이게 무슨 빛이야?!"
-    mc "와! 공격에 성공했어!"
+    whisper "Hey! What's that light?!"
+    mc "Wow! The attack worked!"
 
-    ghost "잘했어! 괴물의 힘이 조금 약해졌어."
-    ghost "이제 두 번만 더 성공하면 돼!"
+    ghost "Nice work! The monster is a little weaker now."
+    ghost "Just two more hits!"
 
     return
 
 label ch2_m1_success_2:
     $ play_scene_sound(scene_wave_sound)
 
-    n "또 한 번 빛이 날아가 괴물을 감싼다."
+    n "Another flash of light flies out and wraps around the monster."
 
-    whisper "으악! 내 속삭임이 사라지고 있어!"
-    mc "조금만 더 하면 될 것 같아!"
+    whisper "Aah! My whispers are fading!"
+    mc "I think we're almost there!"
 
-    ghost "맞아! 이제 한 번만 더 성공하면 돼!"
-    ghost "끝까지 힘내 보자!"
+    ghost "That's right! Just one more hit!"
+    ghost "Keep it up to the very end!"
 
     return
 
 label ch2_m1_success_3:
     $ play_scene_sound(scene_wave_sound)
 
-    n "마지막 빛이 괴물에게 닿는다."
+    n "The last flash of light reaches the monster."
 
-    whisper "아아악! 내 몸에서 어둠이 빠져나가!"
+    whisper "Aaaah! The darkness is leaving my body!"
 
-    mc "해냈어!"
-    ghost "좋아! 저주가 풀리고 있어!"
+    mc "I did it!"
+    ghost "Great! The curse is breaking!"
 
     return
 
 # ==================================================
-# MONSTER 2. 뒤섞임 괴물 성공 대사
+# MONSTER 2. Toy Monster Success dialogue
 # ==================================================
 
 label ch2_m2_success_1:
     $ play_scene_sound(scene_wave_sound)
-    n "목소리의 빛이 장난감 괴물에게 닿자 상자의 자물쇠 하나가 풀린다."
-    ch2_toy "앗! 내 상자가 열리고 있어!"
-    mc "성공했어!"
-    ghost "잘했어! 두 번만 더 해 보자!"
+    n "The light from our hero's voice reaches the Toy Monster, and one of the toy box's locks pops open."
+    ch2_toy "Oh! My box is opening!"
+    mc "It worked!"
+    ghost "Nice work! Let's do that two more times!"
     
     return
 
 label ch2_m2_success_2:
     $ play_scene_sound(scene_wave_sound)
-    n "두 번째 빛이 장난감 상자를 환하게 비춘다."
-    ch2_toy "친구들을 꼭 가둬 두어야만 하는 걸까...?"
-    mc "저주가 조금씩 풀리고 있어!"
-    ghost "좋아! 이제 한 번만 더 성공하면 돼!"
+    n "The second flash of light brightens the toy box."
+    ch2_toy "Do I really have to keep my friends locked up...?"
+    mc "The curse is breaking bit by bit!"
+    ghost "Great! Just one more hit!"
     
     return
 
 label ch2_m2_success_3:
     $ play_scene_sound(scene_wave_sound)
-    n "마지막 빛이 장난감 괴물을 감싸며 검은 기운이 사라진다."
-    ch2_toy "아... 내가 왜 그렇게 화가 났던 거지?"
-    mc "해냈어!"
-    ghost "잘했어! 이제 저주가 풀리고 있어!"
+    n "The last flash of light wraps around the Toy Monster, and the darkness fades."
+    ch2_toy "Oh... Why was I so angry?"
+    mc "I did it!"
+    ghost "Nice work! The curse is breaking!"
    
     return
 
 # ==================================================
-# MONSTER 3. 침묵 괴물 성공 대사
+# MONSTER 3. Clock Monster Success dialogue
 # ==================================================
 
 label ch2_m3_success_1:
     $ play_scene_sound(scene_wave_sound)
-    n "목소리의 빛이 시계 괴물에게 닿자 시곗바늘이 조금 움직인다."
-    ch2_clock "안 돼! 시간이 움직이면 안 돼!"
-    mc "와! 공격이 통했어!"
-    ghost "잘했어! 두 번만 더 해 보자!"
+    n "The light from our hero's voice reaches the Clock Monster, and the clock hands move a little."
+    ch2_clock "No! Time has to stay still!"
+    mc "Wow! The attack worked!"
+    ghost "Nice work! Let's do that two more times!"
     
     return
 
 label ch2_m3_success_2:
     $ play_scene_sound(scene_wave_sound)
-    n "두 번째 빛이 시계에 닿자 멈춰 있던 초침이 조금씩 돌아간다."
-    ch2_clock "그날로 돌아갈 수 없다는 거야...?"
-    mc "조금만 더 하면 될 것 같아!"
-    ghost "맞아! 이제 마지막 한 번이야!"
+    n "A second flash of light reaches the clock, and the second hand begins to tick."
+    ch2_clock "You mean I can't go back to that day...?"
+    mc "I think we're almost there!"
+    ghost "That's right! Just one more!"
     
     return
 
 label ch2_m3_success_3:
     $ play_scene_sound(scene_wave_sound)
-    n "마지막 빛이 시계 괴물에게 닿으며 검은 기운이 흩어진다."
-    ch2_clock "아... 이제 앞으로 나아가야겠구나."
-    mc "해냈어!"
-    ghost "좋아! 마지막 저주도 풀렸어!"
+    n "The last flash of light reaches the Clock Monster, and the darkness scatters."
+    ch2_clock "Oh... It's time to move on."
+    mc "I did it!"
+    ghost "Great! The last curse is broken too!"
     
     return
 
 
 #chapter3
 # ==================================================
-# MONSTER 1. 편지 괴물 성공 대사
+# MONSTER 1. Letter Monster Success dialogue
 # ==================================================
 
 label ch3_m1_success_1:
     $ play_scene_sound(scene_wave_sound)
 
-    n "주인공의 목소리가 빛으로 변해 편지 괴물에게 날아간다."
-    n "괴물 주변을 날아다니던 편지들이 멈춘다."
+    n "Our hero's voice turns to light and flies toward the Letter Monster."
+    n "The letters flying around the monster stop in midair."
 
-    ch3_letter "으악! 내 편지들에 무슨 짓을 한 거야!"
-    mc "좋아! 공격에 성공했어!"
-    ghost "잘했어! 이제 두 번만 더 성공하면 돼!"
+    ch3_letter "Aah! What did you do to my letters?!"
+    mc "Yes! The attack worked!"
+    ghost "Nice work! Just two more hits!"
 
     return
 
@@ -270,12 +270,12 @@ label ch3_m1_success_1:
 label ch3_m1_success_2:
     $ play_scene_sound(scene_wave_sound)
 
-    n "두 번째 빛이 편지 괴물에게 닿는다."
-    n "괴물을 감싸고 있던 검은 기운이 조금씩 사라진다."
+    n "A second flash of light reaches the Letter Monster."
+    n "The darkness around the monster slowly fades."
 
-    ch3_letter "안 돼! 아직 기다려야 하는데...!"
-    mc "거의 다 됐어!"
-    ghost "좋아! 이제 한 번만 더 성공하면 돼!"
+    ch3_letter "No! I still have to wait...!"
+    mc "Almost there!"
+    ghost "Great! Just one more hit!"
 
     return
 
@@ -283,29 +283,29 @@ label ch3_m1_success_2:
 label ch3_m1_success_3:
     $ play_scene_sound(scene_wave_sound)
 
-    n "마지막 빛이 편지 괴물의 몸을 감싼다."
-    n "괴물에게서 검은 기운이 완전히 사라진다."
+    n "The last flash of light wraps around the Letter Monster."
+    n "The darkness leaves the monster completely."
 
-    ch3_letter "어...? 내가 무슨 짓을 하고 있었던 거지?"
-    mc "해냈어!"
-    ghost "잘했어! 저주가 풀렸어!"
+    ch3_letter "Huh...? What was I doing?"
+    mc "I did it!"
+    ghost "Nice work! The curse is broken!"
 
     return
 
 
 # ==================================================
-# MONSTER 2. 가시덩굴 괴물 성공 대사
+# MONSTER 2. Thorny Vine Monster Success dialogue
 # ==================================================
 
 label ch3_m2_success_1:
     $ play_scene_sound(scene_wave_sound)
 
-    n "주인공의 목소리가 빛으로 변해 가시덩굴 괴물에게 날아간다."
-    n "괴물의 몸에 돋아난 가시들이 조금씩 줄어든다."
+    n "Our hero's voice turns to light and flies toward the Thorny Vine Monster."
+    n "The thorns covering the monster begin to shrink."
 
-    ch3_vine "으악! 내 가시가 사라지고 있어!"
-    mc "와! 공격이 통했어!"
-    ghost "잘했어! 두 번만 더 성공하면 돼!"
+    ch3_vine "Aah! My thorns are disappearing!"
+    mc "Wow! The attack worked!"
+    ghost "Nice work! Just two more hits!"
 
     return
 
@@ -313,12 +313,12 @@ label ch3_m2_success_1:
 label ch3_m2_success_2:
     $ play_scene_sound(scene_wave_sound)
 
-    n "두 번째 빛이 가시덩굴 괴물에게 닿는다."
-    n "복도를 가득 막고 있던 덩굴들이 조금씩 풀리기 시작한다."
+    n "A second flash of light reaches the Thorny Vine Monster."
+    n "The vines blocking the hallway begin to unwind."
 
-    ch3_vine "안 돼! 저쪽으로 가면 위험해!"
-    mc "조금만 더 하면 될 것 같아!"
-    ghost "맞아! 이제 한 번만 더 성공하면 돼!"
+    ch3_vine "No! It's dangerous over there!"
+    mc "I think we're almost there!"
+    ghost "That's right! Just one more hit!"
 
     return
 
@@ -326,31 +326,31 @@ label ch3_m2_success_2:
 label ch3_m2_success_3:
     $ play_scene_sound(scene_wave_sound)
 
-    n "마지막 빛이 가시덩굴 괴물의 몸을 감싼다."
-    n "괴물을 감싸고 있던 검은 기운이 완전히 사라진다."
+    n "The last flash of light wraps around the Thorny Vine Monster."
+    n "The darkness surrounding the monster disappears."
 
-    ch3_vine "으으... 드디어 저주가 풀렸어!"
-    mc "해냈어!"
-    ghost "좋아! 이번에도 성공이야!"
+    ch3_vine "Ugh... The curse is finally broken!"
+    mc "I did it!"
+    ghost "Great! It worked again!"
 
     return
 
 
 # ==================================================
-# MONSTER 3. 최종 보스 성공 대사
+# MONSTER 3. Final Boss Success dialogue
 # ==================================================
 
 label ch3_m3_success_1:
     $ play_scene_sound(scene_wave_sound)
 
-    n "주인공의 목소리가 강한 빛으로 변해 최종 보스에게 날아간다."
-    n "보스가 들고 있던 검은 구슬에 작은 금이 생긴다."
+    n "Our hero's voice turns into a bright light and shoots toward the Final Boss."
+    n "A tiny crack appears in the black orb he's holding."
 
-    ch3_boss "크윽! 감히 내 힘에 상처를 내다니!"
-    mc "성공했어!"
-    ghost "잘했어! 저주의 힘이 약해지고 있어!"
+    ch3_boss "Urgh! How dare you crack my source of power!"
+    mc "It worked!"
+    ghost "Nice work! The curse is getting weaker!"
 
-    ghost "이제 두 번만 더 성공하면 돼!"
+    ghost "Just two more hits!"
 
     return
 
@@ -358,14 +358,14 @@ label ch3_m3_success_1:
 label ch3_m3_success_2:
     $ play_scene_sound(scene_wave_sound)
 
-    n "두 번째 빛이 검은 구슬에 부딪힌다."
-    n "구슬에 생긴 금이 점점 커지기 시작한다."
+    n "A second flash of light strikes the black orb."
+    n "The crack in the orb grows wider."
 
-    ch3_boss "안 돼! 내 저주의 힘이...!"
-    mc "좋아! 거의 다 됐어!"
-    ghost "이제 마지막 한 번만 더 성공하면 돼!"
+    ch3_boss "No! My curse is losing its power...!"
+    mc "Yes! Almost there!"
+    ghost "Just one last hit!"
 
-    ch3_boss "절대로 너희에게 질 수는 없다!"
+    ch3_boss "I will never lose to you!"
 
     return
 
@@ -373,11 +373,11 @@ label ch3_m3_success_2:
 label ch3_m3_success_3:
     $ play_scene_sound(scene_wave_sound)
 
-    n "주인공의 마지막 목소리가 눈부신 빛으로 변한다."
-    n "빛이 검은 구슬을 관통하며 강한 충격이 일어난다."
+    n "Our hero's voice turns into one last dazzling light."
+    n "The light shoots through the black orb with a mighty blast."
 
-    ch3_boss "으아아악! 내 저주가...!"
-    mc "해냈어! 마지막 공격도 성공이야!"
-    ghost "정말 잘했어! 우리가 이겼어!"
+    ch3_boss "Aaaah! My curse...!"
+    mc "I did it! The last hit worked!"
+    ghost "You did great! We won!"
 
     return

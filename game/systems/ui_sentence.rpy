@@ -10,7 +10,7 @@ screen ui_sentence(sentence, record_action=None):
 
         add intro_ch1_ui + "panel_sentence.png" xysize (1640, 270) fit "fill" alpha 0.82
 
-        text "아래 문장을 읽어 주세요" style "intro_ch1_caption":
+        text "Read the sentence below" style "intro_ch1_caption":
             xalign 0.5
             ypos 32
 
@@ -37,15 +37,15 @@ screen ui_sentence(sentence, record_action=None):
                     SetScreenVariable("ui_record_state", "done" if ui_record_state == "recording" else "recording"),
                     width=620)
 
-        $ status = {"ready": "아직 녹음하지 않았어요.", "recording": "녹음 중이에요.", "done": "녹음이 완료되었어요."}[ui_record_state]
+        $ status = {"ready": "Ready to record.", "recording": "Recording...", "done": "Recording complete."}[ui_record_state]
         text status style "intro_ch1_caption" xalign 0.5 size 28
 
         fixed:
             xysize (600, 62)
             xalign 0.5
-            use intro_ch1_status("버튼을 누르고, 문장을 또박또박 읽어 보세요!", wide=True)
+            use intro_ch1_status("Press the button and read the sentence clearly!", wide=True)
 
-        textbutton "다음":
+        textbutton "Next":
             xalign 0.5
             action Return()
             text_style "intro_ch1_caption"

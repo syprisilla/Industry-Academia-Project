@@ -1,11 +1,11 @@
-"""마이크/실제 아동 음성 없이 돌려 보는 합성 신호 테스트.   실행:  python test_synthetic.py
+"""Test with synthetic signals and no mic or child recordings. Run python test_synthetic.py.
 
-확인하는 것
- 1) Parselmouth 백엔드와 numpy 백엔드가 같은 지표를 내는가
- 2) 합성 단어(무음 + /ㅅ/ 비슷한 잡음 + 모음)에서 마찰구간 경계를 잘 찾는가, 소음이 크면 '측정 불가'로 빠지는가
- 3) 마이크 테스트 판정(ok / clipping / too_quiet / noisy / no_device)
- 4) record_and_analyze 전체 흐름(가짜 마이크 사용)이 JSON 으로 나오는가
-주의: 합성 신호라서 실제 아동 음성에서의 성능을 보장하지 않는다.
+Checks
+ 1) Parselmouth and NumPy agree on acoustic features.
+ 2) The analyzer finds frication boundaries in silence + ㅅ-like noise + vowel, and rejects noisy audio.
+ 3) Mic check results (ok / clipping / too_quiet / noisy / no_device).
+ 4) record_and_analyze produces JSON-compatible results with a fake mic.
+Synthetic results cannot establish performance with real child speech.
 """
 import json
 import tempfile
@@ -26,7 +26,7 @@ rng = np.random.default_rng(3)
 
 
 def make_word(snr_db, lead_s=0.3, fric_s=None):
-    """무음(lead) + 마찰 잡음(-10dB re 모음) + 모음. 배경 소음은 모음 대비 snr_db."""
+    """Silence (lead), frication (-10 dB relative to vowel), then vowel. SNR is relative to the vowel."""
     fric_s = fric_s or rng.uniform(0.10, 0.20)
     f0 = rng.uniform(200, 320)
     nz = rng.normal(0, 1, int(fric_s * SR))
@@ -41,7 +41,7 @@ def make_word(snr_db, lead_s=0.3, fric_s=None):
     return sig, lead_s, lead_s + fric_s
 
 def make_word_weak(kind, lead_s=0.3, fric_s=None):
-    """ㅅ 탈락/약화 단어. kind='drop'(완전 탈락) | 'weak'(약한 마찰)."""
+    """Synthetic word with ㅅ missing (kind='drop') or weakened (kind='weak')."""
     fric_s = fric_s or rng.uniform(0.10, 0.20)
     f0 = rng.uniform(200, 320)
     nz = rng.normal(0, 1, int(fric_s * SR))
@@ -50,10 +50,10 @@ def make_word_weak(kind, lead_s=0.3, fric_s=None):
     t = np.arange(int(0.30 * SR)) / SR
     vow = sum((1 / k) * np.sin(2 * np.pi * f0 * k * t) for k in range(1, 9))
     vow = vow / np.sqrt(np.mean(vow ** 2)) * 0.2
-    scale = {"drop": 0.0, "weak": 0.05}[kind]        # 정상은 0.3
+    scale = {"drop": 0.0, "weak": 0.05}[kind]        # A normal signal uses 0.3.
     nz = nz / np.sqrt(np.mean(nz ** 2)) * 0.2 * scale if scale else np.zeros_like(nz)
     sig = np.concatenate([np.zeros(int(lead_s * SR)), nz, vow])
-    sig = sig + rng.normal(0, 0.2 / (10 ** (40 / 20)), sig.size)   # SNR 40dB 고정
+    sig = sig + rng.normal(0, 0.2 / (10 ** (40 / 20)), sig.size)   # Fixed 40 dB SNR
     return sig, lead_s, lead_s + fric_s
 
 def test_backends_equal(tmp):
@@ -64,12 +64,12 @@ def test_backends_equal(tmp):
     b = pa.analyze(p, backend="numpy")["features"]
     for k in a:
         assert np.isclose(a[k], b[k], rtol=1e-6, atol=1e-6), (k, a[k], b[k])
-    print("1) 백엔드 일치: OK ", {k: round(v, 2) for k, v in a.items()})
+    print("1) Backend agreement: OK ", {k: round(v, 2) for k, v in a.items()})
 
 
 def test_segmentation(tmp):
-    print("2) 마찰구간 경계 오차 / 판정 (단어 40개씩)")
-    print("   모음 대비 소음  ok(경계 40ms 이내)  ok인데 틀림  unmeasurable  segmentation_failed")
+    print("2) Segment boundaries and results (40 words per condition)")
+    print("   Vowel SNR   ok (within 40 ms)            ok but wrong  unmeasurable  segmentation_failed")
     for snr in (40, 30, 20, 10):
         good = wrong = unm = fail = 0
         errs = []
@@ -89,13 +89,13 @@ def test_segmentation(tmp):
                 else:
                     wrong += 1
         med = np.median(errs, axis=0) if errs else (float("nan"),) * 2
-        print(f"   {snr:>4} dB       {good:>3} (시작 {med[0]:.1f} / 끝 {med[1]:.1f} ms)   {wrong:>3}         {unm:>3}           {fail:>3}")
+        print(f"   {snr:>4} dB       {good:>3} (start {med[0]:.1f} / end {med[1]:.1f} ms)   {wrong:>3}         {unm:>3}           {fail:>3}")
         if snr >= 30:
-            assert good >= 38, "소음이 작을 때는 거의 다 맞아야 함"
-        assert wrong <= 4, "틀린 값을 ok 로 돌려주는 경우가 많으면 안 됨"
+            assert good >= 38, "Nearly all segments should be correct at low noise."
+        assert wrong <= 4, "Very few incorrect boundaries should be returned as ok."
 
 def test_fallback(tmp):
-    print("5) 폴백(마찰음 약함/탈락) — 분석은 되고 success는 False여야 함 (각 30개)")
+    print("5) Weak or missing frication (30 each): analysis should run with success=False.")
     for kind in ("drop", "weak"):
         est = ok_status = judged_false = 0
         for _ in range(30):
@@ -109,11 +109,11 @@ def test_fallback(tmp):
             jr = judge_mod.judge(r["features"], r.get("segment_estimated", False))
             if jr["success"] is False:
                 judged_false += 1
-        print(f"   {kind:>4}:  status=ok {ok_status:>3}   폴백추정 {est:>3}   success=False {judged_false:>3}")
-        # 경로는 둘 중 하나: (a) 약한 구간을 검출해서 값으로 실패, (b) 못 찾아 폴백으로 실패.
-        # 어느 쪽이든 '분석까지 가고(ok) 전부 실패(success=False)' 이기만 하면 목표 달성.
-        assert ok_status >= 25, f"{kind}: 분석 단계(ok)까지 못 간 게 많음"
-        assert judged_false == ok_status, f"{kind}: ok인데 성공 처리된 게 있음(목표 위반)"
+        print(f"   {kind:>4}:  status=ok {ok_status:>3}   estimated {est:>3}   success=False {judged_false:>3}")
+        # A weak segment can fail after detection or after a fallback estimate.
+        # Both paths should reach analysis (ok) and return success=False.
+        assert ok_status >= 25, f"{kind}: Too few samples reached analysis (ok)."
+        assert judged_false == ok_status, f"{kind}: Some analyzed samples were incorrectly scored as successful."
 
 def test_mic_test():
     def room(level_db=-20, noise_db=-70, peak_boost=1.0, sr=SR):
@@ -136,41 +136,41 @@ def test_mic_test():
     def boom(*a):
         raise OSError("no mic")
     assert ar.mic_test(capture=boom)["status"] == "no_device"
-    print("3) 마이크 테스트 판정: OK (ok/clipping/too_quiet/noisy/no_device)")
+    print("3) Mic check: OK (ok/clipping/too_quiet/noisy/no_device)")
 
 
 def test_pipeline(tmp):
     sig, _, _ = make_word(40, lead_s=0.4)
-    sig = (sig / np.max(np.abs(sig)) * 0.5).astype("float32")      # 최대치 약 -6 dBFS
+    sig = (sig / np.max(np.abs(sig)) * 0.5).astype("float32")      # Peak about -6 dBFS
     out = record_and_analyze(tmp / "rec.wav", seconds=1.0, capture=lambda s, sr, d: (sig, SR))
-    json.dumps(out, ensure_ascii=False)                              # JSON 직렬화 확인
+    json.dumps(out, ensure_ascii=False)                              # Verify JSON serialization.
     assert out["status"] == "ok", out
-    print("4) 녹음->분석 전체 흐름: OK ", json.dumps(out["features"], ensure_ascii=False))
+    print("4) Recording through analysis: OK ", json.dumps(out["features"], ensure_ascii=False))
 
 
 def test_judge_and_gauge(tmp):
-    # CoG/분산을 기준 평균으로 넣으면 범위 안 -> success
+    # CoG and spread at their reference means should pass.
     feats_ok = {"cog_hz": 8884.0, "sd_hz": 2777.0, "skewness": 0.2, "kurtosis": 1.5,
                 "duration_ms": 150.0, "norm_energy": 0.78}
     jr = judge_mod.judge(feats_ok)
     assert jr["success"] is True and set(jr["per_feature"]) == {"cog_hz", "sd_hz"}, jr
-    assert feedback_mod.feedback(jr).startswith("좋아요"), feedback_mod.feedback(jr)
+    assert feedback_mod.feedback(jr).startswith("Great job!"), feedback_mod.feedback(jr)
 
-    # CoG를 아주 낮게 -> 범위 밖, direction low, 실패
+    # Very low CoG should fail with direction low.
     feats_bad = dict(feats_ok, cog_hz=3000.0)
     jr2 = judge_mod.judge(feats_bad)
     assert jr2["success"] is False and jr2["per_feature"]["cog_hz"]["direction"] == "low", jr2
 
-    # 게이지 PNG 2장 생성
+    # Generate two gauge PNGs.
     paths = gauge_mod.draw_all(jr2, tmp)
     assert set(paths) == {"cog_hz", "sd_hz"}, paths
     for p in paths.values():
         assert Path(p).exists() and Path(p).stat().st_size > 0
-    # 폴백이면 'ㅅ 소리를 내자' 쪽 문구가 나와야 함
+    # A fallback should give feedback about making the ㅅ sound.
     jr_fb = judge_mod.judge(feats_ok, segment_estimated=True)
     assert jr_fb["success"] is False, jr_fb
-    assert "바람소리" in feedback_mod.feedback(jr_fb) or "ㅅ" in feedback_mod.feedback(jr_fb)
-    print("6) 판정+게이지: OK ", {k: Path(v).name for k, v in paths.items()})
+    assert "let the air flow" in feedback_mod.feedback(jr_fb) or "ㅅ" in feedback_mod.feedback(jr_fb)
+    print("6) Scoring and gauges: OK ", {k: Path(v).name for k, v in paths.items()})
 
 
 def test_full_pipeline(tmp):
@@ -180,7 +180,7 @@ def test_full_pipeline(tmp):
     json.dumps(out, ensure_ascii=False)
     assert out["status"] == "ok" and "judge" in out and out["gauges"], out
     assert isinstance(out["feedback"], str)
-    print("7) 녹음->판정->게이지 전체: OK  success =", out["success"], "| gauges:", len(out["gauges"]))
+    print("7) Recording through scoring and gauges: OK  success =", out["success"], "| gauges:", len(out["gauges"]))
 
 
 if __name__ == "__main__":
@@ -193,4 +193,4 @@ if __name__ == "__main__":
         test_pipeline(d)
         test_judge_and_gauge(d)
         test_full_pipeline(d)
-    print("\n모든 합성 테스트 통과")
+    print("\nAll synthetic tests passed.")

@@ -3,51 +3,51 @@ translate None strings:
 
     # renpy/common/00accessibility.rpy:28
     old "Self-voicing disabled."
-    new "대사 읽기를 끕니다."
+    new "Self-voicing disabled."
 
     # renpy/common/00accessibility.rpy:29
     old "Clipboard voicing enabled. "
-    new "대사 복사하기를 켭니다. "
+    new "Clipboard voicing enabled. "
 
     # renpy/common/00accessibility.rpy:30
     old "Self-voicing enabled. "
-    new "대사 읽기를 켭니다. "
+    new "Self-voicing enabled. "
 
     # renpy/common/00accessibility.rpy:32
     old "bar"
-    new "바"
+    new "bar"
 
     # renpy/common/00accessibility.rpy:33
     old "selected"
-    new "선택된"
+    new "selected"
 
     # renpy/common/00accessibility.rpy:34
     old "viewport"
-    new "뷰포트"
+    new "viewport"
 
     # renpy/common/00accessibility.rpy:35
     old "horizontal scroll"
-    new "수평 스크롤"
+    new "horizontal scroll"
 
     # renpy/common/00accessibility.rpy:36
     old "vertical scroll"
-    new "수직 스크롤"
+    new "vertical scroll"
 
     # renpy/common/00accessibility.rpy:37
     old "activate"
-    new "활성화"
+    new "activate"
 
     # renpy/common/00accessibility.rpy:38
     old "deactivate"
-    new "비활성화"
+    new "deactivate"
 
     # renpy/common/00accessibility.rpy:39
     old "increase"
-    new "증가"
+    new "increase"
 
     # renpy/common/00accessibility.rpy:40
     old "decrease"
-    new "감소"
+    new "decrease"
 
     # renpy/common/00accessibility.rpy:121
     old "Accessibility Menu. Use up and down arrows to navigate, and enter to activate buttons and bars."
@@ -55,11 +55,11 @@ translate None strings:
 
     # renpy/common/00accessibility.rpy:140
     old "Font Override"
-    new "글꼴 덮어쓰기"
+    new "Font Override"
 
     # renpy/common/00accessibility.rpy:144
     old "Default"
-    new "기본"
+    new "Default"
 
     # renpy/common/00accessibility.rpy:148
     old "DejaVu Sans"
@@ -71,31 +71,31 @@ translate None strings:
 
     # renpy/common/00accessibility.rpy:158
     old "Text Size Scaling"
-    new "글자 크기 조절"
+    new "Text Size Scaling"
 
     # renpy/common/00accessibility.rpy:164
     old "Reset"
-    new "초기화"
+    new "Reset"
 
     # renpy/common/00accessibility.rpy:170
     old "Line Spacing Scaling"
-    new "줄 간격 조절"
+    new "Line Spacing Scaling"
 
     # renpy/common/00accessibility.rpy:182
     old "High Contrast Text"
-    new "고대비 텍스트"
+    new "High Contrast Text"
 
     # renpy/common/00accessibility.rpy:184
     old "Enable"
-    new "활성"
+    new "Enable"
 
     # renpy/common/00accessibility.rpy:188
     old "Disable"
-    new "비활성화"
+    new "Disable"
 
     # renpy/common/00accessibility.rpy:195
     old "Self-Voicing"
-    new "대사 읽기"
+    new "Self-Voicing"
 
     # renpy/common/00accessibility.rpy:198
     old "Self-voicing support is limited when using a touch screen."
@@ -103,187 +103,187 @@ translate None strings:
 
     # renpy/common/00accessibility.rpy:202
     old "Off"
-    new "끄기"
+    new "Off"
 
     # renpy/common/00accessibility.rpy:206
     old "Text-to-speech"
-    new "텍스트 음성 변환"
+    new "Text-to-speech"
 
     # renpy/common/00accessibility.rpy:210
     old "Clipboard"
-    new "클립보드"
+    new "Clipboard"
 
     # renpy/common/00accessibility.rpy:214
     old "Debug"
-    new "디버그"
+    new "Debug"
 
     # renpy/common/00accessibility.rpy:220
     old "Voice Volume"
-    new "음성 음량"
+    new "Voice Volume"
 
     # renpy/common/00accessibility.rpy:228
     old "Self-Voicing Volume Drop"
-    new "대사 읽기 음소거"
+    new "Self-Voicing Volume Drop"
 
     # renpy/common/00accessibility.rpy:237
     old "The options on this menu are intended to improve accessibility. They may not work with all games, and some combinations of options may render the game unplayable. This is not an issue with the game or engine. For the best results when changing fonts, try to keep the text size the same as it originally was."
-    new "이 메뉴의 옵션은 접근성을 향상시키기 위한 것입니다. 모든 게임에서 작동하지 않을 수 있고 일부 옵션 조합은 게임을 플레이할 수 없게 만들 수 있으며 이러한 경우 게임이나 엔진의 문제가 아닙니다. 글꼴을 변경할 때 최상의 결과를 얻으려면 글자 크기를 원래대로 유지하십시오."
+    new "The options on this menu are intended to improve accessibility. They may not work with all games, and some combinations of options may render the game unplayable. This is not an issue with the game or engine. For the best results when changing fonts, try to keep the text size the same as it originally was."
 
     # renpy/common/00accessibility.rpy:242
     old "Return"
-    new "돌아가기"
+    new "Return"
 
     # renpy/common/00action_file.rpy:26
     old "{#weekday}Monday"
-    new "{#weekday}월요일"
+    new "{#weekday}Monday"
 
     # renpy/common/00action_file.rpy:26
     old "{#weekday}Tuesday"
-    new "{#weekday}화요일"
+    new "{#weekday}Tuesday"
 
     # renpy/common/00action_file.rpy:26
     old "{#weekday}Wednesday"
-    new "{#weekday}수요일"
+    new "{#weekday}Wednesday"
 
     # renpy/common/00action_file.rpy:26
     old "{#weekday}Thursday"
-    new "{#weekday}목요일"
+    new "{#weekday}Thursday"
 
     # renpy/common/00action_file.rpy:26
     old "{#weekday}Friday"
-    new "{#weekday}금요일"
+    new "{#weekday}Friday"
 
     # renpy/common/00action_file.rpy:26
     old "{#weekday}Saturday"
-    new "{#weekday}토요일"
+    new "{#weekday}Saturday"
 
     # renpy/common/00action_file.rpy:26
     old "{#weekday}Sunday"
-    new "{#weekday}일요일"
+    new "{#weekday}Sunday"
 
     # renpy/common/00action_file.rpy:37
     old "{#weekday_short}Mon"
-    new "{#weekday_short}월"
+    new "{#weekday_short}Mon"
 
     # renpy/common/00action_file.rpy:37
     old "{#weekday_short}Tue"
-    new "{#weekday_short}화"
+    new "{#weekday_short}Tue"
 
     # renpy/common/00action_file.rpy:37
     old "{#weekday_short}Wed"
-    new "{#weekday_short}수"
+    new "{#weekday_short}Wed"
 
     # renpy/common/00action_file.rpy:37
     old "{#weekday_short}Thu"
-    new "{#weekday_short}목"
+    new "{#weekday_short}Thu"
 
     # renpy/common/00action_file.rpy:37
     old "{#weekday_short}Fri"
-    new "{#weekday_short}금"
+    new "{#weekday_short}Fri"
 
     # renpy/common/00action_file.rpy:37
     old "{#weekday_short}Sat"
-    new "{#weekday_short}토"
+    new "{#weekday_short}Sat"
 
     # renpy/common/00action_file.rpy:37
     old "{#weekday_short}Sun"
-    new "{#weekday_short}일"
+    new "{#weekday_short}Sun"
 
     # renpy/common/00action_file.rpy:47
     old "{#month}January"
-    new "{#month}1월"
+    new "{#month}January"
 
     # renpy/common/00action_file.rpy:47
     old "{#month}February"
-    new "{#month}2월"
+    new "{#month}February"
 
     # renpy/common/00action_file.rpy:47
     old "{#month}March"
-    new "{#month}3월"
+    new "{#month}March"
 
     # renpy/common/00action_file.rpy:47
     old "{#month}April"
-    new "{#month}4월"
+    new "{#month}April"
 
     # renpy/common/00action_file.rpy:47
     old "{#month}May"
-    new "{#month}5월"
+    new "{#month}May"
 
     # renpy/common/00action_file.rpy:47
     old "{#month}June"
-    new "{#month}6월"
+    new "{#month}June"
 
     # renpy/common/00action_file.rpy:47
     old "{#month}July"
-    new "{#month}7월"
+    new "{#month}July"
 
     # renpy/common/00action_file.rpy:47
     old "{#month}August"
-    new "{#month}8월"
+    new "{#month}August"
 
     # renpy/common/00action_file.rpy:47
     old "{#month}September"
-    new "{#month}9월"
+    new "{#month}September"
 
     # renpy/common/00action_file.rpy:47
     old "{#month}October"
-    new "{#month}10월"
+    new "{#month}October"
 
     # renpy/common/00action_file.rpy:47
     old "{#month}November"
-    new "{#month}11월"
+    new "{#month}November"
 
     # renpy/common/00action_file.rpy:47
     old "{#month}December"
-    new "{#month}12월"
+    new "{#month}December"
 
     # renpy/common/00action_file.rpy:63
     old "{#month_short}Jan"
-    new "{#month_short}1월"
+    new "{#month_short}Jan"
 
     # renpy/common/00action_file.rpy:63
     old "{#month_short}Feb"
-    new "{#month_short}2월"
+    new "{#month_short}Feb"
 
     # renpy/common/00action_file.rpy:63
     old "{#month_short}Mar"
-    new "{#month_short}3월"
+    new "{#month_short}Mar"
 
     # renpy/common/00action_file.rpy:63
     old "{#month_short}Apr"
-    new "{#month_short}4월"
+    new "{#month_short}Apr"
 
     # renpy/common/00action_file.rpy:63
     old "{#month_short}May"
-    new "{#month_short}5월"
+    new "{#month_short}May"
 
     # renpy/common/00action_file.rpy:63
     old "{#month_short}Jun"
-    new "{#month_short}6월"
+    new "{#month_short}Jun"
 
     # renpy/common/00action_file.rpy:63
     old "{#month_short}Jul"
-    new "{#month_short}7월"
+    new "{#month_short}Jul"
 
     # renpy/common/00action_file.rpy:63
     old "{#month_short}Aug"
-    new "{#month_short}8월"
+    new "{#month_short}Aug"
 
     # renpy/common/00action_file.rpy:63
     old "{#month_short}Sep"
-    new "{#month_short}9월"
+    new "{#month_short}Sep"
 
     # renpy/common/00action_file.rpy:63
     old "{#month_short}Oct"
-    new "{#month_short}10월"
+    new "{#month_short}Oct"
 
     # renpy/common/00action_file.rpy:63
     old "{#month_short}Nov"
-    new "{#month_short}11월"
+    new "{#month_short}Nov"
 
     # renpy/common/00action_file.rpy:63
     old "{#month_short}Dec"
-    new "{#month_short}12월"
+    new "{#month_short}Dec"
 
     # renpy/common/00action_file.rpy:258
     old "%b %d, %H:%M"
@@ -291,71 +291,71 @@ translate None strings:
 
     # renpy/common/00action_file.rpy:395
     old "Save slot %s: [text]"
-    new "%s 슬롯에 저장: [text]"
+    new "Save slot %s: [text]"
 
     # renpy/common/00action_file.rpy:481
     old "Load slot %s: [text]"
-    new "%s 슬롯 불러오기: [text]"
+    new "Load slot %s: [text]"
 
     # renpy/common/00action_file.rpy:534
     old "Delete slot [text]"
-    new "[text] 슬롯 삭제"
+    new "Delete slot [text]"
 
     # renpy/common/00action_file.rpy:613
     old "File page auto"
-    new "자동 파일 페이지"
+    new "File page auto"
 
     # renpy/common/00action_file.rpy:615
     old "File page quick"
-    new "빠른 파일 페이지"
+    new "File page quick"
 
     # renpy/common/00action_file.rpy:617
     old "File page [text]"
-    new "[text] 파일 페이지"
+    new "File page [text]"
 
     # renpy/common/00action_file.rpy:675
     old "Page {}"
-    new "{} 페이지"
+    new "Page {}"
 
     # renpy/common/00action_file.rpy:675
     old "Automatic saves"
-    new "자동 세이브"
+    new "Automatic saves"
 
     # renpy/common/00action_file.rpy:675
     old "Quick saves"
-    new "퀵세이브"
+    new "Quick saves"
 
     # renpy/common/00action_file.rpy:816
     old "Next file page."
-    new "다음 파일 페이지."
+    new "Next file page."
 
     # renpy/common/00action_file.rpy:888
     old "Previous file page."
-    new "이전 파일 페이지."
+    new "Previous file page."
 
     # renpy/common/00action_file.rpy:949
     old "Quick save complete."
-    new "퀵세이브 완료."
+    new "Quick save complete."
 
     # renpy/common/00action_file.rpy:964
     old "Quick save."
-    new "빠른 저장."
+    new "Quick save."
 
     # renpy/common/00action_file.rpy:983
     old "Quick load."
-    new "빠른 불러오기."
+    new "Quick load."
 
     # renpy/common/00action_other.rpy:379
     old "Language [text]"
-    new "[text] 언어"
+    new "Language [text]"
 
     # renpy/common/00action_other.rpy:744
     old "Open [text] directory."
-    new "[text] 경로를 엽니다."
+    new "Open [text] directory."
 
     # renpy/common/00director.rpy:712
     old "The interactive director is not enabled here."
-    new "인터렉티브 디렉터는 여기에서 사용할 수 없습니다."
+    new "The interactive director is not enabled here."
 
     # renpy/common/00director.rpy:1512
     old "⬆"
@@ -367,75 +367,75 @@ translate None strings:
 
     # renpy/common/00director.rpy:1582
     old "Done"
-    new "완료"
+    new "Done"
 
     # renpy/common/00director.rpy:1592
     old "(statement)"
-    new "(명령문)"
+    new "(statement)"
 
     # renpy/common/00director.rpy:1593
     old "(tag)"
-    new "(태그)"
+    new "(tag)"
 
     # renpy/common/00director.rpy:1594
     old "(attributes)"
-    new "(속성)"
+    new "(attributes)"
 
     # renpy/common/00director.rpy:1595
     old "(transform)"
-    new "(변환)"
+    new "(transform)"
 
     # renpy/common/00director.rpy:1620
     old "(transition)"
-    new "(전환)"
+    new "(transition)"
 
     # renpy/common/00director.rpy:1632
     old "(channel)"
-    new "(채널)"
+    new "(channel)"
 
     # renpy/common/00director.rpy:1633
     old "(filename)"
-    new "(파일이름)"
+    new "(filename)"
 
     # renpy/common/00director.rpy:1662
     old "Change"
-    new "교체"
+    new "Change"
 
     # renpy/common/00director.rpy:1664
     old "Add"
-    new "추가"
+    new "Add"
 
     # renpy/common/00director.rpy:1667
     old "Cancel"
-    new "취소"
+    new "Cancel"
 
     # renpy/common/00director.rpy:1670
     old "Remove"
-    new "제거"
+    new "Remove"
 
     # renpy/common/00director.rpy:1705
     old "Statement:"
-    new "명령문:"
+    new "Statement:"
 
     # renpy/common/00director.rpy:1726
     old "Tag:"
-    new "태그:"
+    new "Tag:"
 
     # renpy/common/00director.rpy:1742
     old "Attributes:"
-    new "속성:"
+    new "Attributes:"
 
     # renpy/common/00director.rpy:1753
     old "Click to toggle attribute, right click to toggle negative attribute."
-    new "속성을 전환하려면 클릭하고, 음수 속성을 전환하려면 마우스 오른쪽 버튼을 클릭합니다."
+    new "Click to toggle attribute, right click to toggle negative attribute."
 
     # renpy/common/00director.rpy:1765
     old "Transforms:"
-    new "변환:"
+    new "Transforms:"
 
     # renpy/common/00director.rpy:1776
     old "Click to set transform, right click to add to transform list."
-    new "클릭하여 트랜스폼을 설정하고 마우스 오른쪽 버튼을 클릭하여 트랜스폼 목록에 추가합니다."
+    new "Click to set transform, right click to add to transform list."
 
     # renpy/common/00director.rpy:1777
     old "Customize director.transforms to add more transforms."
@@ -443,15 +443,15 @@ translate None strings:
 
     # renpy/common/00director.rpy:1789
     old "Behind:"
-    new "뒤에:"
+    new "Behind:"
 
     # renpy/common/00director.rpy:1800
     old "Click to set, right click to add to behind list."
-    new "클릭하여 설정하고 마우스 오른쪽 버튼을 클릭하여 비하인드 목록에 추가합니다."
+    new "Click to set, right click to add to behind list."
 
     # renpy/common/00director.rpy:1812
     old "Transition:"
-    new "전환:"
+    new "Transition:"
 
     # renpy/common/00director.rpy:1822
     old "Click to set."
@@ -463,7 +463,7 @@ translate None strings:
 
     # renpy/common/00director.rpy:1835
     old "Channel:"
-    new "채널:"
+    new "Channel:"
 
     # renpy/common/00director.rpy:1846
     old "Customize director.audio_channels to add more channels."
@@ -471,31 +471,31 @@ translate None strings:
 
     # renpy/common/00director.rpy:1858
     old "Audio Filename:"
-    new "오디오 파일이름:"
+    new "Audio Filename:"
 
     # renpy/common/00gui.rpy:448
     old "Are you sure?"
-    new "정말입니까?"
+    new "Are you sure?"
 
     # renpy/common/00gui.rpy:449
     old "Are you sure you want to delete this save?"
-    new "이 세이브 파일을 지우겠습니까?"
+    new "Are you sure you want to delete this save?"
 
     # renpy/common/00gui.rpy:450
     old "Are you sure you want to overwrite your save?"
-    new "이 세이브 파일에 덮어쓰겠습니까?"
+    new "Are you sure you want to overwrite your save?"
 
     # renpy/common/00gui.rpy:451
     old "Loading will lose unsaved progress.\nAre you sure you want to do this?"
-    new "불러오기를 하면 저장하지 않은 데이터를 잃게 됩니다.\n파일을 불러올까요?"
+    new "Loading will lose unsaved progress.\nAre you sure you want to do this?"
 
     # renpy/common/00gui.rpy:452
     old "Are you sure you want to quit?"
-    new "종료하겠습니까?"
+    new "Are you sure you want to quit?"
 
     # renpy/common/00gui.rpy:453
     old "Are you sure you want to return to the main menu?\nThis will lose unsaved progress."
-    new "메인 메뉴로 돌아가겠습니까?\n저장하지 않은 데이터는 잃게 됩니다."
+    new "Are you sure you want to return to the main menu?\nThis will lose unsaved progress."
 
     # renpy/common/00gui.rpy:454
     old "Are you sure you want to continue where you left off?"
@@ -503,131 +503,131 @@ translate None strings:
 
     # renpy/common/00gui.rpy:455
     old "Are you sure you want to end the replay?"
-    new "리플레이를 종료하겠습니까?"
+    new "Are you sure you want to end the replay?"
 
     # renpy/common/00gui.rpy:456
     old "Are you sure you want to begin skipping?"
-    new "스킵을 시작하겠습니까?"
+    new "Are you sure you want to begin skipping?"
 
     # renpy/common/00gui.rpy:457
     old "Are you sure you want to skip to the next choice?"
-    new "다음 선택지가 나타날 때까지 스킵하겠습니까?"
+    new "Are you sure you want to skip to the next choice?"
 
     # renpy/common/00gui.rpy:458
     old "Are you sure you want to skip unseen dialogue to the next choice?"
-    new "다음 선택지가 나타날 때까지 본 적이 없는 대사까지 모두 스킵하겠습니까?"
+    new "Are you sure you want to skip unseen dialogue to the next choice?"
 
     # renpy/common/00gui.rpy:459
     old "This save was created on a different device. Maliciously constructed save files can harm your computer. Do you trust this save's creator and everyone who could have changed the file?"
-    new "이 저장 파일이 다른 장치에서 생성되었습니다. 악의적으로 생성된 저장 파일은 컴퓨터를 손상시킬 수 있습니다. 이 저장 파일을 만든 사람과 파일을 변경했을 수 있는 모든 사람을 신뢰하시나요?"
+    new "This save was created on a different device. Maliciously constructed save files can harm your computer. Do you trust this save's creator and everyone who could have changed the file?"
 
     # renpy/common/00gui.rpy:460
     old "Do you trust the device the save was created on? You should only choose yes if you are the device's sole user."
-    new "저장한 디바이스를 신뢰하시나요? 장치의 유일한 사용자인 경우에만 예를 선택해야 합니다."
+    new "Do you trust the device the save was created on? You should only choose yes if you are the device's sole user."
 
     # renpy/common/00keymap.rpy:325
     old "Failed to save screenshot as %s."
-    new "%s 에 스크린샷 저장을 실패했습니다."
+    new "Failed to save screenshot as %s."
 
     # renpy/common/00keymap.rpy:346
     old "Saved screenshot as %s."
-    new "스크린샷을 %s 에 저장했습니다."
+    new "Saved screenshot as %s."
 
     # renpy/common/00library.rpy:248
     old "Skip Mode"
-    new "스킵 모드"
+    new "Skip Mode"
 
     # renpy/common/00library.rpy:335
     old "This program contains free software under a number of licenses, including the MIT License and GNU Lesser General Public License. A complete list of software, including links to full source code, can be found {a=https://www.renpy.org/l/license}here{/a}."
-    new "이 프로그램은 MIT 라이선스와 GNU 라이선스를 포함한 여러 가지 라이선스의 적용을 받는 오픈소스 소프트웨어를 포함하고 있습니다. {a=https://www.renpy.org/l/license}이곳{/a}에서 포함된 모든 소프트웨어와 그 소스코드를 확인할 수 있습니다."
+    new "This program contains free software under a number of licenses, including the MIT License and GNU Lesser General Public License. A complete list of software, including links to full source code, can be found {a=https://www.renpy.org/l/license}here{/a}."
 
     # renpy/common/00preferences.rpy:290
     old "display"
-    new "화면 모드"
+    new "display"
 
     # renpy/common/00preferences.rpy:310
     old "transitions"
-    new "화면 전환"
+    new "transitions"
 
     # renpy/common/00preferences.rpy:319
     old "skip transitions"
-    new "화면 전환 스킵"
+    new "skip transitions"
 
     # renpy/common/00preferences.rpy:321
     old "video sprites"
-    new "비디오 스프라이트"
+    new "video sprites"
 
     # renpy/common/00preferences.rpy:330
     old "show empty window"
-    new "빈 창 보이기"
+    new "show empty window"
 
     # renpy/common/00preferences.rpy:339
     old "text speed"
-    new "텍스트 속도"
+    new "text speed"
 
     # renpy/common/00preferences.rpy:347
     old "joystick"
-    new "조이스틱"
+    new "joystick"
 
     # renpy/common/00preferences.rpy:347
     old "joystick..."
-    new "조이스틱..."
+    new "joystick..."
 
     # renpy/common/00preferences.rpy:354
     old "skip"
-    new "스킵"
+    new "skip"
 
     # renpy/common/00preferences.rpy:357
     old "skip unseen [text]"
-    new "읽지 않은 [text] 스킵"
+    new "skip unseen [text]"
 
     # renpy/common/00preferences.rpy:362
     old "skip unseen text"
-    new "읽지 않은 텍스트까지 모두 스킵"
+    new "skip unseen text"
 
     # renpy/common/00preferences.rpy:364
     old "begin skipping"
-    new "스킵 시작"
+    new "begin skipping"
 
     # renpy/common/00preferences.rpy:368
     old "after choices"
-    new "선택지 이후에도 스킵"
+    new "after choices"
 
     # renpy/common/00preferences.rpy:375
     old "skip after choices"
-    new "선택후 스킵"
+    new "skip after choices"
 
     # renpy/common/00preferences.rpy:377
     old "auto-forward time"
-    new "자동 진행 시간"
+    new "auto-forward time"
 
     # renpy/common/00preferences.rpy:391
     old "auto-forward"
-    new "자동 진행"
+    new "auto-forward"
 
     # renpy/common/00preferences.rpy:398
     old "Auto forward"
-    new "자동 진행"
+    new "Auto forward"
 
     # renpy/common/00preferences.rpy:401
     old "auto-forward after click"
-    new "클릭후 자동 진행"
+    new "auto-forward after click"
 
     # renpy/common/00preferences.rpy:410
     old "automatic move"
-    new "자동 이동"
+    new "automatic move"
 
     # renpy/common/00preferences.rpy:419
     old "wait for voice"
-    new "음성 기다리기"
+    new "wait for voice"
 
     # renpy/common/00preferences.rpy:428
     old "voice sustain"
-    new "음성 지속"
+    new "voice sustain"
 
     # renpy/common/00preferences.rpy:437
     old "self voicing"
-    new "대사 읽기"
+    new "self voicing"
 
     # renpy/common/00preferences.rpy:440
     old "self voicing enable"
@@ -639,11 +639,11 @@ translate None strings:
 
     # renpy/common/00preferences.rpy:446
     old "self voicing volume drop"
-    new "대사 읽기 음소거"
+    new "self voicing volume drop"
 
     # renpy/common/00preferences.rpy:454
     old "clipboard voicing"
-    new "대사 복사하기"
+    new "clipboard voicing"
 
     # renpy/common/00preferences.rpy:457
     old "clipboard voicing enable"
@@ -655,7 +655,7 @@ translate None strings:
 
     # renpy/common/00preferences.rpy:463
     old "debug voicing"
-    new "음성 디버그"
+    new "debug voicing"
 
     # renpy/common/00preferences.rpy:466
     old "debug voicing enable"
@@ -667,67 +667,67 @@ translate None strings:
 
     # renpy/common/00preferences.rpy:472
     old "emphasize audio"
-    new "오디오 강조"
+    new "emphasize audio"
 
     # renpy/common/00preferences.rpy:481
     old "rollback side"
-    new "롤백 클릭 옵션"
+    new "rollback side"
 
     # renpy/common/00preferences.rpy:491
     old "gl powersave"
-    new "GL 절전"
+    new "gl powersave"
 
     # renpy/common/00preferences.rpy:497
     old "gl framerate"
-    new "GL 프레임 속도"
+    new "gl framerate"
 
     # renpy/common/00preferences.rpy:500
     old "gl tearing"
-    new "GL 티어링"
+    new "gl tearing"
 
     # renpy/common/00preferences.rpy:503
     old "font transform"
-    new "글꼴 변형"
+    new "font transform"
 
     # renpy/common/00preferences.rpy:506
     old "font size"
-    new "글꼴 크기"
+    new "font size"
 
     # renpy/common/00preferences.rpy:514
     old "font line spacing"
-    new "글꼴 줄 간격"
+    new "font line spacing"
 
     # renpy/common/00preferences.rpy:522
     old "system cursor"
-    new "시스템 커서"
+    new "system cursor"
 
     # renpy/common/00preferences.rpy:531
     old "renderer menu"
-    new "렌더러 메뉴"
+    new "renderer menu"
 
     # renpy/common/00preferences.rpy:534
     old "accessibility menu"
-    new "접근성 메뉴"
+    new "accessibility menu"
 
     # renpy/common/00preferences.rpy:537
     old "high contrast text"
-    new "고대비 텍스트"
+    new "high contrast text"
 
     # renpy/common/00preferences.rpy:546
     old "audio when minimized"
-    new "오디오 최소화 시"
+    new "audio when minimized"
 
     # renpy/common/00preferences.rpy:555
     old "audio when unfocused"
-    new "초점이 맞지 않을 때 오디오"
+    new "audio when unfocused"
 
     # renpy/common/00preferences.rpy:564
     old "web cache preload"
-    new "웹 캐시 사전 로드"
+    new "web cache preload"
 
     # renpy/common/00preferences.rpy:579
     old "voice after game menu"
-    new "게임 메뉴 후 음성"
+    new "voice after game menu"
 
     # renpy/common/00preferences.rpy:588
     old "restore window position"
@@ -739,59 +739,59 @@ translate None strings:
 
     # renpy/common/00preferences.rpy:610
     old "main volume"
-    new "메인 볼륨"
+    new "main volume"
 
     # renpy/common/00preferences.rpy:611
     old "music volume"
-    new "배경음악 크기"
+    new "music volume"
 
     # renpy/common/00preferences.rpy:612
     old "sound volume"
-    new "효과음 크기"
+    new "sound volume"
 
     # renpy/common/00preferences.rpy:613
     old "voice volume"
-    new "음성 크기"
+    new "voice volume"
 
     # renpy/common/00preferences.rpy:614
     old "mute main"
-    new "메인 음소거"
+    new "mute main"
 
     # renpy/common/00preferences.rpy:615
     old "mute music"
-    new "배경음악 크기"
+    new "mute music"
 
     # renpy/common/00preferences.rpy:616
     old "mute sound"
-    new "효과음 끄기"
+    new "mute sound"
 
     # renpy/common/00preferences.rpy:617
     old "mute voice"
-    new "음성 끄기"
+    new "mute voice"
 
     # renpy/common/00preferences.rpy:618
     old "mute all"
-    new "모두 음소거"
+    new "mute all"
 
     # renpy/common/00preferences.rpy:701
     old "Clipboard voicing enabled. Press 'shift+C' to disable."
-    new "대사 복사하기 기능을 실행했습니다. 'Shift+C'로 종료합니다."
+    new "Clipboard voicing enabled. Press 'shift+C' to disable."
 
     # renpy/common/00preferences.rpy:703
     old "Self-voicing would say \"[renpy.display.tts.last]\". Press 'alt+shift+V' to disable."
-    new "대사 읽기 기능이 \"[renpy.display.tts.last]\" 를(을) 말할 것입니다. 'alt+shift+V'를 누르면 비활성화됩니다."
+    new "Self-voicing would say \"[renpy.display.tts.last]\". Press 'alt+shift+V' to disable."
 
     # renpy/common/00preferences.rpy:705
     old "Self-voicing enabled. Press 'v' to disable."
-    new "대사 읽기 기능을 실행했습니다. 'v' 키를 눌러 종료합니다."
+    new "Self-voicing enabled. Press 'v' to disable."
 
     # renpy/common/00speechbubble.rpy:416
     old "Speech Bubble Editor"
-    new "말풍선 편집기"
+    new "Speech Bubble Editor"
 
     # renpy/common/00speechbubble.rpy:421
     old "(hide)"
-    new "(숨기기)"
+    new "(hide)"
 
     # renpy/common/00speechbubble.rpy:432
     old "(clear retained bubbles)"
@@ -799,83 +799,83 @@ translate None strings:
 
     # renpy/common/00sync.rpy:70
     old "Sync downloaded."
-    new "동기화가 다운로드되었습니다."
+    new "Sync downloaded."
 
     # renpy/common/00sync.rpy:193
     old "Could not connect to the Ren'Py Sync server."
-    new "Ren'Py 동기화 서버에 연결할 수 없습니다."
+    new "Could not connect to the Ren'Py Sync server."
 
     # renpy/common/00sync.rpy:195
     old "The Ren'Py Sync server timed out."
-    new "Ren'Py 동기화 서버가 시간 초과되었습니다."
+    new "The Ren'Py Sync server timed out."
 
     # renpy/common/00sync.rpy:197
     old "An unknown error occurred while connecting to the Ren'Py Sync server."
-    new "Ren'Py 동기화 서버에 연결하는 동안 알 수 없는 오류가 발생했습니다."
+    new "An unknown error occurred while connecting to the Ren'Py Sync server."
 
     # renpy/common/00sync.rpy:213
     old "The Ren'Py Sync server does not have a copy of this sync. The sync ID may be invalid, or it may have timed out."
-    new "Ren'Py 동기화 서버에 이 동기화의 복사본이 없습니다. 동기화 ID가 유효하지 않거나 시간이 초과되었을 수 있습니다."
+    new "The Ren'Py Sync server does not have a copy of this sync. The sync ID may be invalid, or it may have timed out."
 
     # renpy/common/00sync.rpy:316
     old "Please enter the sync ID you generated.\nNever enter a sync ID you didn't create yourself."
-    new "생성한 동기화 ID를 입력하세요.\n직접 만들지 않은 동기화 ID는 절대로 입력하지 마세요."
+    new "Please enter the sync ID you generated.\nNever enter a sync ID you didn't create yourself."
 
     # renpy/common/00sync.rpy:335
     old "The sync ID is not in the correct format."
-    new "동기화 ID의 형식이 올바르지 않습니다."
+    new "The sync ID is not in the correct format."
 
     # renpy/common/00sync.rpy:355
     old "The sync could not be decrypted."
-    new "동기화를 해독할 수 없습니다."
+    new "The sync could not be decrypted."
 
     # renpy/common/00sync.rpy:378
     old "The sync belongs to a different game."
-    new "동기화는 다른 게임에 속합니다."
+    new "The sync belongs to a different game."
 
     # renpy/common/00sync.rpy:383
     old "The sync contains a file with an invalid name."
-    new "동기화에 잘못된 이름의 파일이 포함되어 있습니다."
+    new "The sync contains a file with an invalid name."
 
     # renpy/common/00sync.rpy:440
     old "This will upload your saves to the {a=https://sync.renpy.org}Ren'Py Sync Server{/a}.\nDo you want to continue?"
-    new "그러면 저장된 내용이 {a=https://sync.renpy.org}Ren'Py 동기화 서버{/a} 에 업로드됩니다.\n계속하시겠습니까?"
+    new "This will upload your saves to the {a=https://sync.renpy.org}Ren'Py Sync Server{/a}.\nDo you want to continue?"
 
     # renpy/common/00sync.rpy:448
     old "Yes"
-    new "네"
+    new "Yes"
 
     # renpy/common/00sync.rpy:449
     old "No"
-    new "아니오"
+    new "No"
 
     # renpy/common/00sync.rpy:472
     old "Enter Sync ID"
-    new "동기화 ID 입력"
+    new "Enter Sync ID"
 
     # renpy/common/00sync.rpy:483
     old "This will contact the {a=https://sync.renpy.org}Ren'Py Sync Server{/a}."
-    new "그러면 {a=https://sync.renpy.org}Ren'Py 동기화 서버{/a} 에 연결됩니다."
+    new "This will contact the {a=https://sync.renpy.org}Ren'Py Sync Server{/a}."
 
     # renpy/common/00sync.rpy:513
     old "Sync Success"
-    new "동기화 성공"
+    new "Sync Success"
 
     # renpy/common/00sync.rpy:516
     old "The Sync ID is:"
-    new "동기화 ID는 다음과 같습니다:"
+    new "The Sync ID is:"
 
     # renpy/common/00sync.rpy:522
     old "You can use this ID to download your save on another device.\nThis sync will expire in an hour.\nRen'Py Sync is supported by {a=https://www.renpy.org/sponsors.html}Ren'Py's Sponsors{/a}."
-    new "이 ID를 사용하여 다른 장치에서 저장 내용을 다운로드할 수 있습니다.\n이 동기화는 1시간 후에 만료됩니다.\nRen'Py Sync는 {a=https://www.renpy.org/sponsors.html}Ren'Py의 스폰서{/a} 에서 지원합니다."
+    new "You can use this ID to download your save on another device.\nThis sync will expire in an hour.\nRen'Py Sync is supported by {a=https://www.renpy.org/sponsors.html}Ren'Py's Sponsors{/a}."
 
     # renpy/common/00sync.rpy:526
     old "Continue"
-    new "계속하기"
+    new "Continue"
 
     # renpy/common/00sync.rpy:551
     old "Sync Error"
-    new "동기화 오류"
+    new "Sync Error"
 
     # renpy/common/00translation.rpy:63
     old "Translation identifier: [identifier]"
@@ -891,7 +891,7 @@ translate None strings:
 
     # renpy/common/00iap.rpy:231
     old "Contacting App Store\nPlease Wait..."
-    new "앱스토어와 통신 중\n잠시만 기다려주십시오..."
+    new "Contacting App Store\nPlease Wait..."
 
     # renpy/common/00updater.rpy:505
     old "No update methods found."
@@ -907,87 +907,87 @@ translate None strings:
 
     # renpy/common/00updater.rpy:765
     old "An error is being simulated."
-    new "오류가 발생했습니다."
+    new "An error is being simulated."
 
     # renpy/common/00updater.rpy:953
     old "Either this project does not support updating, or the update status file was deleted."
-    new "이 프로젝트는 업데이트 기능을 지원하지 않거나, 이 프로젝트의 업데이트 상태 파일이 제거되었습니다."
+    new "Either this project does not support updating, or the update status file was deleted."
 
     # renpy/common/00updater.rpy:967
     old "This account does not have permission to perform an update."
-    new "이 계정은 업데이트를 실행할 권한이 없습니다."
+    new "This account does not have permission to perform an update."
 
     # renpy/common/00updater.rpy:970
     old "This account does not have permission to write the update log."
-    new "이 계정은 업데이트 로그를 작성할 권한이 없습니다."
+    new "This account does not have permission to write the update log."
 
     # renpy/common/00updater.rpy:1050
     old "Could not verify update signature."
-    new "업데이트 서명을 확인할 수 없습니다."
+    new "Could not verify update signature."
 
     # renpy/common/00updater.rpy:1373
     old "The update file was not downloaded."
-    new "업데이트 파일이 다운로드되지 않았습니다."
+    new "The update file was not downloaded."
 
     # renpy/common/00updater.rpy:1391
     old "The update file does not have the correct digest - it may have been corrupted."
-    new "업데이트 파일에 올바른 개요가 없습니다. 파일이 손상되었을 수 있습니다."
+    new "The update file does not have the correct digest - it may have been corrupted."
 
     # renpy/common/00updater.rpy:1541
     old "While unpacking {}, unknown type {}."
-    new "{} 압축 해제 중, {}는 알 수 없는 타입입니다."
+    new "While unpacking {}, unknown type {}."
 
     # renpy/common/00updater.rpy:2022
     old "Updater"
-    new "업데이터"
+    new "Updater"
 
     # renpy/common/00updater.rpy:2029
     old "An error has occured:"
-    new "오류가 발생했습니다:"
+    new "An error has occured:"
 
     # renpy/common/00updater.rpy:2031
     old "Checking for updates."
-    new "업데이트 확인 중."
+    new "Checking for updates."
 
     # renpy/common/00updater.rpy:2033
     old "This program is up to date."
-    new "이 프로그램은 최신 버전입니다"
+    new "This program is up to date."
 
     # renpy/common/00updater.rpy:2035
     old "[u.version] is available. Do you want to install it?"
-    new "[u.version]을 업데이트할 수 있습니다. 설치하겠습니까?"
+    new "[u.version] is available. Do you want to install it?"
 
     # renpy/common/00updater.rpy:2037
     old "Preparing to download the updates."
-    new "업데이트 파일 다운로드 준비 중."
+    new "Preparing to download the updates."
 
     # renpy/common/00updater.rpy:2039
     old "Downloading the updates."
-    new "업데이트 파일 다운로드 중."
+    new "Downloading the updates."
 
     # renpy/common/00updater.rpy:2041
     old "Unpacking the updates."
-    new "업데이트 파일 압축해제 중."
+    new "Unpacking the updates."
 
     # renpy/common/00updater.rpy:2043
     old "Finishing up."
-    new "마무리 중."
+    new "Finishing up."
 
     # renpy/common/00updater.rpy:2045
     old "The updates have been installed. The program will restart."
-    new "업데이트를 설치했습니다. 프로그램을 재시작합니다."
+    new "The updates have been installed. The program will restart."
 
     # renpy/common/00updater.rpy:2047
     old "The updates have been installed."
-    new "업데이트를 설치했습니다."
+    new "The updates have been installed."
 
     # renpy/common/00updater.rpy:2049
     old "The updates were cancelled."
-    new "업데이트가 취소되었습니다."
+    new "The updates were cancelled."
 
     # renpy/common/00updater.rpy:2064
     old "Proceed"
-    new "다음으로"
+    new "Proceed"
 
     # renpy/common/00updater.rpy:2080
     old "Preparing to download the game data."
@@ -1015,83 +1015,83 @@ translate None strings:
 
     # renpy/common/00compat.rpy:438
     old "Fullscreen"
-    new "전체 화면"
+    new "Fullscreen"
 
     # renpy/common/00gallery.rpy:643
     old "Image [index] of [count] locked."
-    new "[count]의 [index]번째 그림은 잠겨있습니다."
+    new "Image [index] of [count] locked."
 
     # renpy/common/00gallery.rpy:663
     old "prev"
-    new "뒤로"
+    new "prev"
 
     # renpy/common/00gallery.rpy:664
     old "next"
-    new "앞으로"
+    new "next"
 
     # renpy/common/00gallery.rpy:665
     old "slideshow"
-    new "슬라이드쇼"
+    new "slideshow"
 
     # renpy/common/00gallery.rpy:666
     old "return"
-    new "돌아가기"
+    new "return"
 
     # renpy/common/00gltest.rpy:90
     old "Renderer"
-    new "렌더러"
+    new "Renderer"
 
     # renpy/common/00gltest.rpy:94
     old "Automatically Choose"
-    new "자동으로 선택한다"
+    new "Automatically Choose"
 
     # renpy/common/00gltest.rpy:101
     old "Force GL Renderer"
-    new "Force GL 렌더러"
+    new "Force GL Renderer"
 
     # renpy/common/00gltest.rpy:106
     old "Force ANGLE Renderer"
-    new "포스 앵글 렌더러"
+    new "Force ANGLE Renderer"
 
     # renpy/common/00gltest.rpy:111
     old "Force GLES Renderer"
-    new "Force GLES 렌더러"
+    new "Force GLES Renderer"
 
     # renpy/common/00gltest.rpy:117
     old "Force GL2 Renderer"
-    new "Force GL2 렌더러"
+    new "Force GL2 Renderer"
 
     # renpy/common/00gltest.rpy:122
     old "Force ANGLE2 Renderer"
-    new "Force ANGLE2 렌더러"
+    new "Force ANGLE2 Renderer"
 
     # renpy/common/00gltest.rpy:127
     old "Force GLES2 Renderer"
-    new "Force GLES2 렌더러"
+    new "Force GLES2 Renderer"
 
     # renpy/common/00gltest.rpy:133
     old "Gamepad"
-    new "게임패드"
+    new "Gamepad"
 
     # renpy/common/00gltest.rpy:137
     old "Enable (No Blocklist)"
-    new "사용(차단 목록 없음)"
+    new "Enable (No Blocklist)"
 
     # renpy/common/00gltest.rpy:151
     old "Calibrate"
-    new "조정"
+    new "Calibrate"
 
     # renpy/common/00gltest.rpy:160
     old "Powersave"
-    new "절전"
+    new "Powersave"
 
     # renpy/common/00gltest.rpy:174
     old "Framerate"
-    new "프레임 속도"
+    new "Framerate"
 
     # renpy/common/00gltest.rpy:178
     old "Screen"
-    new "스크린"
+    new "Screen"
 
     # renpy/common/00gltest.rpy:182
     old "60"
@@ -1103,195 +1103,195 @@ translate None strings:
 
     # renpy/common/00gltest.rpy:192
     old "Tearing"
-    new "티어링"
+    new "Tearing"
 
     # renpy/common/00gltest.rpy:208
     old "Changes will take effect the next time this program is run."
-    new "변경사항은 프로그램을 재시작하면 적용됩니다."
+    new "Changes will take effect the next time this program is run."
 
     # renpy/common/00gltest.rpy:215
     old "Quit"
-    new "종료하기"
+    new "Quit"
 
     # renpy/common/00gltest.rpy:244
     old "Performance Warning"
-    new "성능 경고"
+    new "Performance Warning"
 
     # renpy/common/00gltest.rpy:249
     old "This computer is using software rendering."
-    new "이 컴퓨터에서는 소프트웨어 렌더링을 사용하고 있습니다."
+    new "This computer is using software rendering."
 
     # renpy/common/00gltest.rpy:251
     old "This game requires use of GL2 that can't be initialised."
-    new "이 게임은 초기화할 수 없는 GL2를 사용해야 합니다."
+    new "This game requires use of GL2 that can't be initialised."
 
     # renpy/common/00gltest.rpy:253
     old "This computer has a problem displaying graphics: [problem]."
-    new "이 컴퓨터에는 그래픽 표시에 문제가 있습니다. [problem]."
+    new "This computer has a problem displaying graphics: [problem]."
 
     # renpy/common/00gltest.rpy:257
     old "Its graphics drivers may be out of date or not operating correctly. This can lead to slow or incorrect graphics display."
-    new "컴퓨터의 그래픽 드라비어가 구버전이거나 제대로 작동하지 않습니다. 그래픽을 느리게 표시하거나 제대로 표시하지 못할 수 있습니다."
+    new "Its graphics drivers may be out of date or not operating correctly. This can lead to slow or incorrect graphics display."
 
     # renpy/common/00gltest.rpy:261
     old "The {a=edit:1:log.txt}log.txt{/a} file may contain information to help you determine what is wrong with your computer."
-    new "{a=edit:1:log.txt}log.txt{/a} 파일에는 컴퓨터의 문제점을 파악하는 데 도움이 되는 정보가 포함되어 있을 수 있습니다."
+    new "The {a=edit:1:log.txt}log.txt{/a} file may contain information to help you determine what is wrong with your computer."
 
     # renpy/common/00gltest.rpy:266
     old "More details on how to fix this can be found in the {a=[url]}documentation{/a}."
-    new "이 문제를 해결하는 방법에 대한 자세한 내용은 {a=[url]}문서{/a} 에서 확인할 수 있습니다."
+    new "More details on how to fix this can be found in the {a=[url]}documentation{/a}."
 
     # renpy/common/00gltest.rpy:271
     old "Continue, Show this warning again"
-    new "계속한다. 이 경고를 다시 표시한다."
+    new "Continue, Show this warning again"
 
     # renpy/common/00gltest.rpy:275
     old "Continue, Don't show warning again"
-    new "계속한다. 이 경고를 다시 표시하지 않는다."
+    new "Continue, Don't show warning again"
 
     # renpy/common/00gltest.rpy:283
     old "Change render options"
-    new "렌더링 옵션 변경"
+    new "Change render options"
 
     # renpy/common/00gamepad.rpy:33
     old "Select Gamepad to Calibrate"
-    new "보정할 게임패드 선택"
+    new "Select Gamepad to Calibrate"
 
     # renpy/common/00gamepad.rpy:36
     old "No Gamepads Available"
-    new "사용 가능한 게임패드가 없습니다."
+    new "No Gamepads Available"
 
     # renpy/common/00gamepad.rpy:56
     old "Calibrating [name] ([i]/[total])"
-    new "[name]를 보정 중입니다. ([i]/[total])"
+    new "Calibrating [name] ([i]/[total])"
 
     # renpy/common/00gamepad.rpy:60
     old "Press or move the '[control!s]' [kind]."
-    new "'[control!s]' [kind] 을 누르거나 이동합니다."
+    new "Press or move the '[control!s]' [kind]."
 
     # renpy/common/00gamepad.rpy:70
     old "Skip (A)"
-    new "스킵 (A)"
+    new "Skip (A)"
 
     # renpy/common/00gamepad.rpy:73
     old "Back (B)"
-    new "뒤로 (B)"
+    new "Back (B)"
 
     # renpy/common/_errorhandling.rpym:674
     old "Open"
-    new "열기"
+    new "Open"
 
     # renpy/common/_errorhandling.rpym:676
     old "Opens the traceback.txt file in a text editor."
-    new "traceback.txt 파일을 텍스트 에디터로 엽니다."
+    new "Opens the traceback.txt file in a text editor."
 
     # renpy/common/_errorhandling.rpym:678
     old "Copy BBCode"
-    new "BB코드 복사"
+    new "Copy BBCode"
 
     # renpy/common/_errorhandling.rpym:680
     old "Copies the traceback.txt file to the clipboard as BBcode for forums like https://lemmasoft.renai.us/."
-    new "traceback.txt 파일을 https://lemmasoft.renai.us/ 같은 포럼에서 사용하는 BB코드로 클립보드에 복사합니다."
+    new "Copies the traceback.txt file to the clipboard as BBcode for forums like https://lemmasoft.renai.us/."
 
     # renpy/common/_errorhandling.rpym:682
     old "Copy Markdown"
-    new "마크다운 복사"
+    new "Copy Markdown"
 
     # renpy/common/_errorhandling.rpym:684
     old "Copies the traceback.txt file to the clipboard as Markdown for Discord."
-    new "traceback.txt 파일을 디스코드(Discord) 마크다운으로 클립보드에 복사합니다."
+    new "Copies the traceback.txt file to the clipboard as Markdown for Discord."
 
     # renpy/common/_errorhandling.rpym:716
     old "An exception has occurred."
-    new "예외가 발생했습니다."
+    new "An exception has occurred."
 
     # renpy/common/_errorhandling.rpym:739
     old "Rollback"
-    new "롤백"
+    new "Rollback"
 
     # renpy/common/_errorhandling.rpym:741
     old "Attempts a roll back to a prior time, allowing you to save or choose a different choice."
-    new "게임을 저장하거나 다른 선택지를 선택할 수 있도록 이전으로 롤백합니다."
+    new "Attempts a roll back to a prior time, allowing you to save or choose a different choice."
 
     # renpy/common/_errorhandling.rpym:744
     old "Ignore"
-    new "무시"
+    new "Ignore"
 
     # renpy/common/_errorhandling.rpym:748
     old "Ignores the exception, allowing you to continue."
-    new "예외를 무시하고 게임을 계속합니다."
+    new "Ignores the exception, allowing you to continue."
 
     # renpy/common/_errorhandling.rpym:750
     old "Ignores the exception, allowing you to continue. This often leads to additional errors."
-    new "예외를 무시하고 게임을 계속합니다. 간혹 오류가 추가 발생할 수 있습니다."
+    new "Ignores the exception, allowing you to continue. This often leads to additional errors."
 
     # renpy/common/_errorhandling.rpym:754
     old "Reload"
-    new "다시 불러오기"
+    new "Reload"
 
     # renpy/common/_errorhandling.rpym:756
     old "Reloads the game from disk, saving and restoring game state if possible."
-    new "현재 상태를 저장한 뒤 복원하여 게임을 디스크에서 다시 불러옵니다."
+    new "Reloads the game from disk, saving and restoring game state if possible."
 
     # renpy/common/_errorhandling.rpym:759
     old "Console"
-    new "콘솔"
+    new "Console"
 
     # renpy/common/_errorhandling.rpym:761
     old "Opens a console to allow debugging the problem."
-    new "콘솔을 열어 문제를 디버깅합니다."
+    new "Opens a console to allow debugging the problem."
 
     # renpy/common/_errorhandling.rpym:774
     old "Quits the game."
-    new "게임을 종료합니다."
+    new "Quits the game."
 
     # renpy/common/_errorhandling.rpym:796
     old "Parsing the script failed."
-    new "스크립트 해석 실패."
+    new "Parsing the script failed."
 
     # renpy/common/_developer/developer.rpym:39
     old "Developer Menu"
-    new "개발자 메뉴"
+    new "Developer Menu"
 
     # renpy/common/_developer/developer.rpym:44
     old "Interactive Director (D)"
-    new "인터렉티브 디렉터 (D)"
+    new "Interactive Director (D)"
 
     # renpy/common/_developer/developer.rpym:46
     old "Reload Game (Shift+R)"
-    new "게임 재시작 (Shift+R)"
+    new "Reload Game (Shift+R)"
 
     # renpy/common/_developer/developer.rpym:48
     old "Console (Shift+O)"
-    new "콘솔 (Shift+O)"
+    new "Console (Shift+O)"
 
     # renpy/common/_developer/developer.rpym:50
     old "Variable Viewer"
-    new "변수 확인"
+    new "Variable Viewer"
 
     # renpy/common/_developer/developer.rpym:52
     old "Persistent Viewer"
-    new "영구 뷰어"
+    new "Persistent Viewer"
 
     # renpy/common/_developer/developer.rpym:54
     old "Image Location Picker"
-    new "이미지 위치 확인"
+    new "Image Location Picker"
 
     # renpy/common/_developer/developer.rpym:56
     old "Filename List"
-    new "파일이름 목록"
+    new "Filename List"
 
     # renpy/common/_developer/developer.rpym:60
     old "Show Image Load Log (F4)"
-    new "이미지 불러오기 목록을 표시하기 (F4)"
+    new "Show Image Load Log (F4)"
 
     # renpy/common/_developer/developer.rpym:63
     old "Hide Image Load Log (F4)"
-    new "이미지 불러오기 목록을 숨기기 (F4)"
+    new "Hide Image Load Log (F4)"
 
     # renpy/common/_developer/developer.rpym:66
     old "Image Attributes"
-    new "이미지 속성"
+    new "Image Attributes"
 
     # renpy/common/_developer/developer.rpym:70
     old "Show Translation Info"
@@ -1303,7 +1303,7 @@ translate None strings:
 
     # renpy/common/_developer/developer.rpym:78
     old "Speech Bubble Editor (Shift+B)"
-    new "말풍선 편집기(Shift+B)"
+    new "Speech Bubble Editor (Shift+B)"
 
     # renpy/common/_developer/developer.rpym:82
     old "Show Filename and Line"
@@ -1327,47 +1327,47 @@ translate None strings:
 
     # renpy/common/_developer/developer.rpym:190
     old "Nothing to inspect."
-    new "조사할 것이 없습니다."
+    new "Nothing to inspect."
 
     # renpy/common/_developer/developer.rpym:201
     old "Hide deleted"
-    new "삭제항목 숨기기"
+    new "Hide deleted"
 
     # renpy/common/_developer/developer.rpym:201
     old "Show deleted"
-    new "삭제항목 보이기"
+    new "Show deleted"
 
     # renpy/common/_developer/developer.rpym:352
     old "Rectangle copied to clipboard."
-    new "선택 영역 좌표가 복사되었습니다."
+    new "Rectangle copied to clipboard."
 
     # renpy/common/_developer/developer.rpym:355
     old "Position copied to clipboard."
-    new "좌표가 복사되었습니다."
+    new "Position copied to clipboard."
 
     # renpy/common/_developer/developer.rpym:367
     old "Rectangle: %r"
-    new "사각 영역 좌표: %r"
+    new "Rectangle: %r"
 
     # renpy/common/_developer/developer.rpym:370
     old "Mouse position: %r"
-    new "마우스 포인터 좌표: %r"
+    new "Mouse position: %r"
 
     # renpy/common/_developer/developer.rpym:375
     old "Right-click or escape to quit."
-    new "우클릭 및 Esc 키로 종료하기."
+    new "Right-click or escape to quit."
 
     # renpy/common/_developer/developer.rpym:425
     old "Type to filter: "
-    new "필터: "
+    new "Type to filter: "
 
     # renpy/common/_developer/developer.rpym:544
     old "Textures: [tex_count] ([tex_size_mb:.1f] MB)"
-    new "텍스쳐: [tex_count] ([tex_size_mb:.1f] MB)"
+    new "Textures: [tex_count] ([tex_size_mb:.1f] MB)"
 
     # renpy/common/_developer/developer.rpym:548
     old "Image cache: [cache_pct:.1f]% ([cache_size_mb:.1f] MB)"
-    new "이미지 캐시: [cache_pct:.1f]% ([cache_size_mb:.1f] MB)"
+    new "Image cache: [cache_pct:.1f]% ([cache_size_mb:.1f] MB)"
 
     # renpy/common/_developer/developer.rpym:558
     old "✔ "
@@ -1379,7 +1379,7 @@ translate None strings:
 
     # renpy/common/_developer/developer.rpym:566
     old "\n{color=#cfc}✔ predicted image (good){/color}\n{color=#fcc}✘ unpredicted image (bad){/color}\n{color=#fff}Drag to move.{/color}"
-    new "\n{color=#cfc}✔ 예측된 이미지 (좋은){/color}\n{color=#fcc}✘ 예측하지 못한 이미지 (나쁜){/color}\n{color=#fff}드래그로 이동.{/color}"
+    new "\n{color=#cfc}✔ predicted image (good){/color}\n{color=#fcc}✘ unpredicted image (bad){/color}\n{color=#fff}Drag to move.{/color}"
 
     # renpy/common/_developer/developer.rpym:616
     old "Click to open in editor."
@@ -1387,51 +1387,51 @@ translate None strings:
 
     # renpy/common/_developer/inspector.rpym:39
     old "Displayable Inspector"
-    new "디스플레이어블 조사기"
+    new "Displayable Inspector"
 
     # renpy/common/_developer/inspector.rpym:62
     old "Size"
-    new "크기"
+    new "Size"
 
     # renpy/common/_developer/inspector.rpym:66
     old "Style"
-    new "스타일"
+    new "Style"
 
     # renpy/common/_developer/inspector.rpym:72
     old "Location"
-    new "위치"
+    new "Location"
 
     # renpy/common/_developer/inspector.rpym:124
     old "Inspecting Styles of [displayable_name!q]"
-    new "[displayable_name!q]의 스타일 조사 중"
+    new "Inspecting Styles of [displayable_name!q]"
 
     # renpy/common/_developer/inspector.rpym:141
     old "displayable:"
-    new "디스플레이어블:"
+    new "displayable:"
 
     # renpy/common/_developer/inspector.rpym:147
     old "        (no properties affect the displayable)"
-    new "        (디스플레이어블에 적용되는 속성이 없습니다)"
+    new "        (no properties affect the displayable)"
 
     # renpy/common/_developer/inspector.rpym:149
     old "        (default properties omitted)"
-    new "        (기본 속성이 빠져있습니다)"
+    new "        (default properties omitted)"
 
     # renpy/common/_developer/inspector.rpym:187
     old "<repr() failed>"
-    new "<repr() 실패>"
+    new "<repr() failed>"
 
     # renpy/common/00console.rpy:538
     old "Press <esc> to exit console. Type help for help.\n"
-    new "콘솔을 종료하려면 <esc>키를 누르세요. help를 입력하면 도움말이 나타납니다.\n"
+    new "Press <esc> to exit console. Type help for help.\n"
 
     # renpy/common/00console.rpy:542
     old "Ren'Py script enabled."
-    new "렌파이 스크립트 입력 활성화."
+    new "Ren'Py script enabled."
 
     # renpy/common/00console.rpy:544
     old "Ren'Py script disabled."
-    new "렌파이 스크립트 입력 비활성화."
+    new "Ren'Py script disabled."
 
     # renpy/common/00console.rpy:725
     old "The console is using short representations. To disable this, type 'long', and to re-enable, type 'short'"
@@ -1439,78 +1439,78 @@ translate None strings:
 
     # renpy/common/00console.rpy:797
     old "help: show this help\n help <expr>: show signature and documentation of <expr>"
-    new "help: 이 도움말 표시\n help <expr>: <EXPR>의 서명 및 문서 표시"
+    new "help: show this help\n help <expr>: show signature and documentation of <expr>"
 
     # renpy/common/00console.rpy:821
     old "Help may display undocumented functions. Please check that the function or\nclass you want to use is documented.\n\n"
-    new "도움말에 문서화되지 않은 기능이 표시될 수 있습니다. 해당 기능이나\n클래스가 문서화되어 있습니다.\n\n"
+    new "Help may display undocumented functions. Please check that the function or\nclass you want to use is documented.\n\n"
 
     # renpy/common/00console.rpy:830
     old "commands:\n"
-    new "명령을 실행합니다:\n"
+    new "commands:\n"
 
     # renpy/common/00console.rpy:840
     old " <renpy script statement>: run the statement\n"
-    new " <렌파이 스크립트 명령문>: 명령문을 실행한다\n"
+    new " <renpy script statement>: run the statement\n"
 
     # renpy/common/00console.rpy:842
     old " <python expression or statement>: run the expression or statement"
-    new " <파이썬 표현식 또는 명령문>: 표현식이나 명령문을 실행한다"
+    new " <python expression or statement>: run the expression or statement"
 
     # renpy/common/00console.rpy:850
     old "clear: clear the console history"
-    new "clear: 콘솔을 비운다"
+    new "clear: clear the console history"
 
     # renpy/common/00console.rpy:854
     old "exit: exit the console"
-    new "exit: 콘솔을 종료한다"
+    new "exit: exit the console"
 
     # renpy/common/00console.rpy:862
     old "stack: print the return stack"
-    new "stack: 반환 스택 인쇄"
+    new "stack: print the return stack"
 
     # renpy/common/00console.rpy:884
     old "load <slot>: loads the game from slot"
-    new "load <slot>: slot에서 게임을 불러온다"
+    new "load <slot>: loads the game from slot"
 
     # renpy/common/00console.rpy:897
     old "save <slot>: saves the game in slot"
-    new "save <slot>: slot에 게임을 저장한다"
+    new "save <slot>: saves the game in slot"
 
     # renpy/common/00console.rpy:908
     old "reload: reloads the game, refreshing the scripts"
-    new "reload: 최신 스크립트를 불러와 게임을 재시작한다"
+    new "reload: reloads the game, refreshing the scripts"
 
     # renpy/common/00console.rpy:916
     old "watch <expression>: watch a python expression\n watch short: makes the representation of traced expressions short (default)\n watch long: makes the representation of traced expressions as is"
-    new "watch <expression>: 파이썬 표현식 보기\n watch short: 는 추적된 표현식을 짧게 표현합니다(기본값).\n watch long: 는 추적된 표현식을 있는 그대로 표현합니다."
+    new "watch <expression>: watch a python expression\n watch short: makes the representation of traced expressions short (default)\n watch long: makes the representation of traced expressions as is"
 
     # renpy/common/00console.rpy:953
     old "unwatch <expression>: stop watching an expression"
-    new "unwathch <expression>: expression 표현식의 주시를 중단한다"
+    new "unwatch <expression>: stop watching an expression"
 
     # renpy/common/00console.rpy:999
     old "unwatchall: stop watching all expressions"
-    new "unwatchall: 모든 표현식의 주시를 중단한다"
+    new "unwatchall: stop watching all expressions"
 
     # renpy/common/00console.rpy:1020
     old "jump <label>: jumps to label"
-    new "jump <label>: label로 점프한다"
+    new "jump <label>: jumps to label"
 
     # renpy/common/00console.rpy:1036
     old "short: Shorten the representation of objects on the console (default)."
-    new "short: 콘솔에서 오브젝트 표시를 줄인다 (기본값)."
+    new "short: Shorten the representation of objects on the console (default)."
 
     # renpy/common/00console.rpy:1040
     old "long: Print the full representation of objects on the console."
-    new "long: 콘솔에서 오브젝트를 모두 표시한다."
+    new "long: Print the full representation of objects on the console."
 
     # renpy/common/00console.rpy:1044
     old "escape: Enables escaping of unicode symbols in unicode strings."
-    new "escape: 유니코드 문자열에서 유니코드 기호를 이스케이프 처리할 수 있습니다."
+    new "escape: Enables escaping of unicode symbols in unicode strings."
 
     # renpy/common/00console.rpy:1048
     old "unescape: Disables escaping of unicode symbols in unicode strings and print it as is (default)."
-    new "unescape: 유니코드 문자열에서 유니코드 기호의 이스케이핑을 비활성화하고 그대로 인쇄합니다(기본값)."
+    new "unescape: Disables escaping of unicode symbols in unicode strings and print it as is (default)."
 
 define gui.system_font = 'SourceHanSansLite.ttf'

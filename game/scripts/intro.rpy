@@ -3,7 +3,7 @@ label start:
     $ renpy.stop_skipping()
     $ play_scene_music(scene_field_music)
 
-    $ player_name = renpy.input("이름을 입력하세요.").strip() or player_name
+    $ player_name = renpy.input("Enter your name.").strip() or player_name
     $ remember_player_name(player_name)
 
     call progress_autosave from intro_name_autosaved
@@ -12,91 +12,91 @@ label start:
 
 
 # --------------------------------------------------
-# 캐릭터 정의
-# n, mc는 scripts/chapter.rpy의 기존 정의를 재사용한다.
+# Character definitions
+# Reuse n and mc from scripts/chapter.rpy.
 # --------------------------------------------------
-define ghost = Character("작은 유령", color="#B4DFFF")
+define ghost = Character("Little Ghost", color="#B4DFFF")
 
 
 label intro:
 
-    # 기능 연동 전에는 대사 흐름만 확인할 수 있다.
-    # 결과가 필요한 성공 대사는 각 TODO 구간에 주석으로 보존한다.
+    # Only the dialogue flow can be checked before the features are connected.
+    # Dialogue that depends on results is preserved in comments at each TODO.
 
     # ==========================================
-    # SCENE 1. 낯선 아파트
+    # SCENE 1. An unfamiliar apartment building
     # ==========================================
 
     $ play_scene_music(scene_field_music)
     scene apartment field with fade
 
-    n "차가운 바람이 뺨을 스친다. 눈을 뜨니 낯선 벌판 한가운데다."
-    mc "여긴 어디지...?"
-    n "주변을 둘러보지만 아무도 보이지 않는다."
-    n "멀리, 불이 켜진 아파트 하나가 보인다."
-    mc "저기라면 누군가 있을지도 몰라."
+    n "A cold wind brushes my cheeks. I open my eyes in the middle of a field I've never seen before."
+    mc "Where am I...?"
+    n "I look around, but there's nobody in sight."
+    n "In the distance, the lights are on in an apartment building."
+    mc "Maybe someone's in there."
     show apartment exterior with fade
-    n "나는 불빛을 따라 걸어가 아파트 안으로 들어선다."
+    n "I follow the lights and step inside."
 
     $ play_scene_music(scene_entrance_music)
     show apartment entrance with fade
 
-    n "그 순간, 등 뒤에서 출입문이 닫힌다."
-    mc "어? 문이 안 열려!"
+    n "Just then, the front door shuts behind me."
+    mc "Huh? The door won't open!"
 
     show ui_ghost intro_idle at ui_ghost_position, ghost_float with dissolve
-    #유령 이미지를 지정한 크기와 위치에 부드럽게 나타나게 한다.
+    # Fade in Little Ghost at the specified size and position.
 
-    n "작은 유령 하나가 내 앞에 나타난다."
+    n "A little ghost appears in front of me."
     show ui_ghost intro_worried with Dissolve(0.2)
-    ghost "너도 이곳에 갇혀버렸구나! 이 아파트는 괴물들의 저주에 걸렸어."
-    mc "그럼 여기서 어떻게 나가?"
+    ghost "You're trapped here too! Monsters have cursed this building."
+    mc "How do we get out?"
     show ui_ghost intro_explain with Dissolve(0.2)
-    ghost "맨 위층에 있는 저주의 근원을 없애야 해. 하지만 괴물들을 물리치려면 특별한 힘이 필요해!"
-    mc "특별한 힘? 나한테도 그런 게 있을까?"
+    ghost "We have to break the curse on the top floor. But it takes a special power to beat the monsters!"
+    mc "A special power? Do I have one?"
     show ui_ghost intro_idea with Dissolve(0.2)
-    ghost "물론이지. 네 목소리에 그 힘이 숨어 있거든!"
+    ghost "Of course! It's hidden in your voice!"
 
     # ==========================================
-    # SCENE 2. 마이크 테스트 & 비교 문장 녹음 
+    # SCENE 2. Mic check and comparison recording
     # ==========================================
 
     show apartment lobby behind ui_ghost with dissolve
     show ui_ghost intro_talk_closed with Dissolve(0.2)
-    ghost "이 아파트에서는 목소리가 힘이 될 수 있어. 네 목소리가 어떤 힘을 가지고 있는지 먼저 알아보자!"
+    ghost "In this building, your voice has magic. Let's find out what it can do!"
     show ui_ghost intro_talk with Dissolve(0.2)
-    ghost "먼저 이 문장을 읽어봐."
+    ghost "Start by reading this sentence out loud."
     show ui_ghost intro_idle with Dissolve(0.2)
-    ghost "서두르지 말고, 편안하게 읽으면 돼."
+    ghost "Take your time. Read it the way you normally would."
 
     window hide
 
     $ renpy.music.set_pause(True, channel="music")
     call screen ui_sentence(
         "사자가 숲속에서 사과를 찾았어요."
-    )   #다음을 누르면 기존 대사가 이어짐
+    )   # Next resumes the dialogue.
 
     $ renpy.music.set_pause(False, channel="music")
     $ play_scene_music(scene_entrance_music)
     window auto
-    #화면 확인용 임시 예제
+    # Temporary example for checking the screen.
 
     # --------------------------------------------------
-    # TODO 마이크 테스트 & 초기 비교 문장 녹음 
-    # 마이크 작동 여부, 음성 입력 크기 및 주변 잡음 확인
-    # Final Boss에서 동일하게 사용할 문장 제시 및 녹음
-    # 녹음 파일 및 음향 분석 결과를 DB에 저장
+    # TODO Check the mic and record the initial comparison sentence.
+    # Check for a working mic, input volume, and background noise.
+    # Show and record the same sentence that will be used for the Final Boss.
+    # Store the recording and acoustic analysis results in the database.
     # --------------------------------------------------
 
     # ==========================================
-    # SCENE 3. 초기 발음 평가
+    # SCENE 3. Initial pronunciation assessment
     # ==========================================
 
     show ui_ghost intro_happy with Dissolve(0.2)
-    ghost "좋아! 이제 어떤 발음으로 괴물들을 물리칠 수 있을지 알아보자!"
+    ghost "Great! Now let's find out which sounds will help you beat the monsters!"
     show ui_ghost intro_explain with Dissolve(0.2)
-    ghost "화면에 나타나는 글자를 하나씩 말해봐!"
-    mc "알겠어! 천천히 해 볼게."
+    ghost "Say each sound as it appears on the screen!"
+    mc "Okay! I'll take it slow."
 
     window hide
 
@@ -106,62 +106,62 @@ label intro:
 
     $ play_scene_music(scene_entrance_music)
     window auto
-    #시 → 세 → 사 → 서 → 소 → 수 → 스 순서로 바뀌고, 마지막에 ‘마치기’를 누르면 기존 단어 선정 대사로 이어짐
+    # Show 시, 세, 사, 서, 소, 수, and 스 in order. Finish resumes the word selection dialogue.
 
     # --------------------------------------------------
-    # TODO /ㅅ/ 발음 평가 기능 
-    # 시·세·사·서·소·수·스 각각 녹음 및 /ㅅ/ 발음 분석
-    # 정확하게 발음하는 음절과 어려워하는 음절 구분
+    # TODO Assess ㅅ pronunciation.
+    # Record 시, 세, 사, 서, 소, 수, and 스 and analyze ㅅ in each one.
+    # Group the sounds into clear sounds and sounds that need practice.
     # --------------------------------------------------
 
     # ==========================================
-    # SCENE 4. 짝자극 핵심 단어 선정
+    # SCENE 4. Choose a key word for paired-stimulus practice
     # ==========================================
 
     show ui_ghost intro_happy with Dissolve(0.2)
-    ghost "조금만 더 하면 괴물을 물리칠 방법을 찾을 수 있을 것 같아!"
+    ghost "We're almost ready to take on the monsters!"
     show ui_ghost intro_curious with Dissolve(0.2)
-    ghost "이번에는 화면에 나오는 단어들을 읽어 줄래?"
+    ghost "Can you read the words on the screen this time?"
 
     window hide
 
     call screen ui_word_selection(
-        "훈련단어 선택",
+        "Choose a Practice Word",
         ("사과", "사자", "사탕", "수박", "소금", "선물")
     )
 
     $ ui_selected_training_word = _return
 
     window auto
-    #훈련단어 선택 후 선택 완료를 누르면 고른 단어가 ui_selected_training_word에 저장
-    #훈련단어는 임의 선정, 추후 변경해야 함
+    # Done saves the chosen practice word in ui_selected_training_word.
+    # Practice words are provisional and should be updated later.
 
     # --------------------------------------------------
-    # TODO 핵심단어 및 훈련단어 선정
-    # /ㅅ/을 정확하게 발음하는 핵심단어와 어려워하는 훈련단어 선정
-    # 예외 처리: 핵심단어를 선정하지 못한 경우 별도 안내
+    # TODO Choose the key word and practice word.
+    # Pick a key word with a clear ㅅ and a practice word with a harder ㅅ.
+    # Show separate guidance if no key word can be selected.
     # --------------------------------------------------
 
     # ==========================================
-    # SCENE 5. 엘리베이터 작동
+    # SCENE 5. The elevator powers on
     # ==========================================
 
-    # 기능 연동 시 핵심단어 선정 성공 이후에만 이 장면에 진입한다.
+    # Once connected, enter this scene only after a key word is selected.
 
     $ play_scene_sound(scene_elevator_sound)
     show apartment elevator_on behind ui_ghost
     show ui_ghost intro_relief
     with dissolve
 
-    n "단어를 얻자, 닫혀 있던 엘리베이터의 불이 켜진다."
-    mc "엘리베이터에 불이 들어왔어!"
+    n "When we get our word, the elevator lights up."
+    mc "The elevator lit up!"
     show ui_ghost intro_move with Dissolve(0.2)
-    ghost "이제 위층으로 올라갈 수 있겠어."
-    mc "좋아. 함께 가자!"
+    ghost "Now we can go upstairs."
+    mc "Okay. Let's go together!"
 
     # --------------------------------------------------
-    # TODO Chapter 1 연결
-    # 핵심단어 선정 완료 후 Chapter 1으로 이동
+    # TODO Connect to Chapter 1.
+    # Go to Chapter 1 after choosing a key word.
     # --------------------------------------------------
 
     call show_chapter_end("images/chapter_end/intro.png") from intro_end_card_done

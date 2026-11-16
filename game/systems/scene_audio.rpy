@@ -1,7 +1,7 @@
 define scene_menu_music = "audio/메인 화면.flac"
 define scene_field_music = "audio/낯선 벌판·아파트 외관.ogg"
 define scene_entrance_music = "audio/아파트 입구·유령 첫 등장.ogg"
-# PCM16 copies of Chapter 1 복도 탐험.wav and 전투장면.wav.
+# PCM16 copies of the original Chapter 1 hallway and battle tracks.
 define scene_corridor_music = "audio/chapter1_corridor.wav"
 define scene_battle_music = "audio/chapter1_battle.wav"
 define scene_ch2_corridor_music = "audio/Chapter 2 복도 탐험.ogg"
