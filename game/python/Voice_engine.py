@@ -250,7 +250,7 @@ def syll_select(reset: bool = True) -> dict:
 
 
     valid_count = len(scores) + len(fallback_syls)
-    if not scores or valid_count < 2:
+    if len(scores) < 2:
         return {"status": "no_candidate",
                 "message": "Please re-evaluate",
                 "scores": scores, "fallback": fallback_syls, "excluded": excluded}
@@ -301,17 +301,20 @@ def _draw_syllable_image(best: str, worst: str, out_png) -> None:
     except Exception:
         pass
 
-    fig, axes = plt.subplots(1, 2, figsize=(8, 4.6), dpi=100)
+    fig, axes = plt.subplots(1, 2, figsize=(10, 5), dpi=100)
+    fig.subplots_adjust(wspace=0.6)
     for ax, syl, label in ((axes[0], best, "Highest accuracy syllable"),
                            (axes[1], worst, "Lowest accuracy syllable")):
         ax.axis("off")
-        ax.add_patch(plt.Rectangle((0.2, 0.32), 0.6, 0.55, fill=False,
+        ax.add_patch(plt.Rectangle((0.08, 0.30), 0.84, 0.62, fill=False,
                                     edgecolor="#FFFFFF", linewidth=3))
-        t = ax.text(0.5, 0.60, syl, ha="center", va="center",
-                    fontsize=120, color="#342743")
+        # 글자는 네모 안에 들어오도록 약간 작게
+        t = ax.text(0.5, 0.61, syl, ha="center", va="center",
+                    fontsize=95, color="#342743")
         t.set_path_effects([pe.withStroke(linewidth=4, foreground="#FFFFFF")])
+        # 라벨은 네모 아래, 작게
         lbl = ax.text(0.5, 0.12, label, ha="center", va="center",
-                      fontsize=22, color="#342743", fontweight="bold")
+                      fontsize=17, color="#342743", fontweight="bold")
         lbl.set_path_effects([pe.withStroke(linewidth=3, foreground="#FFFFFF")])
         ax.set_xlim(0, 1); ax.set_ylim(0, 1)
 
