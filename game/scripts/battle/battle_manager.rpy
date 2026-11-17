@@ -1,25 +1,6 @@
 default success_count = 0
 default failure_count = 0
-
-# A connected selector takes (monster, current_word) and returns a different
-# target word, or None if no easier word exists.
-define battle_easier_word_selector = None
-
-init python:
-    def battle_failure_outcome(monster, word, failures, selector):
-        if failures < 4:
-            return "retry", word
-        if monster == "ch3_m3":
-            return "failure_ending", word
-        if selector is None:
-            return "selector_unconnected", word
-
-        replacement = selector(monster, word)
-        if replacement is None:
-            return "game_over", word
-        if replacement == word:
-            return "retry", word
-        return "change_word", replacement
+default set_success_count = 0
 
 
 label ch1_m1_battle:
@@ -34,6 +15,7 @@ label pronunciation_battle(monster, monster_name, battle_music, sprite=None, spr
 
 label .restart:
     $ success_count = 0
+    $ set_success_count = 0
     $ failure_count = 0
     $ ui_battle_training_word = initial_target_word
 
@@ -54,7 +36,8 @@ label .restart:
         $ ui_battle_result = "unrecognized"
         while ui_battle_result == "unrecognized":
             window hide
-            call screen ui_dust_word(ui_battle_training_word, training=True, battle_music=battle_music, monster_name=monster_name)
+            call screen ui_dust_word(ui_battle_training_word, training=True, battle_music=battle_music,
+                monster_name=monster_name, show_set_progress=monster != "ch3_m3")
             $ ui_battle_result = _return
             $ play_scene_music(battle_music, volume=scene_battle_volume)
             if ui_battle_result == "unrecognized":
@@ -65,14 +48,22 @@ label .restart:
                     call ch1_m1_unrecognized from pronunciation_battle_record_again
 
         if ui_battle_result == "success":
-            if sprite:
-                # The existing animation counts the hit when the wave lands.
-                call expression "ui_{}_light_attack".format(sprite) from pronunciation_battle_monster_hit
-            else:
-                $ success_count += 1
+            if monster != "ch3_m3":
+                $ set_success_count += 1
 
-            window auto
-            call expression "{}_success_{}".format(monster, success_count) from pronunciation_battle_success_feedback
+            if monster == "ch3_m3" or set_success_count == 3:
+                if monster != "ch3_m3":
+                    $ set_success_count = 0
+                    $ failure_count = 0
+
+                if sprite:
+                    # For regular monsters, each completed set lands one hit.
+                    call expression "ui_{}_light_attack".format(sprite) from pronunciation_battle_monster_hit
+                else:
+                    $ success_count += 1
+
+                window auto
+                call expression "{}_success_{}".format(monster, success_count) from pronunciation_battle_success_feedback
 
         elif ui_battle_result == "fail":
             $ failure_count += 1
@@ -82,22 +73,21 @@ label .restart:
             else:
                 call ch1_m1_fail("unknown", monster) from pronunciation_battle_failure_feedback
 
-            # TODO: Bind battle_easier_word_selector to the future easier-word
-            # selector. Until then keep practicing the current target word.
-            $ outcome, replacement = battle_failure_outcome(monster, ui_battle_training_word, failure_count, battle_easier_word_selector)
-
-            if outcome == "change_word":
-                $ ui_battle_training_word = replacement
-                $ failure_count = 0
-                ghost "That's okay! Let's try an easier word first. Take your time. You can do it!"
-
-            elif outcome in ("game_over", "failure_ending"):
-                $ renpy.hide_screen(hp_screen)
+            if monster == "ch3_m3":
+                if failure_count >= 4:
+                    $ renpy.hide_screen(hp_screen)
+                    window hide
+                    call screen ui_pronunciation_battle_over(True, monster_name=monster_name)
+                    if _return is False:
+                        jump ch3_m3_failure_ending
+                    jump .restart
+            elif failure_count >= 3:
+                $ retry_words = ui_retry_target_words(monster, ui_battle_training_word)
                 window hide
-                call screen ui_pronunciation_battle_over(outcome == "failure_ending", monster_name=monster_name)
-                if outcome == "failure_ending" and _return is False:
-                    jump ch3_m3_failure_ending
-                jump .restart
+                call screen ui_pronunciation_battle_over(monster_name=monster_name, retry_available=bool(retry_words))
+                $ ui_battle_training_word = ui_choose_retry_target_word(retry_words)
+                $ set_success_count = 0
+                $ failure_count = 0
 
     $ renpy.hide_screen(hp_screen)
     window auto

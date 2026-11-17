@@ -120,7 +120,7 @@ screen ui_dust_hp(monster_name="Dust Monster"):
                         fit "fill"
 
 
-screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monster_name=None):
+screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monster_name=None, show_set_progress=False):
 
     modal True
     default ui_record_state = "ready"
@@ -136,11 +136,18 @@ screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monst
             fit "fill"
             alpha 0.84
 
-        text ("Say the practice word to attack!" if training else "Warm up with your key word first!"):
-            style "intro_ch1_caption"
-            xalign 0.5
-            ypos 29
-            size 34
+        if training and show_set_progress:
+            text _("Set {}/3  |  Successful attempts: {}/3").format(success_count + 1, set_success_count):
+                style "intro_ch1_caption"
+                xalign 0.5
+                ypos 29
+                size 34
+        else:
+            text ("Say the practice word to attack!" if training else "Warm up with your key word first!"):
+                style "intro_ch1_caption"
+                xalign 0.5
+                ypos 29
+                size 34
 
         fixed:
             xysize (300, 116)
@@ -227,7 +234,7 @@ screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monst
 
 
 
-screen ui_pronunciation_battle_over(failure_ending=False, monster_name=None):
+screen ui_pronunciation_battle_over(failure_ending=False, monster_name=None, retry_available=True):
     modal True
     zorder 20
 
@@ -245,10 +252,16 @@ screen ui_pronunciation_battle_over(failure_ending=False, monster_name=None):
                 xalign 0.5
                 size 54
 
+            if not retry_available:
+                text _("No other practice word is available."):
+                    style "intro_ch1_caption"
+                    xalign 0.5
+
             hbox:
                 spacing 20
                 use intro_ch1_button(_("Retry"), "continue",
-                    [Function(record_play_event, monster_name, "retry", _update_screens=False), Return(True)], width=220)
+                    [Function(record_play_event, monster_name, "retry", _update_screens=False), Return(True)],
+                    width=220, enabled=retry_available)
                 use intro_ch1_button(_("Exit"), "next",
                     Return(False) if failure_ending else MainMenu(confirm=False, save=False), width=220)
 
