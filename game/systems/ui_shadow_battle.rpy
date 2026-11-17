@@ -10,7 +10,6 @@ image ui_shadow hit2 = "images/characters/shadow_hit2.png"
 image ui_shadow hit3 = "images/characters/shadow_hit3.png"
 image ui_shadow after = "images/characters/shadow_after.png"
 
-default shadow_success_count = 0
 
 
 # ==================================================
@@ -81,7 +80,7 @@ screen ui_shadow_hp():
                 style "intro_ch1_text"
                 size 28
 
-            text "HP Left: [3 - shadow_success_count] / 3":
+            text "HP Left: [3 - success_count] / 3":
                 style "intro_ch1_caption"
                 size 23
 
@@ -90,7 +89,7 @@ screen ui_shadow_hp():
 
                 for segment in range(3):
 
-                    if segment < 3 - shadow_success_count:
+                    if segment < 3 - success_count:
                         add intro_ch1_ui + "hp_segment_full.png":
                             xysize (86, 24)
                             fit "fill"
@@ -120,13 +119,13 @@ label ui_shadow_light_attack:
     hide dust_wave_flight
     hide dust_wave_sparkles
 
-    $ shadow_success_count += 1
+    $ success_count += 1
 
     $ shadow_hit_pose = (
         "ui_shadow hit1",
         "ui_shadow hit2",
         "ui_shadow hit3"
-    )[shadow_success_count - 1]
+    )[success_count - 1]
 
     show expression shadow_hit_pose as ui_shadow at ui_shadow_position, ui_dust_hit
 
@@ -176,73 +175,6 @@ label ui_shadow_purification:
 # ==================================================
 
 label ch1_m3_battle:
-
-    $ shadow_success_count = 0
-
-    # 기존 먼지·메아리 전투와 같은 임시 단어 설정
-    $ ui_shadow_core_word = ui_selected_core_word or "사과"
-    $ ui_shadow_training_word = ui_selected_training_word or "가수"
-
-
-    show ui_shadow before at ui_shadow_position, ui_dust_idle
-    show screen ui_shadow_hp
-
-    while shadow_success_count < 3:
-
-        window hide
-
-        $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
-
-        # 기존 공통 단어·녹음 화면 재사용
-        call screen ui_dust_word(ui_shadow_core_word)
-        call screen ui_dust_word(ui_shadow_training_word, training=True)
-
-        $ ui_shadow_result = _return
-
-        $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
-
-        if ui_shadow_result == "success":
-
-            call ui_shadow_light_attack
-
-            window auto
-
-            if shadow_success_count == 1:
-                call ch1_m3_success_1
-
-            elif shadow_success_count == 2:
-                call ch1_m3_success_2
-
-            else:
-                call ch1_m3_success_3
-
-        elif ui_shadow_result == "fail":
-
-            # 실패해도 HP와 피격 모습 유지
-            window auto
-
-            show ui_ghost intro_encourage with Dissolve(0.2)
-            ghost "That's okay! Let's try the word again slowly."
-            show ui_ghost intro_idle with Dissolve(0.2)
-
-        else:
-
-            # 인식 불가 안내 후 다시 시도
-            window auto
-
-            show ui_ghost intro_curious with Dissolve(0.2)
-            ghost "I couldn't hear that clearly. Let's check the microphone."
-
-            show ui_ghost intro_idle at ui_ghost_corridor
-
-            window hide None
-            call screen ui_unrecognized(ui_unrec_kind)
-            window auto
-
-            show ui_ghost intro_idle at ui_ghost_corridor, ghost_float
-
-    hide screen ui_shadow_hp
-
-    window auto
-
+    call pronunciation_battle("ch1_m3", "Shadow Monster", scene_battle_music, "shadow", ui_shadow_position,
+        core_word=ui_selected_core_word or "사과", target_word=ui_selected_training_word or "가수") from ch1_m3_pronunciation_battle_done
     jump ch1_m3_clear

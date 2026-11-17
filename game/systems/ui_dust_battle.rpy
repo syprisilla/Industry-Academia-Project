@@ -1,9 +1,6 @@
 # Light attack image
 image ui_light_attack = "images/effects/light_attack.png"
 
-default success_count = 0
-
-
 # Move the light from the left toward the monster.
 transform ui_light_flight:
     xysize (360, 360)
@@ -96,7 +93,7 @@ transform ui_dust_still:
 
 
 # Monster HP display
-screen ui_dust_hp():
+screen ui_dust_hp(monster_name="Dust Monster"):
 
     zorder 10
 
@@ -112,7 +109,7 @@ screen ui_dust_hp():
             ypos 15
             spacing 4
 
-            text "Dust Monster" style "intro_ch1_text" size 28
+            text monster_name style "intro_ch1_text" size 28
             text "HP Left: [3 - success_count] / 3" style "intro_ch1_caption" size 23
 
             hbox:
@@ -123,7 +120,7 @@ screen ui_dust_hp():
                         fit "fill"
 
 
-screen ui_dust_word(word, training=False):
+screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monster_name=None):
 
     modal True
     default ui_record_state = "ready"
@@ -159,7 +156,7 @@ screen ui_dust_word(word, training=False):
         if ui_record_state == "result" and ui_voice["result"] == "unrecognized":
 
             # Unrecognized recordings go straight to mic help.
-            timer 0.01 action Return("unrecognized")
+            timer 0.01 action play_result_actions(monster_name, word, "unrecognized")
 
         elif ui_record_state == "result":
 
@@ -189,7 +186,7 @@ screen ui_dust_word(word, training=False):
                         color "#FFFFFF"
                         outlines [(2, "#241D35", 0, 0)]
 
-                    use intro_ch1_button("OK", "continue", Return(ui_voice["result"]),
+                    use intro_ch1_button("OK", "continue", play_result_actions(monster_name, word, ui_voice["result"]),
                         width=200, height=70)
 
         else:
@@ -199,7 +196,7 @@ screen ui_dust_word(word, training=False):
                 xysize (500, 118)
                 xalign 0.5
                 ypos 535
-                use intro_ch1_recorder(ui_record_state, Function(record_with_battle_audio, word, scene_battle_music),
+                use intro_ch1_recorder(ui_record_state, Function(record_with_battle_audio, word, battle_music),
                     enabled=True, width=500)
 
             fixed:
@@ -213,9 +210,11 @@ screen ui_dust_word(word, training=False):
                 ypos 758
                 spacing 12
                 use intro_ch1_button("Next", "next", None, width=140, height=60, enabled=False)
-                use intro_ch1_button("Success", "success", Return("success"), width=140, height=60)
-                use intro_ch1_button("Try Again", "fail", Return("fail"), width=140, height=60)
-                use intro_ch1_button("No Reading", "unrecognized", [Function(ui_unrec_next_test), Return("unrecognized")], width=160, height=60)
+                use intro_ch1_button("Success", "success", play_result_actions(monster_name, word, "success", is_test=True), width=140, height=60)
+                use intro_ch1_button("Try Again", "fail", play_result_actions(monster_name, word, "fail", is_test=True), width=140, height=60)
+                use intro_ch1_button("No Reading", "unrecognized",
+                    [Function(ui_unrec_next_test)] + play_result_actions(monster_name, word, "unrecognized", is_test=True),
+                    width=160, height=60)
 
     else:
         fixed:
@@ -226,6 +225,38 @@ screen ui_dust_word(word, training=False):
                 width=420, height=84)
 
 
+
+
+screen ui_pronunciation_battle_over(failure_ending=False, monster_name=None, retry_available=True):
+    modal True
+    zorder 20
+
+    add Solid("#10152F99")
+    fixed:
+        xysize (720, 320)
+        align (0.5, 0.5)
+        add intro_ch1_ui + "panel_assessment.png" xysize (720, 320) fit "fill"
+
+        vbox:
+            align (0.5, 0.5)
+            spacing 32
+            text (_("Failure Ending") if failure_ending else _("Game Over")):
+                style "intro_ch1_text"
+                xalign 0.5
+                size 54
+
+            if not retry_available:
+                text _("No other practice word is available."):
+                    style "intro_ch1_caption"
+                    xalign 0.5
+
+            hbox:
+                spacing 20
+                use intro_ch1_button(_("Retry"), "continue",
+                    [Function(record_play_event, monster_name, "retry", _update_screens=False), Return(True)],
+                    width=220, enabled=retry_available)
+                use intro_ch1_button(_("Exit"), "next",
+                    Return(False) if failure_ending else MainMenu(confirm=False, save=False), width=220)
 
 
 # Update the hit count once, when the sound wave lands.
