@@ -1,4 +1,28 @@
 default ui_selected_training_word = ""
+default ui_selected_core_word = ""
+
+# Word lists from data/words.json, keyed by the Korean syllable group.
+init python:
+    import json, os
+
+    with renpy.open_file("data/words.json", encoding="utf-8") as _f:
+        ui_word_pool = json.load(_f)
+
+    # The assessment screen labels syllables in English; words.json uses Korean keys.
+    UI_SYLLABLE_KEYS = {"Si": "시", "Se": "세", "Sa": "사", "Seo": "서", "So": "소", "Su": "수", "Seu": "스"}
+
+    def ui_core_words():
+        """Return the key-word choices for the best syllable in syllable_result.json."""
+        syllable = None
+        try:
+            # Read from disk: the voice engine rewrites this file after each assessment.
+            with open(os.path.join(renpy.config.gamedir, "data", "syllable_result.json"), encoding="utf-8") as f:
+                syllable = json.load(f).get("best")
+        except Exception as e:
+            renpy.log("Could not read syllable_result.json: %r" % e)
+        key = UI_SYLLABLE_KEYS.get(syllable, syllable)
+        # Fall back to 사 so the screen never opens empty if the result is missing.
+        return tuple(ui_word_pool.get(key, ui_word_pool["사"])["core"])
 
 screen ui_word_selection(title, words):
 
@@ -26,7 +50,7 @@ screen ui_word_selection(title, words):
             spacing 17
 
             text title style "intro_ch1_text" xalign 0.5 size 51 bold True
-            text "Pick one word to practice." style "intro_ch1_caption" xalign 0.5
+            text "Pick one word you like." style "intro_ch1_caption" xalign 0.5
 
             viewport:
                 xsize 940

@@ -2,15 +2,12 @@ label ch1_m1_battle:
 
     $ success_count = 0
 
-    # Temporary key word until assessment and word selection are connected
-    $ ui_battle_core_word = "사과"
+    # Use the key word picked in the intro
+    $ ui_battle_core_word = ui_selected_core_word or "사과"
 
-    # Use the practice word picked in the intro
-    $ ui_battle_training_word = ui_selected_training_word or "수박"
-
-    # Keep the two words distinct in the demo
-    if ui_battle_training_word == ui_battle_core_word:
-        $ ui_battle_core_word = "사자"
+    # Temporary practice word until worst-syllable target words are connected.
+    # It is not in any key word list, so it never matches the chosen key word.
+    $ ui_battle_training_word = ui_selected_training_word or "가수"
 
     show screen ui_dust_hp
 
