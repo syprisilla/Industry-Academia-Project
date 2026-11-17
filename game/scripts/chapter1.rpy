@@ -447,7 +447,6 @@ label ch1_finish:
 
     call show_chapter_end("images/chapter_end/chapter1.png") from ch1_end_card_done
     hide ui_ghost
-    show ui_ghost at ui_ghost_corridor, ui_ghost_settle
     $ stop_scene_music()
     stop sound
     jump chapter2
