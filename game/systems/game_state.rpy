@@ -35,7 +35,8 @@ init python:
             save_action()
 
 label progress_autosave:
-    # Retain checkpoint statements for existing saves. Autosaving is disabled.
+    $ remember_play_progress()
+    # Retain the checkpoint statements for existing saves.
     $ renpy.block_rollback()
     $ renpy.force_autosave(take_screenshot=True, block=True)
     return

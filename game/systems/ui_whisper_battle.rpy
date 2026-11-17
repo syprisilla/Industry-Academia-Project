@@ -3,7 +3,6 @@
 # 기존 녹음 화면 및 빛 공격 효과 사용
 # ==================================================
 
-default whisper_success_count = 0
 
 image ui_whisper before = "images/characters/whisper_before.png"
 image ui_whisper talk = "images/characters/whisper_talk.png"
@@ -64,7 +63,7 @@ screen ui_whisper_hp():
                 style "intro_ch1_text"
                 size 28
 
-            text "HP Left: [3 - whisper_success_count] / 3":
+            text "HP Left: [3 - success_count] / 3":
                 style "intro_ch1_caption"
                 size 23
 
@@ -74,7 +73,7 @@ screen ui_whisper_hp():
                 for segment in range(3):
                     add intro_ch1_ui + (
                         "hp_segment_full.png"
-                        if segment < 3 - whisper_success_count
+                        if segment < 3 - success_count
                         else "hp_segment_empty.png"
                     ):
                         xysize (86, 24)
@@ -100,12 +99,12 @@ label ui_whisper_light_attack:
     hide dust_wave_flight
     hide dust_wave_sparkles
 
-    $ whisper_success_count += 1
+    $ success_count += 1
 
-    if whisper_success_count == 1:
+    if success_count == 1:
         show ui_whisper hit1 at ui_whisper_position, ui_dust_hit
 
-    elif whisper_success_count == 2:
+    elif success_count == 2:
         show ui_whisper hit2 at ui_whisper_position, ui_dust_hit
 
     else:
@@ -117,10 +116,10 @@ label ui_whisper_light_attack:
     pause 0.3
 
     # 흔들림이 끝나면 현재 피격 모습을 유지
-    if whisper_success_count == 1:
+    if success_count == 1:
         show ui_whisper hit1 at ui_whisper_position, ui_dust_idle
 
-    elif whisper_success_count == 2:
+    elif success_count == 2:
         show ui_whisper hit2 at ui_whisper_position, ui_dust_idle
 
     else:
@@ -163,71 +162,6 @@ label ui_whisper_purification:
 # ==================================================
 
 label ch2_m1_battle:
-
-    $ whisper_success_count = 0
-
-    # 기존 전투의 단어 선택 방식 사용
-    $ ui_whisper_core_word = ui_selected_core_word or "사과"
-    $ ui_whisper_training_word = ui_selected_training_word or "가수"
-
-
-    show ui_whisper before at ui_whisper_position, ui_dust_idle
-    show screen ui_whisper_hp
-
-    while whisper_success_count < 3:
-
-        window hide
-
-        $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
-
-        # 기존 공통 녹음 화면
-        call screen ui_dust_word(ui_whisper_core_word)
-        call screen ui_dust_word(ui_whisper_training_word, training=True)
-
-        $ ui_whisper_result = _return
-
-        $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
-
-        if ui_whisper_result == "success":
-
-            call ui_whisper_light_attack
-
-            window auto
-
-            if whisper_success_count == 1:
-                call ch2_m1_success_1
-
-            elif whisper_success_count == 2:
-                call ch2_m1_success_2
-
-            else:
-                call ch2_m1_success_3
-
-        elif ui_whisper_result == "fail":
-
-            window auto
-
-            show ui_ghost intro_encourage with Dissolve(0.2)
-            ghost "That's okay! Let's try the word again slowly."
-            show ui_ghost intro_idle with Dissolve(0.2)
-
-        else:
-
-            window auto
-
-            show ui_ghost intro_curious with Dissolve(0.2)
-            ghost "I couldn't hear that clearly. Let's check the microphone."
-
-            show ui_ghost intro_idle at ui_ghost_corridor
-
-            window hide
-            call screen ui_unrecognized(ui_unrec_kind)
-            window auto
-
-            show ui_ghost intro_idle at ui_ghost_corridor, ghost_float
-
-    hide screen ui_whisper_hp
-
-    window auto
-
+    call pronunciation_battle("ch2_m1", "Whisper Monster", scene_battle_music, "whisper", ui_whisper_position,
+        core_word=ui_selected_core_word or "사과", target_word=ui_selected_training_word or "가수") from ch2_m1_pronunciation_battle_done
     jump ch2_m1_clear
