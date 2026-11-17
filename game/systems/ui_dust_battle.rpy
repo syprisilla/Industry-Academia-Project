@@ -120,7 +120,7 @@ screen ui_dust_hp(monster_name="Dust Monster"):
                         fit "fill"
 
 
-screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monster_name=None, show_set_progress=False):
+screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monster_name=None):
 
     modal True
     default ui_record_state = "ready"
@@ -136,18 +136,11 @@ screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monst
             fit "fill"
             alpha 0.84
 
-        if training and show_set_progress:
-            text _("Set {}/3  |  Successful attempts: {}/3").format(success_count + 1, set_success_count):
-                style "intro_ch1_caption"
-                xalign 0.5
-                ypos 29
-                size 34
-        else:
-            text ("Say the practice word to attack!" if training else "Warm up with your key word first!"):
-                style "intro_ch1_caption"
-                xalign 0.5
-                ypos 29
-                size 34
+        text ("Say the practice word to attack!" if training else "Warm up with your key word first!"):
+            style "intro_ch1_caption"
+            xalign 0.5
+            ypos 29
+            size 34
 
         fixed:
             xysize (300, 116)

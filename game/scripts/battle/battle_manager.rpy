@@ -1,6 +1,5 @@
 default success_count = 0
 default failure_count = 0
-default set_success_count = 0
 
 
 label ch1_m1_battle:
@@ -15,7 +14,6 @@ label pronunciation_battle(monster, monster_name, battle_music, sprite=None, spr
 
 label .restart:
     $ success_count = 0
-    $ set_success_count = 0
     $ failure_count = 0
     $ ui_battle_training_word = initial_target_word
 
@@ -36,8 +34,7 @@ label .restart:
         $ ui_battle_result = "unrecognized"
         while ui_battle_result == "unrecognized":
             window hide
-            call screen ui_dust_word(ui_battle_training_word, training=True, battle_music=battle_music,
-                monster_name=monster_name, show_set_progress=monster != "ch3_m3")
+            call screen ui_dust_word(ui_battle_training_word, training=True, battle_music=battle_music, monster_name=monster_name)
             $ ui_battle_result = _return
             $ play_scene_music(battle_music, volume=scene_battle_volume)
             if ui_battle_result == "unrecognized":
@@ -48,22 +45,14 @@ label .restart:
                     call ch1_m1_unrecognized from pronunciation_battle_record_again
 
         if ui_battle_result == "success":
-            if monster != "ch3_m3":
-                $ set_success_count += 1
+            if sprite:
+                # The attack animation counts the hit when the wave lands.
+                call expression "ui_{}_light_attack".format(sprite) from pronunciation_battle_monster_hit
+            else:
+                $ success_count += 1
 
-            if monster == "ch3_m3" or set_success_count == 3:
-                if monster != "ch3_m3":
-                    $ set_success_count = 0
-                    $ failure_count = 0
-
-                if sprite:
-                    # For regular monsters, each completed set lands one hit.
-                    call expression "ui_{}_light_attack".format(sprite) from pronunciation_battle_monster_hit
-                else:
-                    $ success_count += 1
-
-                window auto
-                call expression "{}_success_{}".format(monster, success_count) from pronunciation_battle_success_feedback
+            window auto
+            call expression "{}_success_{}".format(monster, success_count) from pronunciation_battle_success_feedback
 
         elif ui_battle_result == "fail":
             $ failure_count += 1
@@ -74,7 +63,7 @@ label .restart:
                 call ch1_m1_fail("unknown", monster) from pronunciation_battle_failure_feedback
 
             if monster == "ch3_m3":
-                if failure_count >= 4:
+                if failure_count >= 3:
                     $ renpy.hide_screen(hp_screen)
                     window hide
                     call screen ui_pronunciation_battle_over(True, monster_name=monster_name)
@@ -86,7 +75,6 @@ label .restart:
                 window hide
                 call screen ui_pronunciation_battle_over(monster_name=monster_name, retry_available=bool(retry_words))
                 $ ui_battle_training_word = ui_choose_retry_target_word(retry_words)
-                $ set_success_count = 0
                 $ failure_count = 0
 
     $ renpy.hide_screen(hp_screen)
