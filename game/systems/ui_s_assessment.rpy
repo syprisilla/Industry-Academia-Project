@@ -15,6 +15,20 @@ init python:
 screen ui_s_assessment(record_action=None):
 
     modal True
+
+    textbutton "Skip Sound Check (Test)":
+        xalign 0.98
+        yalign 0.95
+        padding (20, 12)
+        background Solid("#352945DD")
+        text_color "#FFFFFF"
+        text_size 26
+
+        action [
+            Function(ui_assess_ghost, True),
+            Return()
+        ]
+
     default syllable_index = 0
     default syll_state = "ready"
     default ui_record_state = "ready"

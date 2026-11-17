@@ -12,80 +12,72 @@ label chapter2:
     $ current_chapter = 2
     $ play_scene_music(scene_ch2_corridor_music, volume=scene_corridor_volume)
 
-    # ==========================================
-    # SCENE 2. The first monster appears
-    # ==========================================
-
+    # 엘리베이터에서 내림
     $ play_scene_sound(scene_elevator_sound)
+
+    scene apartment corridor_1 with fade
+    show ui_ghost intro_idle at ui_ghost_corridor, ghost_float
+
+    n "Our hero and Little Ghost step out of the elevator."
+
+    # 복도로 이동
+    show apartment corridor_2 behind ui_ghost with fade
+
     n "Soft whispers begin to drift through the hall."
 
     $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
-    whisper "Hee hee! A new visitor!"
+
+    # 속삭임 괴물 등장
+    show ui_whisper before at ui_whisper_position, ui_dust_emerge
+    pause 0.6
+
+    show ui_whisper talk with Dissolve(0.16)
+    whisper "A new visitor..?"
+    show ui_whisper before with Dissolve(0.16)
+
     mc "Whoa! Another monster!"
 
     ghost "Watch out! There's some strange magic coming from that monster."
     mc "Is that one cursed too?"
     ghost "I think so. Let's help with the power of our voices!"
 
-    whisper "Think you can beat my whispers?"
+    show ui_whisper angry with Dissolve(0.16)
+    whisper "Think you can beat my whispers..!?"
+    show ui_whisper before with Dissolve(0.16)
 
     mc "I'll break this curse too!"
-
-    # ==========================================
-    # SCENE 3. Prepare for the first battle
-    # ==========================================
 
     ghost "Okay! Let's warm up with a familiar word first."
     ghost "Then say the practice word on the screen!"
 
     mc "Got it! I'm ready!"
 
-    # --------------------------------------------------
-    # TODO Start the first monster battle
-    # Show the key word, then the practice word
-    # Record speech and analyze pronunciation
-    # Successful hits 0/3, monster HP 3
-    #
-    # One hit -> ch2_m1_success_1
-    # Two hits -> ch2_m1_success_2
-    # Three hits -> ch2_m1_success_3
-    # Failure -> ch2_m1_fail
-    # Unrecognized -> ch2_m1_unrecognized
-    # --------------------------------------------------
-
-    # [Temporary test] Play three success scenes before battle is implemented
-    call ch2_m1_success_1
-    call ch2_m1_success_2
-    call ch2_m1_success_3
-
-    jump ch2_m1_clear
+    # 자동 성공 대신 실제 전투로 이동
+    jump ch2_m1_battle
 
 
-# --------------------------------------------------
-# MONSTER 1. Prompt the player to speak
-# --------------------------------------------------
+# ==================================================
+# 말하기 안내
+# ==================================================
 
 label ch2_m1_prompt:
 
     ghost "Ready? Say the word on the screen slowly!"
 
-    # TODO Practice saying the key word, then the practice word
-
     return
 
 
-
-# --------------------------------------------------
-# MONSTER 1. Battle complete
-# --------------------------------------------------
+# ==================================================
+# 정화 완료
+# ==================================================
 
 label ch2_m1_clear:
 
-    # ==========================================
-    # SCENE 4. Break the first monster's curse
-    # ==========================================
-
     n "The darkness around the Whisper Monster fades."
+
+    # 정화 중 이미지에서 정화 완료 이미지로 변경
+    call ui_whisper_purification
+
     n "The strange whispers that filled the hallway fall quiet."
 
     whisper "Huh...? I can hear my own voice!"
@@ -97,8 +89,13 @@ label ch2_m1_clear:
 
     mc "I will. Count on me!"
 
+    # 다음 괴물 장면에 남지 않도록 퇴장
+    hide ui_whisper with Dissolve(0.6)
+
     n "The Whisper Monster turns into a tiny light and disappears."
+
     $ play_scene_music(scene_ch2_corridor_music, volume=scene_corridor_volume)
+
     n "Something comes rolling down the hall."
 
     mc "Huh? Is something rolling across the floor?"
@@ -106,9 +103,7 @@ label ch2_m1_clear:
 
     $ cleared_monsters.add((2, 1))
     call progress_autosave from ch2_m1_autosaved
-    # Go to ch2_m2_start
 
-    # [Temporary test] Move to the next monster
     jump ch2_m2_start
 
 
@@ -121,6 +116,8 @@ label ch2_m2_start:
     # ==========================================
     # SCENE 5. The second monster appears
     # ==========================================
+
+    show apartment corridor_3 behind ui_ghost with fade
 
     n "Our hero and Little Ghost follow a little ball as it rolls away."
     n "The ball stops in front of an old toy box by the wall."
@@ -235,6 +232,8 @@ label ch2_m3_start:
     # ==========================================
     # SCENE 8. The third monster appears
     # ==========================================
+
+    show apartment corridor_4 behind ui_ghost with fade
 
     n "Our hero and Little Ghost reach the end of the hallway."
     n "A door with a huge clock on it is shut tight."
