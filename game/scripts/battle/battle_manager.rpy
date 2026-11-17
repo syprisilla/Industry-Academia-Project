@@ -2,12 +2,11 @@ label ch1_m1_battle:
 
     $ success_count = 0
 
-    # Use the key word picked in the intro
-    $ ui_battle_core_word = ui_selected_core_word or "사과"
+    # Use the key word picked in the intro; from chapter select, use the saved key word.
+    $ ui_battle_core_word = ui_selected_core_word or ui_saved_core_word()
 
-    # Temporary practice word until worst-syllable target words are connected.
-    # It is not in any key word list, so it never matches the chosen key word.
-    $ ui_battle_training_word = ui_selected_training_word or "가수"
+    # Pick one target word from the worst syllable; it stays the same for the whole battle.
+    $ ui_battle_training_word = ui_target_word("ch1_m1")
 
     show screen ui_dust_hp
 
