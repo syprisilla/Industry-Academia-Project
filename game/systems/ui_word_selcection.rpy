@@ -1,5 +1,6 @@
-default ui_selected_training_word = ""
 default ui_selected_core_word = ""
+# Kept across restarts so chapter select still uses the child's key word.
+default persistent.ui_core_word = ""
 
 # Word lists from data/words.json, keyed by the Korean syllable group.
 init python:
@@ -11,18 +12,34 @@ init python:
     # The assessment screen labels syllables in English; words.json uses Korean keys.
     UI_SYLLABLE_KEYS = {"Si": "시", "Se": "세", "Sa": "사", "Seo": "서", "So": "소", "Su": "수", "Seu": "스"}
 
-    def ui_core_words():
-        """Return the key-word choices for the best syllable in syllable_result.json."""
+    def ui_result_words(field, fallback):
+        """Return the word lists for the "best" or "worst" syllable in syllable_result.json."""
         syllable = None
         try:
             # Read from disk: the voice engine rewrites this file after each assessment.
             with open(os.path.join(renpy.config.gamedir, "data", "syllable_result.json"), encoding="utf-8") as f:
-                syllable = json.load(f).get("best")
+                syllable = json.load(f).get(field)
         except Exception as e:
             renpy.log("Could not read syllable_result.json: %r" % e)
         key = UI_SYLLABLE_KEYS.get(syllable, syllable)
-        # Fall back to 사 so the screen never opens empty if the result is missing.
-        return tuple(ui_word_pool.get(key, ui_word_pool["사"])["core"])
+        # Use a fixed syllable when the result is missing (e.g. a chapter started from chapter select).
+        return ui_word_pool.get(key, ui_word_pool[fallback])
+
+    def ui_core_words():
+        """Return the key-word choices for the best syllable."""
+        return ui_result_words("best", "사")["core"]
+
+    def ui_saved_core_word():
+        """Return the last chosen key word, or the first best-syllable word if it no longer fits."""
+        words = ui_core_words()
+        # A newer assessment may have a different best syllable than the saved word.
+        return persistent.ui_core_word if persistent.ui_core_word in words else words[0]
+
+    def ui_target_word(monster):
+        """Return one random target word for a monster (e.g. "ch1_m1") from the worst syllable."""
+        # Fallback 수 differs from the key-word fallback 사, so the two never share a syllable.
+        # renpy.random keeps the same pick when the player rolls back and forward again.
+        return renpy.random.choice(ui_result_words("worst", "수")["target"][monster])
 
 screen ui_word_selection(title, words):
 

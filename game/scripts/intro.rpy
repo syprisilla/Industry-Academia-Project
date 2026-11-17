@@ -131,7 +131,7 @@ label intro:
         ui_core_words()
     )
 
-    $ ui_selected_core_word = _return
+    $ ui_selected_core_word = persistent.ui_core_word = _return
 
     window auto
     # Done saves the chosen key word in ui_selected_core_word.
