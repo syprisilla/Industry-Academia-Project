@@ -162,6 +162,9 @@ label ui_whisper_purification:
 # ==================================================
 
 label ch2_m1_battle:
-    call pronunciation_battle("ch2_m1", "Whisper Monster", scene_battle_music, "whisper", ui_whisper_position,
-        core_word=ui_selected_core_word or "사과", target_word=ui_selected_training_word or "가수") from ch2_m1_pronunciation_battle_done
+    call pronunciation_battle(
+        "ch2_m1", "Whisper Monster",
+        scene_battle_music, "whisper", ui_whisper_position
+    ) from ch2_m1_pronunciation_battle_done
+
     jump ch2_m1_clear

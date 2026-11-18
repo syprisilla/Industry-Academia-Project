@@ -201,7 +201,7 @@ label ch1_m2_start:
     ghost "Look out! That's the Echo Monster."
     ghost "It steals people's voices and copies them perfectly!"
 
-    show ui_echo angry with Dissolve(0.16)
+    show ui_echo angry at ui_echo_position, ui_dust_threaten with Dissolve(0.16)
     echo "I'll take your voice too!"
     show ui_echo before with Dissolve(0.16)
 
@@ -342,7 +342,7 @@ label ch1_m3_start:
 
     mc "Yep! I know how to do it now!"
 
-    show ui_shadow angry with Dissolve(0.16)
+    show ui_shadow angry at ui_shadow_position, ui_dust_threaten with Dissolve(0.16)
     shadow "Then show me what you've got!"
     show ui_shadow before with Dissolve(0.16)
 
@@ -431,7 +431,7 @@ label ch1_finish:
     # SCENE 11. On to the next floor
     # ==========================================
 
-    show apartment elevator_on behind ui_ghost with dissolve
+    show apartment elevator_on behind ui_ghost with fade
     show ui_ghost intro_talk with Dissolve(0.2)
     n "Our hero and Little Ghost step into the elevator together."
     n "The doors slowly close, and the elevator starts toward the next floor."

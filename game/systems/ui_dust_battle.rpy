@@ -126,6 +126,27 @@ screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monst
     default ui_record_state = "ready"
     default ui_voice = {"result": None, "feedback": "", "gauges": {}}
 
+
+        # 개발자용 전투 건너뛰기
+    # 연습 단어 화면에서만 표시
+    if config.developer and training:
+
+        textbutton "Skip Battle (Test)":
+            xalign 0.98
+            yalign 0.95
+
+            padding (20, 12)
+            background Solid("#352945DD")
+
+            text_color "#FFFFFF"
+            text_hover_color "#FFD580"
+            text_size 26
+
+            action [
+                SetVariable("success_count", 2),
+                Return("success")
+            ]
+
     fixed:
         xysize (1140, 252)
         xpos 342
