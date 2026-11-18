@@ -431,7 +431,7 @@ label ch1_finish:
     # SCENE 11. On to the next floor
     # ==========================================
 
-    show apartment elevator_on behind ui_ghost with dissolve
+    show apartment elevator_on behind ui_ghost with fade
     show ui_ghost intro_talk with Dissolve(0.2)
     n "Our hero and Little Ghost step into the elevator together."
     n "The doors slowly close, and the elevator starts toward the next floor."

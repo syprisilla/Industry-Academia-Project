@@ -13,3 +13,6 @@ image apartment corridor_1 = apartment_background("images/backgrounds/apartment_
 image apartment corridor_2 = apartment_background("images/backgrounds/apartment_corridor_2.png")
 image apartment corridor_3 = apartment_background("images/backgrounds/apartment_corridor_3.png")
 image apartment corridor_4 = apartment_background("images/backgrounds/apartment_corridor_4.png")
+image apartment elevator_on_2 = apartment_background(
+    "images/backgrounds/apartment_elevator_on_2.png"
+)

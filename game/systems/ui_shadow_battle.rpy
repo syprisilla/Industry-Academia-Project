@@ -12,6 +12,7 @@ image ui_shadow after = "images/characters/shadow_after.png"
 
 
 
+
 # ==================================================
 # 위치와 크기
 # 메아리보다 크게 표시
