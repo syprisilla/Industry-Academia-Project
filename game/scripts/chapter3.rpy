@@ -12,6 +12,8 @@ label chapter3:
     n "The elevator stops on the third floor."
     n "The doors open to reveal old letters scattered across the floor."
 
+    show apartment elevator_on_3 behind ui_ghost with fade
+
     mc "This must be the top floor."
 
     n "Suddenly, the letters move on their own and turn into a monster."
