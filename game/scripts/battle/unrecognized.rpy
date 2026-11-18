@@ -15,3 +15,14 @@ label ch1_m1_unrecognized:
     show ui_ghost intro_idle at ui_ghost_corridor, ui_ghost_idle
 
     return
+
+
+label pronunciation_battle_monster_unrecognized:
+    show ui_ghost intro_curious with Dissolve(0.2)
+    ghost "I couldn't hear that clearly. Let's check the microphone."
+    show ui_ghost intro_idle at ui_ghost_corridor
+    window hide None
+    call screen ui_unrecognized(ui_unrec_kind)
+    window auto
+    show ui_ghost intro_idle at ui_ghost_corridor, ghost_float
+    return

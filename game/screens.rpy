@@ -302,6 +302,8 @@ screen navigation():
 
         textbutton _("Load") action ShowMenu("load")
 
+        textbutton _("Play Records") action ShowMenu("play_records")
+
         textbutton _("Settings") action ShowMenu("preferences")
 
         if _in_replay:

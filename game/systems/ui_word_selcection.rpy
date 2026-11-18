@@ -41,6 +41,24 @@ init python:
         # renpy.random keeps the same pick when the player rolls back and forward again.
         return renpy.random.choice(ui_result_words("worst", "수")["target"][monster])
 
+    def ui_retry_target_words(monster, current_word):
+        """Prefer the assessed syllable group, then other groups for this monster."""
+        preferred = ui_result_words("worst", "수")["target"].get(monster, [])
+        alternatives = [word for word in preferred if word != current_word]
+        if alternatives:
+            return alternatives
+
+        return list(dict.fromkeys(
+            word
+            for group in ui_word_pool.values()
+            for word in group["target"].get(monster, [])
+            if word != current_word
+        ))
+
+    def ui_choose_retry_target_word(candidates):
+        # TODO: Connect future retry word selection policy here.
+        return renpy.random.choice(candidates)
+
 screen ui_word_selection(title, words):
 
     modal True
