@@ -32,7 +32,6 @@ screen ui_articulation():
     modal True
     default page = 0
     $ p = ui_artic_pages[page]
-    $ img = ui_artic_dir + p["image"]
 
     text "Practice the ㅅ Sound":
         style "intro_ch1_text"
@@ -62,6 +61,27 @@ screen ui_articulation():
                 outlines []
 
     # Instruction card
+    use ui_artic_card(p)
+
+    # Little Ghost's dialogue
+    window:
+        style "window"
+
+        window:
+            style "namebox"
+            text "Little Ghost" style "say_label" color "#B4DFFF"
+
+        text p["ghost"] style "say_dialogue"
+
+    fixed:
+        xysize (240, 68)
+        pos (1498, 890)
+        use intro_ch1_button("Get Ready", "continue", Return(), width=240, height=68)
+
+
+# The instruction card, shared with the pronunciation feedback screen.
+screen ui_artic_card(p):
+
     fixed:
         xpos 598
         ypos 292
@@ -70,7 +90,7 @@ screen ui_articulation():
         add intro_ch1_ui + "panel_assessment.png" xysize (1188, 488) fit "fill" alpha 0.92
         # Use a light background so the diagram lines are visible.
         add ui_artic_dir + "panel_image.png" pos (59, 40)
-        add img pos (91, 40) xysize (408, 408) fit "contain"
+        add ui_artic_dir + p["image"] pos (91, 40) xysize (408, 408) fit "contain"
         add Solid("#5A6AA0", xysize=(2, 352)) pos (548, 68)
 
         text p["title"]:
@@ -99,21 +119,6 @@ screen ui_articulation():
                 color "#F8F5FF"
                 text_align 0.0
                 outlines []
-
-    # Little Ghost's dialogue
-    window:
-        style "window"
-
-        window:
-            style "namebox"
-            text "Little Ghost" style "say_label" color "#B4DFFF"
-
-        text p["ghost"] style "say_dialogue"
-
-    fixed:
-        xysize (240, 68)
-        pos (1498, 890)
-        use intro_ch1_button("Get Ready", "continue", Return(), width=240, height=68)
 
 
 label ch1_articulation_guide:
