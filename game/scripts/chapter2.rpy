@@ -41,7 +41,7 @@ label chapter2:
     mc "Is that one cursed too?"
     ghost "I think so. Let's help with the power of our voices!"
 
-    show ui_whisper angry with Dissolve(0.16)
+    show ui_whisper angry at ui_whisper_position, ui_dust_threaten with Dissolve(0.16)
     whisper "Think you can beat my whispers..!?"
     show ui_whisper before with Dissolve(0.16)
 

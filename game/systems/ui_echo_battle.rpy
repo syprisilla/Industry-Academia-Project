@@ -31,12 +31,11 @@ transform ui_echo_position:
     yoffset 0
 
 
-# 정화 후에는 조금 작게 표시
 transform ui_echo_after_position:
-    xysize (480, 320)
+    xysize (680, 454)
     fit "contain"
     anchor (0.5, 0.5)
-    pos (1350, 580)
+    pos (1435, 536)
 
     zoom 1.0
     alpha 1.0
