@@ -1,8 +1,9 @@
-label ch1_m1_fail(reason="unknown"):
+label ch1_m1_fail(reason="unknown", monster="ch1_m1"):
 
     n "The power of your voice fades before it reaches the monster."
 
-    dust "Ha ha! Nothing happened that time!"
+    if monster == "ch1_m1":
+        dust "Ha ha! Nothing happened that time!"
 
     show ui_ghost intro_worried with Dissolve(0.2)
     if reason == "substitution":
@@ -20,4 +21,11 @@ label ch1_m1_fail(reason="unknown"):
     show ui_ghost intro_idle with Dissolve(0.2)
     mc "Okay! I'll give it another try."
 
+    return
+
+
+label pronunciation_battle_monster_fail:
+    show ui_ghost intro_encourage with Dissolve(0.2)
+    ghost "That's okay! Let's try the word again slowly."
+    show ui_ghost intro_idle with Dissolve(0.2)
     return

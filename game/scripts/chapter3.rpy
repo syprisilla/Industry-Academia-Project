@@ -214,22 +214,21 @@ label ch3_m3_start:
 
     ch3_boss "You think your tiny power can beat me?"
 
-    # --------------------------------------------------
-    # TODO Start the Final Boss battle
-    # Show the key word, then the practice word, and analyze the recording
-    # Successful hits 0/3, boss HP 3
-    #
-    # Success -> ch3_m3_success_1 ~ ch3_m3_success_3
-    # Failure -> ch3_m3_fail
-    # Unrecognized -> ch3_m3_unrecognized
-    # --------------------------------------------------
-
-    # [Temporary test] Play three success scenes
-    call ch3_m3_success_1
-    call ch3_m3_success_2
-    call ch3_m3_success_3
-
+    call pronunciation_battle("ch3_m3", "Final Boss", scene_boss_music) from ch3_m3_pronunciation_battle_done
     jump ch3_m3_clear
+
+
+label ch3_m3_failure_ending:
+
+    window auto
+    n "The light from your voice slowly fades away."
+    ch3_boss "Ha ha ha! My curse is still too strong!"
+    mc "Oh no... I couldn't break the curse."
+    ghost "It's okay! You've come so far. We can always try again!"
+    n "The curse remains... but the adventure isn't over yet."
+
+    call show_chapter_end("images/chapter_end/final_boss_defeat.png") from ch3_m3_defeat_card_done
+    $ renpy.full_restart(config.game_main_transition, save=False)
 
 
 # --------------------------------------------------
@@ -322,7 +321,5 @@ label ch3_finish:
     $ completed_chapters.add(3)
     $ unlock_chapter(3)
     call progress_autosave from ch3_completion_autosaved
-    centered "You finished every chapter!"
-    call show_chapter_end("images/chapter_end/chapter3.png") from ch3_end_card_done
-
-    return
+    call show_chapter_end("images/chapter_end/final_boss_cleared.png") from ch3_end_card_done
+    $ renpy.full_restart(config.game_main_transition, save=False)

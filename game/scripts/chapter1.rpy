@@ -183,6 +183,10 @@ label ch1_m2_start:
 
     mc "I hear a weird sound..."
 
+    show ui_echo before at ui_echo_position, ui_dust_emerge
+    pause 0.6
+
+    show ui_echo talk with Dissolve(0.16)
     echo "Sound... sound... sound..."
 
     mc "Huh? It's copying me!"
@@ -197,7 +201,9 @@ label ch1_m2_start:
     ghost "Look out! That's the Echo Monster."
     ghost "It steals people's voices and copies them perfectly!"
 
+    show ui_echo angry with Dissolve(0.16)
     echo "I'll take your voice too!"
+    show ui_echo before with Dissolve(0.16)
 
     mc "You can't have my voice!"
     show ui_ghost intro_talk_closed with Dissolve(0.2)
@@ -213,7 +219,10 @@ label ch1_m2_start:
 
     mc "Got it! I'll take it from here."
 
+    show ui_echo talk with Dissolve(0.16)
     echo "Hee hee! Let's see if you can beat my echoes!"
+
+    show ui_echo before with Dissolve(0.16)
 
     # --------------------------------------------------
     # TODO Start the second monster battle
@@ -226,12 +235,7 @@ label ch1_m2_start:
     # Unrecognized -> ch1_m2_unrecognized
     # --------------------------------------------------
 
-    # [Temporary test] Play three success scenes before battle is implemented
-    call ch1_m2_success_1
-    call ch1_m2_success_2
-    call ch1_m2_success_3
-
-    jump ch1_m2_clear
+    jump ch1_m2_battle
 
 
 # --------------------------------------------------
@@ -261,6 +265,8 @@ label ch1_m2_clear:
     n "The darkness around the Echo Monster melts away."
     n "Tiny lights float out of the monster one by one."
 
+    call ui_echo_purification
+
     echo "Huh...? The strange voices are gone!"
     echo "I finally have my own voice back!"
 
@@ -269,6 +275,7 @@ label ch1_m2_clear:
     ghost "Nice work! You broke the second monster's curse too."
 
     $ play_scene_music(scene_corridor_music, volume=scene_corridor_volume)
+    hide ui_echo with Dissolve(0.5)
     n "The Echo Monster disappears in a flash of light."
 
     ghost "There's just one monster left on this floor!"
@@ -292,6 +299,10 @@ label ch1_m3_start:
     # SCENE 8. The third monster appears
     # ==========================================
 
+    hide ui_echo
+    hide screen ui_echo_hp
+
+
     show apartment corridor_4 behind ui_ghost with fade
     n "A big door stands at the end of the hallway."
     n "Beyond it is an elevator that goes upstairs."
@@ -302,10 +313,16 @@ label ch1_m3_start:
 
     n "Just then, a shadow on the floor starts to move."
     $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
+
+    show ui_shadow before at ui_shadow_position, ui_shadow_emerge
+    pause 0.8
+
     n "It grows bigger and bigger until it turns into a giant monster."
 
+    show ui_shadow talk with Dissolve(0.16)
     shadow "Who goes there...? How dare you come this far!"
     show ui_ghost intro_surprised with Dissolve(0.2)
+    show ui_shadow before with Dissolve(0.16)
     mc "Whoa! This one's huge!"
 
     show ui_ghost intro_worried with Dissolve(0.2)
@@ -325,7 +342,9 @@ label ch1_m3_start:
 
     mc "Yep! I know how to do it now!"
 
+    show ui_shadow angry with Dissolve(0.16)
     shadow "Then show me what you've got!"
+    show ui_shadow before with Dissolve(0.16)
 
     # --------------------------------------------------
     # TODO Start the third monster battle
@@ -338,12 +357,8 @@ label ch1_m3_start:
     # Unrecognized -> ch1_m3_unrecognized
     # --------------------------------------------------
 
-    # [Temporary test] Play three success scenes before battle is implemented
-    call ch1_m3_success_1
-    call ch1_m3_success_2
-    call ch1_m3_success_3
-
-    jump ch1_m3_clear
+    # 그림자 괴물 전투 시작
+    jump ch1_m3_battle
 
 
 # --------------------------------------------------
@@ -371,6 +386,9 @@ label ch1_m3_clear:
     # ==========================================
 
     n "The darkness around the Shadow Monster disappears."
+
+    call ui_shadow_purification
+
     n "The monster shrinks and turns into a soft light."
 
     shadow "At last... I'm free of the curse."
@@ -390,6 +408,7 @@ label ch1_m3_clear:
     shadow "You'll see for yourself when you get there..."
 
     $ play_scene_music(scene_corridor_music, volume=scene_corridor_volume)
+    hide ui_shadow with Dissolve(0.5)
     n "With those last words, the Shadow Monster fades into the light."
     n "At the same moment, the elevator doors slide open."
 
@@ -428,7 +447,6 @@ label ch1_finish:
 
     call show_chapter_end("images/chapter_end/chapter1.png") from ch1_end_card_done
     hide ui_ghost
-    show ui_ghost at ui_ghost_corridor, ui_ghost_settle
     $ stop_scene_music()
     stop sound
     jump chapter2

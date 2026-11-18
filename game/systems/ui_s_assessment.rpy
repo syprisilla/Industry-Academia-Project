@@ -1,6 +1,6 @@
 init python:
     def ui_assess_ghost(show):
-        # 실패 안내 동안 유령을 숨기고, 재시작하면 원래 위치·둥둥 효과로 되돌린다.
+        # Hide the ghost during the failure notice; restore its position and float on restart.
         if show:
             renpy.show("ui_ghost intro_explain", at_list=[ui_ghost_position, ghost_float])
             renpy.transition(Dissolve(0.2), layer="master")
@@ -15,6 +15,20 @@ init python:
 screen ui_s_assessment(record_action=None):
 
     modal True
+
+    textbutton "Skip Sound Check (Test)":
+        xalign 0.98
+        yalign 0.95
+        padding (20, 12)
+        background Solid("#352945DD")
+        text_color "#FFFFFF"
+        text_size 26
+
+        action [
+            Function(ui_assess_ghost, True),
+            Return()
+        ]
+
     default syllable_index = 0
     default syll_state = "ready"
     default ui_record_state = "ready"
@@ -81,7 +95,7 @@ screen ui_s_assessment(record_action=None):
 
     elif syll_result.get("status") == "ok":
 
-        # best/worst 결과 카드 (시안: Sound Check Results)
+        # Best/worst result cards
         text "Sound Check Results" style "intro_ch1_text" size 68 bold True xpos 852 xanchor 0.5 ypos 175 yanchor 0.5
 
         fixed:
@@ -112,7 +126,7 @@ screen ui_s_assessment(record_action=None):
 
     else:
 
-        # 유효 글자 부족 / 다 폴백 → 처음부터 재녹음 (시안: Let's try again)
+        # Not enough valid sounds: restart the assessment from the first sound.
         add Solid("#10152F88")
 
         text "Sound Check" style "intro_ch1_text" size 68 bold True xalign 0.5 ypos 177 yanchor 0.5

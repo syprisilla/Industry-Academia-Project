@@ -125,16 +125,16 @@ label intro:
 
     window hide
 
+    # Key words start with the clearest syllable from the assessment.
     call screen ui_word_selection(
-        "Choose a Practice Word",
-        ("사과", "사자", "사탕", "수박", "소금", "선물")
+        "Choose a Key Word",
+        ui_core_words()
     )
 
-    $ ui_selected_training_word = _return
+    $ ui_selected_core_word = persistent.ui_core_word = _return
 
     window auto
-    # Done saves the chosen practice word in ui_selected_training_word.
-    # Practice words are provisional and should be updated later.
+    # Done saves the chosen key word in ui_selected_core_word.
 
     # --------------------------------------------------
     # TODO Choose the key word and practice word.
