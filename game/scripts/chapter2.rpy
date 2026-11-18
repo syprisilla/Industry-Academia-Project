@@ -10,6 +10,7 @@
 label chapter2:
 
     $ current_chapter = 2
+
     $ play_scene_music(scene_ch2_corridor_music, volume=scene_corridor_volume)
 
     # 엘리베이터에서 내림

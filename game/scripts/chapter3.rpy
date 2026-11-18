@@ -1,20 +1,43 @@
+# ==================================================
+# Chapter 3
+# ==================================================
 
 label chapter3:
 
     $ current_chapter = 3
+
     $ play_scene_music(scene_ch3_corridor_music, volume=scene_corridor_volume)
 
-    # ==========================================
-    # SCENE 1. Third floor
-    # ==========================================
+    scene apartment elevator_on_3
+    show ui_ghost intro_idle at ui_ghost_corridor, ghost_float
+    with fade
 
     $ play_scene_sound(scene_elevator_sound)
+
     n "The elevator stops on the third floor."
+
+    # 엘리베이터에서 나와 복도로 이동
+    show apartment corridor_2 behind ui_ghost with fade
+
+    show ui_letter_scattered at ui_letter_scattered_position with dissolve
+
     n "The doors open to reveal old letters scattered across the floor."
 
-    show apartment elevator_on_3 behind ui_ghost with fade
-
     mc "This must be the top floor."
+
+    # 흩어진 편지가 모이며 괴물 등장
+    window hide
+
+    show ui_letter_scattered at ui_letter_scattered_position, ui_letter_gather
+    show ui_letter before at ui_letter_position, ui_dust_emerge
+
+    pause 0.7
+
+    hide ui_letter_scattered
+
+    window auto
+
+    show ui_ghost intro_surprised with Dissolve(0.2)
 
     n "Suddenly, the letters move on their own and turn into a monster."
 
@@ -27,70 +50,83 @@ label chapter3:
 
 label ch3_m1_start:
 
-    # ==========================================
-    # SCENE 2. The first monster appears
-    # ==========================================
-
     $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
+
+    show ui_letter angry at ui_letter_position, ui_dust_threaten with Dissolve(0.16)
+
     ch3_letter "Liar! You said you'd come back! Go away, all of you!"
+
+    show ui_letter before at ui_letter_position, ui_dust_idle with Dissolve(0.16)
+
     mc "Who said they'd come back?"
 
+    show ui_ghost intro_worried with Dissolve(0.2)
     ghost "Watch out! The curse is making it lash out at us."
+
     mc "Then let's break the curse first!"
 
-    # ==========================================
-    # SCENE 3. Prepare for the first battle
-    # ==========================================
-
+    show ui_ghost intro_explain with Dissolve(0.2)
     ghost "Warm up with a familiar word, then say the practice word."
+
     mc "Okay! I'll give it a try!"
 
-    # --------------------------------------------------
-    # TODO Start the first monster battle
-    # Show the key word, then the practice word, and analyze the recording
-    # Successful hits 0/3, monster HP 3
-    # Success -> ch3_m1_success_1 ~ ch3_m1_success_3
-    # Failure -> ch3_m1_fail
-    # Unrecognized -> ch3_m1_unrecognized
-    # --------------------------------------------------
-
-    # [Temporary test] Play three success scenes
-    call ch3_m1_success_1
-    call ch3_m1_success_2
-    call ch3_m1_success_3
-
-    jump ch3_m1_clear
+    # 기존 공통 전투로 이동
+    jump ch3_m1_battle
 
 
 label ch3_m1_prompt:
 
+    show ui_ghost intro_talk with Dissolve(0.2)
     ghost "Say the word on the screen slowly!"
-    # TODO Record and analyze pronunciation
 
     return
 
 
-label ch3_m1_clear:
+# ==================================================
+# 편지 괴물 정화 완료
+# ==================================================
 
-    # ==========================================
-    # SCENE 4. Break the first monster's curse
-    # ==========================================
+label ch3_m1_clear:
 
     n "The darkness fades from the Letter Monster's body."
 
+    call ui_letter_purification from ch3_m1_letter_purification_done
+
+    show ui_letter after_sad at ui_letter_position, ui_dust_idle with Dissolve(0.2)
+    show ui_ghost intro_relief with Dissolve(0.2)
+
     ch3_letter "I wrote letters every day while I waited for Mom to come home."
     ch3_letter "She promised she'd come back... but no matter how long I waited, she never came."
+
+    show ui_ghost intro_sad with Dissolve(0.2)
     mc "That's why you couldn't let go of these letters..."
+
+    show ui_letter after at ui_letter_position, ui_dust_idle with Dissolve(0.3)
+
     ch3_letter "Yes... I'll leave this last letter behind and go now. Thank you."
+    show ui_ghost intro_idle with Dissolve(0.2)
+    show ui_letter_last at ui_letter_last_position with Dissolve(0.3)
+
+    hide ui_letter_scattered
+    hide screen ui_letter_hp
 
     n "The Letter Monster turns into a tiny light and disappears."
+
+    # 위 내레이션을 넘기면 바로 화면에서 제거
+    hide ui_letter
+    hide ui_letter_last
+    with Dissolve(0.3)
+
     $ play_scene_music(scene_ch3_corridor_music, volume=scene_corridor_volume)
+
     n "Farther down the hall, we hear something start to grow."
 
+    show ui_ghost intro_talk_closed with Dissolve(0.2)
     ghost "Let's keep going!"
 
     $ cleared_monsters.add((3, 1))
     call progress_autosave from ch3_m1_autosaved
+
     jump ch3_m2_start
 
 
@@ -100,72 +136,85 @@ label ch3_m1_clear:
 
 label ch3_m2_start:
 
-    # ==========================================
-    # SCENE 5. The second monster appears
-    # ==========================================
+    # 이전 장면의 편지 이미지 정리
+    hide ui_letter
+    hide ui_letter_last
+    hide ui_letter_scattered
+    hide screen ui_letter_hp
+
+    show apartment corridor_3 behind ui_ghost with fade
 
     $ play_scene_music(scene_battle_music, volume=scene_battle_volume)
+
+    show ui_vine before at ui_vine_position, ui_dust_emerge
+
     n "Thorny vines block the middle of the hallway."
     n "A little flower peeks out between the vines."
 
     mc "Whoa! Those thorns came out of nowhere!"
+
+    show ui_vine angry at ui_vine_position, ui_dust_threaten with Dissolve(0.16)
     ch3_vine "No! Stay back!"
+
+    show ui_vine before at ui_vine_position, ui_dust_idle with Dissolve(0.16)
+    show ui_ghost intro_worried with Dissolve(0.2)
 
     ghost "Watch out! The curse is making those thorns grow like crazy."
     mc "That looks dangerous! Let's break the curse, quick!"
 
-    # --------------------------------------------------
-    # TODO Start the second monster battle
-    # Show the key word, then the practice word, and analyze the recording
-    # Successful hits 0/3, monster HP 3
-    # Success -> ch3_m2_success_1 ~ ch3_m2_success_3
-    # Failure -> ch3_m2_fail
-    # Unrecognized -> ch3_m2_unrecognized
-    # --------------------------------------------------
-
-    # [Temporary test] Play three success scenes
-    call ch3_m2_success_1
-    call ch3_m2_success_2
-    call ch3_m2_success_3
-
-    jump ch3_m2_clear
+    jump ch3_m2_battle
 
 
 label ch3_m2_prompt:
 
+    show ui_ghost intro_talk with Dissolve(0.2)
     ghost "When you're ready, say the word on the screen!"
-    # TODO Record and analyze pronunciation
 
     return
 
 
 label ch3_m2_clear:
 
-    # ==========================================
-    # SCENE 7. Break the second monster's curse
-    # ==========================================
-
     n "The thorns disappear and the vines slowly unwind."
+
+    call ui_vine_purification from ch3_m2_vine_purification_done
+
     n "Behind the vines, the floor is cracked, with a deep hole in it."
+
+    show ui_ghost intro_relief with Dissolve(0.2)
 
     ch3_vine "A kid came to pick a flower here once and almost fell in."
     mc "Is that why you blocked the way?"
     ch3_vine "Yes... but the curse made me start attacking people."
+
+    show ui_ghost intro_explain with Dissolve(0.2)
     ghost "You were trying to keep everyone safe!"
 
     ch3_vine "The one who started all this is at the end of that hall."
     mc "The one who started it?"
+
+    show ui_vine after_worried at ui_vine_position, ui_dust_idle with Dissolve(0.2)
+
     ch3_vine "The Final Boss. He put a curse on every monster you've met."
     ch3_vine "He's much stronger than the other monsters. Be careful!"
+
     n "The Thorny Vine Monster turns into a tiny light and disappears."
+
+    hide ui_vine with Dissolve(0.5)
+    hide screen ui_vine_hp
+
     $ play_scene_music(scene_ch3_corridor_music, volume=scene_corridor_volume)
 
     mc "A monster that strong? I'm a little scared."
+
+    show ui_ghost intro_encourage with Dissolve(0.2)
     ghost "You've done great so far! We'll face him together."
+
     mc "You're right! I'm going to break that curse!"
 
     $ cleared_monsters.add((3, 2))
     call progress_autosave from ch3_m2_autosaved
+
     jump ch3_m3_start
 
 
