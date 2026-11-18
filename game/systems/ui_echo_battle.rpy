@@ -173,6 +173,9 @@ label ui_echo_purification:
 # ==================================================
 
 label ch1_m2_battle:
-    call pronunciation_battle("ch1_m2", "Echo Monster", scene_battle_music, "echo", ui_echo_position,
-        core_word=ui_selected_core_word or "사과", target_word=ui_selected_training_word or "가수") from ch1_m2_pronunciation_battle_done
+    call pronunciation_battle(
+        "ch1_m2", "Echo Monster",
+        scene_battle_music, "echo", ui_echo_position
+    ) from ch1_m2_pronunciation_battle_done
+
     jump ch1_m2_clear
