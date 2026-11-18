@@ -175,6 +175,9 @@ label ui_shadow_purification:
 # ==================================================
 
 label ch1_m3_battle:
-    call pronunciation_battle("ch1_m3", "Shadow Monster", scene_battle_music, "shadow", ui_shadow_position,
-        core_word=ui_selected_core_word or "사과", target_word=ui_selected_training_word or "가수") from ch1_m3_pronunciation_battle_done
+    call pronunciation_battle(
+        "ch1_m3", "Shadow Monster",
+        scene_battle_music, "shadow", ui_shadow_position
+    ) from ch1_m3_pronunciation_battle_done
+
     jump ch1_m3_clear

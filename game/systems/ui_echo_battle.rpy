@@ -30,12 +30,11 @@ transform ui_echo_position:
     yoffset 0
 
 
-# 정화 후에는 조금 작게 표시
 transform ui_echo_after_position:
-    xysize (480, 320)
+    xysize (680, 454)
     fit "contain"
     anchor (0.5, 0.5)
-    pos (1350, 580)
+    pos (1435, 536)
 
     zoom 1.0
     alpha 1.0
@@ -174,6 +173,9 @@ label ui_echo_purification:
 # ==================================================
 
 label ch1_m2_battle:
-    call pronunciation_battle("ch1_m2", "Echo Monster", scene_battle_music, "echo", ui_echo_position,
-        core_word=ui_selected_core_word or "사과", target_word=ui_selected_training_word or "가수") from ch1_m2_pronunciation_battle_done
+    call pronunciation_battle(
+        "ch1_m2", "Echo Monster",
+        scene_battle_music, "echo", ui_echo_position
+    ) from ch1_m2_pronunciation_battle_done
+
     jump ch1_m2_clear
