@@ -1,5 +1,7 @@
 default success_count = 0
 default failure_count = 0
+default ui_battle_targets = None
+default ui_boss_words = None
 
 
 label ch1_m1_battle:
@@ -9,7 +11,14 @@ label ch1_m1_battle:
 
 label pronunciation_battle(monster, monster_name, battle_music, sprite=None, sprite_position=None, core_word=None, target_word=None):
     $ ui_battle_core_word = core_word if core_word is not None else (ui_selected_core_word or ui_saved_core_word())
-    $ initial_target_word = target_word if target_word is not None else ui_target_word(monster)
+    $ ui_battle_targets = ui_target_words()
+    if monster == "ch3_m3":
+        $ ui_boss_words = ui_final_boss_words(ui_battle_targets)
+        $ initial_target_word = ui_boss_words[0]
+    elif target_word in ui_battle_targets.get(monster, []):
+        $ initial_target_word = target_word
+    else:
+        $ initial_target_word = ui_target_word(monster, ui_battle_targets)
     $ hp_screen = "ui_{}_hp".format(sprite) if sprite else "ui_dust_hp"
 
 label .restart:
@@ -26,6 +35,11 @@ label .restart:
         $ renpy.show_screen(hp_screen)
 
     while success_count < 3:
+        if monster == "ch3_m3":
+            if ui_boss_words is None:
+                $ ui_boss_words = ui_final_boss_words(ui_target_words())
+            $ ui_battle_training_word = ui_boss_words[success_count]
+
         window hide
         $ play_scene_music(battle_music, volume=scene_battle_volume)
         call screen ui_dust_word(ui_battle_core_word)
@@ -34,7 +48,7 @@ label .restart:
         $ ui_battle_result = "unrecognized"
         while ui_battle_result == "unrecognized":
             window hide
-            call screen ui_dust_word(ui_battle_training_word, training=True, battle_music=battle_music, monster_name=monster_name)
+            call screen ui_dust_word(ui_battle_training_word, training=True, battle_music=battle_music, monster_name=monster_name, sentence=(monster == "ch3_m3" and success_count == 2))
             $ ui_battle_result = _return
             $ play_scene_music(battle_music, volume=scene_battle_volume)
             if ui_battle_result == "unrecognized":
@@ -71,10 +85,10 @@ label .restart:
                         jump ch3_m3_failure_ending
                     jump .restart
             elif failure_count >= 3:
-                $ retry_words = ui_retry_target_words(monster, ui_battle_training_word)
                 window hide
-                call screen ui_pronunciation_battle_over(monster_name=monster_name, retry_available=bool(retry_words))
-                $ ui_battle_training_word = ui_choose_retry_target_word(retry_words)
+                call screen ui_pronunciation_battle_over(monster_name=monster_name)
+                $ retry_words = ui_retry_target_words(monster, ui_battle_training_word, ui_battle_targets)
+                $ ui_battle_training_word = renpy.random.choice(retry_words)
                 $ failure_count = 0
 
     $ renpy.hide_screen(hp_screen)
