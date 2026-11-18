@@ -1,3 +1,6 @@
+define intro_recording_sentence = "사자가 숲속에서 사과를 찾았어요."
+
+
 label start:
 
     $ renpy.stop_skipping()
@@ -72,9 +75,7 @@ label intro:
     window hide
 
     $ renpy.music.set_pause(True, channel="music")
-    call screen ui_sentence(
-        "사자가 숲속에서 사과를 찾았어요."
-    )   # Next resumes the dialogue.
+    call screen ui_sentence(intro_recording_sentence)
 
     $ renpy.music.set_pause(False, channel="music")
     $ play_scene_music(scene_entrance_music)

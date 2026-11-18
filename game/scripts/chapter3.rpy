@@ -45,19 +45,7 @@ label ch3_m1_start:
     ghost "Warm up with a familiar word, then say the practice word."
     mc "Okay! I'll give it a try!"
 
-    # --------------------------------------------------
-    # TODO Start the first monster battle
-    # Show the key word, then the practice word, and analyze the recording
-    # Successful hits 0/3, monster HP 3
-    # Success -> ch3_m1_success_1 ~ ch3_m1_success_3
-    # Failure -> ch3_m1_fail
-    # Unrecognized -> ch3_m1_unrecognized
-    # --------------------------------------------------
-
-    # [Temporary test] Play three success scenes
-    call ch3_m1_success_1
-    call ch3_m1_success_2
-    call ch3_m1_success_3
+    call pronunciation_battle("ch3_m1", "Letter Monster", scene_battle_music) from ch3_m1_pronunciation_battle_done
 
     jump ch3_m1_clear
 
@@ -114,19 +102,7 @@ label ch3_m2_start:
     ghost "Watch out! The curse is making those thorns grow like crazy."
     mc "That looks dangerous! Let's break the curse, quick!"
 
-    # --------------------------------------------------
-    # TODO Start the second monster battle
-    # Show the key word, then the practice word, and analyze the recording
-    # Successful hits 0/3, monster HP 3
-    # Success -> ch3_m2_success_1 ~ ch3_m2_success_3
-    # Failure -> ch3_m2_fail
-    # Unrecognized -> ch3_m2_unrecognized
-    # --------------------------------------------------
-
-    # [Temporary test] Play three success scenes
-    call ch3_m2_success_1
-    call ch3_m2_success_2
-    call ch3_m2_success_3
+    call pronunciation_battle("ch3_m2", "Thorny Vine Monster", scene_battle_music) from ch3_m2_pronunciation_battle_done
 
     jump ch3_m2_clear
 
