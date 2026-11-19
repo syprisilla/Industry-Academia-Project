@@ -48,7 +48,6 @@ label ch1_m1_success_3:
 
 label ch1_m2_success_1:
 
-    $ play_scene_sound(scene_wave_sound)
     n "Our hero's voice turns to light and flies toward the Echo Monster."
 
     echo "Aah! My echoes are wavering!"
@@ -65,7 +64,6 @@ label ch1_m2_success_1:
 
 label ch1_m2_success_2:
 
-    $ play_scene_sound(scene_wave_sound)
     n "A second flash of light reaches the Echo Monster."
     n "The strange voices swirling around the monster grow quieter."
 
@@ -81,7 +79,6 @@ label ch1_m2_success_2:
 
 label ch1_m2_success_3:
 
-    $ play_scene_sound(scene_wave_sound)
     n "The last flash of light flies toward the Echo Monster."
     n "The echoes around the monster stop all at once."
 
@@ -99,7 +96,6 @@ label ch1_m2_success_3:
 
 label ch1_m3_success_1:
 
-    $ play_scene_sound(scene_wave_sound)
     n "Our hero's voice turns into a bright light."
     n "The light shoots toward the Shadow Monster and hits it."
 
@@ -117,7 +113,6 @@ label ch1_m3_success_1:
 
 label ch1_m3_success_2:
 
-    $ play_scene_sound(scene_wave_sound)
     n "A second flash of light reaches the Shadow Monster."
     n "The dark shadow wrapped around the monster starts to crack."
 
@@ -133,7 +128,6 @@ label ch1_m3_success_2:
 
 label ch1_m3_success_3:
 
-    $ play_scene_sound(scene_wave_sound)
     n "Our hero's voice turns into a dazzling light."
     n "The light wraps around the Shadow Monster and drives the darkness away."
 
@@ -149,7 +143,6 @@ label ch1_m3_success_3:
 # MONSTER 1. Whisper Monster Success dialogue
 # ==================================================
 label ch2_m1_success_1:
-    $ play_scene_sound(scene_wave_sound)
 
     n "Our hero's voice turns to light and flies toward the monster."
 
@@ -162,7 +155,6 @@ label ch2_m1_success_1:
     return
 
 label ch2_m1_success_2:
-    $ play_scene_sound(scene_wave_sound)
 
     n "Another flash of light flies out and wraps around the monster."
 
@@ -175,7 +167,6 @@ label ch2_m1_success_2:
     return
 
 label ch2_m1_success_3:
-    $ play_scene_sound(scene_wave_sound)
 
     n "The last flash of light reaches the monster."
 
@@ -191,7 +182,6 @@ label ch2_m1_success_3:
 # ==================================================
 
 label ch2_m2_success_1:
-    $ play_scene_sound(scene_wave_sound)
     n "The light from our hero's voice reaches the Toy Monster, and one of the toy box's locks pops open."
     ch2_toy "Oh! My box is opening!"
     mc "It worked!"
@@ -200,7 +190,6 @@ label ch2_m2_success_1:
     return
 
 label ch2_m2_success_2:
-    $ play_scene_sound(scene_wave_sound)
     n "The second flash of light brightens the toy box."
     ch2_toy "Do I really have to keep my friends locked up...?"
     mc "The curse is breaking bit by bit!"
@@ -209,7 +198,6 @@ label ch2_m2_success_2:
     return
 
 label ch2_m2_success_3:
-    $ play_scene_sound(scene_wave_sound)
     n "The last flash of light wraps around the Toy Monster, and the darkness fades."
     ch2_toy "Oh... Why was I so angry?"
     mc "I did it!"
@@ -222,7 +210,6 @@ label ch2_m2_success_3:
 # ==================================================
 
 label ch2_m3_success_1:
-    $ play_scene_sound(scene_wave_sound)
     n "The light from our hero's voice reaches the Clock Monster, and the clock hands move a little."
     ch2_clock "No! Time has to stay still!"
     mc "Wow! The attack worked!"
@@ -231,7 +218,6 @@ label ch2_m3_success_1:
     return
 
 label ch2_m3_success_2:
-    $ play_scene_sound(scene_wave_sound)
     n "A second flash of light reaches the clock, and the second hand begins to tick."
     ch2_clock "You mean I can't go back to that day...?"
     mc "I think we're almost there!"
@@ -240,7 +226,6 @@ label ch2_m3_success_2:
     return
 
 label ch2_m3_success_3:
-    $ play_scene_sound(scene_wave_sound)
     n "The last flash of light reaches the Clock Monster, and the darkness scatters."
     ch2_clock "Oh... It's time to move on."
     mc "I did it!"
@@ -338,7 +323,6 @@ label ch3_m2_success_3:
 # ==================================================
 
 label ch3_m3_success_1:
-    $ play_scene_sound(scene_wave_sound)
 
     n "Our hero's voice turns into a bright light and shoots toward the Final Boss."
     n "A tiny crack appears in the black orb he's holding."
@@ -353,7 +337,6 @@ label ch3_m3_success_1:
 
 
 label ch3_m3_success_2:
-    $ play_scene_sound(scene_wave_sound)
 
     n "A second flash of light strikes the black orb."
     n "The crack in the orb grows wider."
@@ -368,7 +351,6 @@ label ch3_m3_success_2:
 
 
 label ch3_m3_success_3:
-    $ play_scene_sound(scene_wave_sound)
 
     n "Our hero's voice turns into one last dazzling light."
     n "The light shoots through the black orb with a mighty blast."
