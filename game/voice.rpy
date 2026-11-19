@@ -93,3 +93,38 @@ init python:
             renpy.set_screen_variable("syll_result", fail)
         renpy.free_memory()   # Reload the selected sound image from disk.
         renpy.restart_interaction()
+
+
+
+    def pick_sentence():
+        """random sentence"""
+        import random
+        gamedir = renpy.config.gamedir
+        p = os.path.join(gamedir, "data", "sentences.json")
+        try:
+            with open(p, encoding="utf-8") as f:
+                data = json.load(f)
+            return random.choice(data["sentences"])
+        except Exception as e:
+            renpy.log("sentences.json reading fail: %r" % e)
+            return {"id": "fallback", "text": "사자가 숲속에서 사과를 찾았어요", "target_count": 2}
+
+    def do_sentence(sentence, seconds=8):
+        """Record and analyze the sentence, then read sentence_result.json into screen variables.
+        ok -> ui_record_state='done' / otherwise -> 'ready' (re-record)."""
+        gamedir = renpy.config.gamedir
+        exe = os.path.join(gamedir, "python", "voice_engine", "voice_engine.exe")
+        result_json = os.path.join(gamedir, "data", "sentence_result.json")
+        data = {"status": "unmeasurable", "expected_count": 0, "detected_count": 0}
+        try:
+            subprocess.run([exe, "sentence", sentence, str(seconds)],
+                           check=True, capture_output=True,
+                           creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+            with open(result_json, encoding="utf-8") as f:
+                data = json.load(f)
+        except Exception as e:
+            renpy.log("sentence run/read failed: %r" % e)
+        renpy.set_screen_variable("ui_sentence_result", data)
+        renpy.set_screen_variable("ui_record_state",
+                                  "done" if data.get("status") == "ok" else "ready")
+        renpy.restart_interaction()

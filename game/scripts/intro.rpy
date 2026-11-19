@@ -74,6 +74,8 @@ label intro:
 
     window hide
 
+    $ intro_recording_sentence = pick_sentence()["text"]
+    $ persistent.intro_sentence = intro_recording_sentence   
     $ renpy.music.set_pause(True, channel="music")
     call screen ui_sentence(intro_recording_sentence)
 

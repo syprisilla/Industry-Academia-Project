@@ -1,0 +1,410 @@
+{
+  "sentences": [
+    {
+      "id": "C1",
+      "text": "소년이 가수의 뉴스를 봐요.",
+      "word_count": 4,
+      "syllable_count": 11,
+      "target_count": 3,
+      "groups": "소,수,스",
+      "targets": [
+        {
+          "word": "소년",
+          "syllable": "소",
+          "group": "소",
+          "position": "어두",
+          "form": "CV"
+        },
+        {
+          "word": "가수",
+          "syllable": "수",
+          "group": "수",
+          "position": "어말음절",
+          "form": "CV"
+        },
+        {
+          "word": "뉴스",
+          "syllable": "스",
+          "group": "스",
+          "position": "어말음절",
+          "form": "CV"
+        }
+      ]
+    },
+    {
+      "id": "C2",
+      "text": "오늘 수업 시간이 생각나요.",
+      "word_count": 4,
+      "syllable_count": 11,
+      "target_count": 3,
+      "groups": "세/새,수,시",
+      "targets": [
+        {
+          "word": "수업",
+          "syllable": "수",
+          "group": "수",
+          "position": "어두",
+          "form": "CV"
+        },
+        {
+          "word": "시간",
+          "syllable": "시",
+          "group": "시",
+          "position": "어두",
+          "form": "CV"
+        },
+        {
+          "word": "생각",
+          "syllable": "생",
+          "group": "세/새",
+          "position": "어두",
+          "form": "CVC"
+        }
+      ]
+    },
+    {
+      "id": "C3",
+      "text": "작은 보석이 구석에 보여요.",
+      "word_count": 4,
+      "syllable_count": 11,
+      "target_count": 2,
+      "groups": "서",
+      "targets": [
+        {
+          "word": "보석",
+          "syllable": "석",
+          "group": "서",
+          "position": "어말음절",
+          "form": "CVC"
+        },
+        {
+          "word": "구석",
+          "syllable": "석",
+          "group": "서",
+          "position": "어말음절",
+          "form": "CVC"
+        }
+      ]
+    },
+    {
+      "id": "C4",
+      "text": "사이가 좋은 손님이 식당에 와요.",
+      "word_count": 5,
+      "syllable_count": 13,
+      "target_count": 3,
+      "groups": "사,소,시",
+      "targets": [
+        {
+          "word": "사이",
+          "syllable": "사",
+          "group": "사",
+          "position": "어두",
+          "form": "CV"
+        },
+        {
+          "word": "손님",
+          "syllable": "손",
+          "group": "소",
+          "position": "어두",
+          "form": "CVC"
+        },
+        {
+          "word": "식당",
+          "syllable": "식",
+          "group": "시",
+          "position": "어두",
+          "form": "CVC"
+        }
+      ]
+    },
+    {
+      "id": "C5",
+      "text": "교사가 새 모습을 봐요.",
+      "word_count": 4,
+      "syllable_count": 9,
+      "target_count": 3,
+      "groups": "사,세/새,스",
+      "targets": [
+        {
+          "word": "교사",
+          "syllable": "사",
+          "group": "사",
+          "position": "어말음절",
+          "form": "CV"
+        },
+        {
+          "word": "새",
+          "syllable": "새",
+          "group": "세/새",
+          "position": "어두",
+          "form": "CV"
+        },
+        {
+          "word": "모습",
+          "syllable": "습",
+          "group": "스",
+          "position": "어말음절",
+          "form": "CVC"
+        }
+      ]
+    },
+    {
+      "id": "C6",
+      "text": "성격이 좋은 사나이가 와요.",
+      "word_count": 4,
+      "syllable_count": 11,
+      "target_count": 2,
+      "groups": "사,서",
+      "targets": [
+        {
+          "word": "성격",
+          "syllable": "성",
+          "group": "서",
+          "position": "어두",
+          "form": "CVC"
+        },
+        {
+          "word": "사나이",
+          "syllable": "사",
+          "group": "사",
+          "position": "어두",
+          "form": "CV"
+        }
+      ]
+    },
+    {
+      "id": "C7",
+      "text": "손님이 시간을 생각해요.",
+      "word_count": 3,
+      "syllable_count": 10,
+      "target_count": 3,
+      "groups": "세/새,소,시",
+      "targets": [
+        {
+          "word": "손님",
+          "syllable": "손",
+          "group": "소",
+          "position": "어두",
+          "form": "CVC"
+        },
+        {
+          "word": "시간",
+          "syllable": "시",
+          "group": "시",
+          "position": "어두",
+          "form": "CV"
+        },
+        {
+          "word": "생각",
+          "syllable": "생",
+          "group": "세/새",
+          "position": "어두",
+          "form": "CVC"
+        }
+      ]
+    },
+    {
+      "id": "C8",
+      "text": "스피커 소리가 너무 커요.",
+      "word_count": 4,
+      "syllable_count": 10,
+      "target_count": 2,
+      "groups": "소,스",
+      "targets": [
+        {
+          "word": "스피커",
+          "syllable": "스",
+          "group": "스",
+          "position": "어두",
+          "form": "CV"
+        },
+        {
+          "word": "소리",
+          "syllable": "소",
+          "group": "소",
+          "position": "어두",
+          "form": "CV"
+        }
+      ]
+    },
+    {
+      "id": "C9",
+      "text": "새 가수가 식당에 와요.",
+      "word_count": 4,
+      "syllable_count": 9,
+      "target_count": 3,
+      "groups": "세/새,수,시",
+      "targets": [
+        {
+          "word": "새",
+          "syllable": "새",
+          "group": "세/새",
+          "position": "어두",
+          "form": "CV"
+        },
+        {
+          "word": "가수",
+          "syllable": "수",
+          "group": "수",
+          "position": "어말음절",
+          "form": "CV"
+        },
+        {
+          "word": "식당",
+          "syllable": "식",
+          "group": "시",
+          "position": "어두",
+          "form": "CVC"
+        }
+      ]
+    },
+    {
+      "id": "R1",
+      "text": "수고가 많은 교사가 뉴스를 봐요.",
+      "word_count": 5,
+      "syllable_count": 13,
+      "target_count": 3,
+      "groups": "사,수,스",
+      "targets": [
+        {
+          "word": "수고",
+          "syllable": "수",
+          "group": "수",
+          "position": "어두",
+          "form": "CV"
+        },
+        {
+          "word": "교사",
+          "syllable": "사",
+          "group": "사",
+          "position": "어말음절",
+          "form": "CV"
+        },
+        {
+          "word": "뉴스",
+          "syllable": "스",
+          "group": "스",
+          "position": "어말음절",
+          "form": "CV"
+        }
+      ]
+    },
+    {
+      "id": "R2",
+      "text": "모든 식구가 시간을 생각해요.",
+      "word_count": 4,
+      "syllable_count": 12,
+      "target_count": 3,
+      "groups": "세/새,시",
+      "targets": [
+        {
+          "word": "식구",
+          "syllable": "식",
+          "group": "시",
+          "position": "어두",
+          "form": "CVC"
+        },
+        {
+          "word": "시간",
+          "syllable": "시",
+          "group": "시",
+          "position": "어두",
+          "form": "CV"
+        },
+        {
+          "word": "생각",
+          "syllable": "생",
+          "group": "세/새",
+          "position": "어두",
+          "form": "CVC"
+        }
+      ]
+    },
+    {
+      "id": "R3",
+      "text": "손님이 구석에 보석을 놓아요.",
+      "word_count": 4,
+      "syllable_count": 12,
+      "target_count": 3,
+      "groups": "서,소",
+      "targets": [
+        {
+          "word": "손님",
+          "syllable": "손",
+          "group": "소",
+          "position": "어두",
+          "form": "CVC"
+        },
+        {
+          "word": "구석",
+          "syllable": "석",
+          "group": "서",
+          "position": "어말음절",
+          "form": "CVC"
+        },
+        {
+          "word": "보석",
+          "syllable": "석",
+          "group": "서",
+          "position": "어말음절",
+          "form": "CVC"
+        }
+      ]
+    },
+    {
+      "id": "R4",
+      "text": "모습이 좋은 소년이 수업에 와요.",
+      "word_count": 5,
+      "syllable_count": 13,
+      "target_count": 3,
+      "groups": "소,수,스",
+      "targets": [
+        {
+          "word": "모습",
+          "syllable": "습",
+          "group": "스",
+          "position": "어말음절",
+          "form": "CVC"
+        },
+        {
+          "word": "소년",
+          "syllable": "소",
+          "group": "소",
+          "position": "어두",
+          "form": "CV"
+        },
+        {
+          "word": "수업",
+          "syllable": "수",
+          "group": "수",
+          "position": "어두",
+          "form": "CV"
+        }
+      ]
+    },
+    {
+      "id": "R5",
+      "text": "큰 사나이가 색을 봐요.",
+      "word_count": 4,
+      "syllable_count": 9,
+      "target_count": 2,
+      "groups": "사,세/새",
+      "targets": [
+        {
+          "word": "사나이",
+          "syllable": "사",
+          "group": "사",
+          "position": "어두",
+          "form": "CV"
+        },
+        {
+          "word": "색",
+          "syllable": "색",
+          "group": "세/새",
+          "position": "어두",
+          "form": "CVC"
+        }
+      ]
+    }
+  ]
+}
