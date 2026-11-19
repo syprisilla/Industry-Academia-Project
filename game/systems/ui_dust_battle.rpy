@@ -120,16 +120,19 @@ screen ui_dust_hp(monster_name="Dust Monster"):
                         fit "fill"
 
 
-screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monster_name=None):
+screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monster_name=None, sentence=False):
 
     modal True
     default ui_record_state = "ready"
     default ui_voice = {"result": None, "feedback": "", "gauges": {}}
 
+    # A failed practice word opens the feedback screen in place of the word panel.
+    $ ui_feedback_open = training and ui_record_state == "result" and ui_voice["result"] == "fail"
+
 
         # 개발자용 전투 건너뛰기
     # 연습 단어 화면에서만 표시
-    if config.developer and training:
+    if config.developer and training and not ui_feedback_open:
 
         textbutton "Skip Battle (Test)":
             xalign 0.98
@@ -147,32 +150,39 @@ screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monst
                 Return("success")
             ]
 
-    fixed:
-        xysize (1140, 252)
-        xpos 342
-        ypos 116
+    if ui_feedback_open:
 
-        add intro_ch1_ui + ("panel_training_word.png" if training else "panel_core_word.png"):
-            xysize (1140, 252)
-            fit "fill"
-            alpha 0.84
+        use ui_pronunciation_feedback(ui_voice,
+            [Function(ui_feedback_show_hp, monster_name)] + play_result_actions(monster_name, word, "fail"))
 
-        text ("Say the practice word to attack!" if training else "Warm up with your key word first!"):
-            style "intro_ch1_caption"
-            xalign 0.5
-            ypos 29
-            size 34
+    else:
 
         fixed:
-            xysize (300, 116)
-            align (0.5, 0.76)
-            if training:
+            xysize (1140, 252)
+            xpos 342
+            ypos 116
 
-                add intro_ch1_ui + "panel_word_focus.png" xysize (300, 116) fit "fill"
-            text word style "intro_ch1_text" align (0.5, 0.5) size 70 bold True
+            add intro_ch1_ui + ("panel_training_word.png" if training else "panel_core_word.png"):
+                xysize (1140, 252)
+                fit "fill"
+                alpha 0.84
+
+            text ("Read the sentence to attack!" if sentence else ("Say the practice word to attack!" if training else "Warm up with your key word first!")):
+                style "intro_ch1_caption"
+                xalign 0.5
+                ypos 29
+                size 34
+
+            fixed:
+                xysize (1040 if sentence else 300, 116)
+                align (0.5, 0.76)
+                if training and not sentence:
+
+                    add intro_ch1_ui + "panel_word_focus.png" xysize (300, 116) fit "fill"
+                text word style "intro_ch1_text" align (0.5, 0.5) size (54 if sentence else 70) bold True
 
 
-    if training:
+    if training and not ui_feedback_open:
 
         if ui_record_state == "result" and ui_voice["result"] == "unrecognized":
 
@@ -237,7 +247,7 @@ screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monst
                     [Function(ui_unrec_next_test)] + play_result_actions(monster_name, word, "unrecognized", is_test=True),
                     width=160, height=60)
 
-    else:
+    elif not training:
         fixed:
             xysize (420, 84)
             xalign 0.5
