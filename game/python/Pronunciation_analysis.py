@@ -253,6 +253,60 @@ def save_segment_clip(wav_path, result: dict, out_wav) -> str | None:
     sf.write(str(out_wav), clip, sr, subtype="PCM_16")
     return str(out_wav)
 
+def extract_s_syllables(sentence: str) -> list:
+    """문장에서 초성이 /ㅅ/(ㅆ 제외)인 음절을 시간순(왼→오)으로 추출.
+    반환: [{"syllable": "손", "index": 0}, ...]  (index = 문장 내 몇 번째 /ㅅ/)
+    """
+    CHO = ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ",
+           "ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"]
+    results = []
+    idx = 0
+    for ch in sentence:
+        code = ord(ch)
+        if 0xAC00 <= code <= 0xD7A3:          # 완성형 한글
+            cho = (code - 0xAC00) // 588
+            if CHO[cho] == "ㅅ":              # 초성이 ㅅ (ㅆ 아님)
+                results.append({"syllable": ch, "index": idx})
+                idx += 1
+    return results
+
+
+def detect_multiple_frication(source, sr: int | None = None, n: int = 2,
+                              backend: str = "auto") -> list:
+    """반복&지우기로 /ㅅ/ 마찰 구간 n개를 찾아 시간순으로 반환.
+    각 구간 검출 후 그 구간을 무음(0)으로 덮어쓰고 다시 찾는다.
+    폴백(추정) 구간은 받지 않고, 정상 검출만 모은다.
+
+    반환: [{"start_s","end_s","features"}, ...]  (시작 시각 오름차순)
+    """
+    if isinstance(source, (str, Path)):
+        x, sr = load_wav(source)
+    else:
+        x = np.asarray(source, dtype=float).copy()
+
+    found = []
+    for _ in range(max(1, n) * 2):   # n의 2배까지 시도(일부 실패 대비), found가 n개 차면 중단
+        if len(found) >= n:
+            break
+        res = analyze(x, sr=sr, backend=backend)
+        if res.get("status") != "ok":
+            break                     # 더 이상 마찰 없음(unmeasurable/segmentation_failed)
+        if res.get("segment_estimated"):
+            # 폴백(추정)이면 진짜 마찰이 아님 → 그 구간만 지우고 계속 시도
+            seg = res["segment"]
+            a, b = int(seg["start_s"] * sr), int(seg["end_s"] * sr)
+            x[a:b] = 0.0
+            continue
+        seg = res["segment"]
+        found.append({"start_s": seg["start_s"], "end_s": seg["end_s"],
+                      "features": res["features"]})
+        # 찾은 구간을 무음으로 덮어 다음 반복에서 다시 안 잡히게 (길이 유지)
+        a, b = int(seg["start_s"] * sr), int(seg["end_s"] * sr)
+        x[a:b] = 0.0
+
+    found.sort(key=lambda d: d["start_s"])   # 시간순(왼→오) 재배치
+    return found
+
 
 if __name__ == "__main__":
     import argparse
