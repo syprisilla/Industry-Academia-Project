@@ -16,8 +16,8 @@ RANGE_SD = 1.5
 # Provisional means and standard deviations from the typical articulation table in Han et al. (2024).
 
 REFERENCE = {
-    "cog_hz":      {"mean": 9096.04, "std": 445.55, "label": "Center of gravity"},
-    "sd_hz":       {"mean": 2800.68, "std": 350.0, "label": "Spread"},
+    "cog_hz":      {"mean": 7500.04, "std": 445.55, "label": "Center of gravity"},
+    "sd_hz":       {"mean": 4000, "std": 500, "label": "Spread"},
     "skewness":    {"mean": 2.08, "std": 0.37, "label": "Skewness"},
     "kurtosis":    {"mean": 7.2, "std": 3.04, "label": "Kurtosis"},
     "duration_ms": {"mean": 98.75, "std": 13.27, "label": "Frication duration"},

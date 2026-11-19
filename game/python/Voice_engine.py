@@ -322,6 +322,67 @@ def _draw_syllable_image(best: str, worst: str, out_png) -> None:
     plt.close(fig)
 
 
+def record_sentence(sentence: str, seconds: float = 8.0,
+                    device=None, capture=None) -> dict:
+    """문장 녹음 → /ㅅ/ 마찰 검출 → 텍스트 /ㅅ/와 매칭 → 판정 → sentence_result.json.
+    검출 수 != 텍스트 /ㅅ/ 수이면 count_mismatch(재녹음 유도).
+    """
+    import json
+    from datetime import datetime
+    from Pronunciation_analysis import extract_s_syllables, detect_multiple_frication
+
+    data_dir = _data_dir()
+    rec_dir = data_dir / "recordings"
+    rec_dir.mkdir(parents=True, exist_ok=True)
+    result_json = data_dir / "sentence_result.json"
+
+    # 1. 텍스트에서 /ㅅ/ 음절 추출
+    s_sylls = extract_s_syllables(sentence)
+    expected = len(s_sylls)
+
+    # 2. 문장 녹음
+    wav = rec_dir / "sentence.wav"
+    rec = record(wav, seconds=seconds, device=device,
+                 **({"capture": capture} if capture is not None else {}))
+    if not rec["ok"] or rec["status"] in ("clipping", "too_quiet", "noisy"):
+        out = {"sentence": sentence, "status": "unmeasurable",
+               "reason": rec["status"],
+               "expected_count": expected, "detected_count": 0, "targets": []}
+        result_json.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
+        return out
+
+    # 3. 마찰 구간 검출 (텍스트 개수만큼 기대)
+    segs = detect_multiple_frication(wav, n=expected)
+    detected = len(segs)
+
+    # 4. 개수 불일치 → 재녹음
+    if detected != expected:
+        out = {"sentence": sentence, "status": "count_mismatch",
+               "expected_count": expected, "detected_count": detected,
+               "targets": []}
+        result_json.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
+        return out
+
+    # 5. 순서대로 매칭 + 판정
+    targets = []
+    for syl, seg in zip(s_sylls, segs):
+        jr = judge_mod.judge(seg["features"], False)
+        targets.append({
+            "syllable": syl["syllable"],
+            "segment": {"start_s": seg["start_s"], "end_s": seg["end_s"]},
+            "features": seg["features"],
+            "success": jr["success"],
+            "per_feature": jr["per_feature"],
+        })
+
+    out = {"sentence": sentence, "status": "ok",
+           "expected_count": expected, "detected_count": detected,
+           "timestamp": datetime.now().isoformat(timespec="seconds"),
+           "targets": targets}
+    result_json.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
+    return out
+
+
 if __name__ == "__main__":
     cmd = sys.argv[1] if len(sys.argv) > 1 else "help"
     if cmd == "devices":
@@ -347,6 +408,10 @@ if __name__ == "__main__":
         out = syll_record(syl, order, seconds=sec)
     elif cmd == "syll-select":   # Pick the best of seven sounds and render it.
         out = syll_select()
+    elif cmd == "sentence":   # 문장 녹음·검출·판정: sentence "문장" [초]
+        sentence = sys.argv[2]
+        sec = float(sys.argv[3]) if len(sys.argv) > 3 else 8.0
+        out = record_sentence(sentence, seconds=sec)
     elif cmd == "judge":          # Stage 3: analyze and score an existing WAV (JSON only).
         result = analyze_file(sys.argv[2])
         if result.get("status") == "ok":
