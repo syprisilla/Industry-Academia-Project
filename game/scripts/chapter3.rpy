@@ -317,6 +317,9 @@ label ch3_m3_failure_ending:
     n "The curse remains... but the adventure isn't over yet."
 
     call show_chapter_end("images/chapter_end/final_boss_defeat.png") from ch3_m3_defeat_card_done
+    # 이번 훈련 결과 보여 주기
+    window hide
+    call screen ui_results_screen()
     $ renpy.full_restart(config.game_main_transition, save=False)
 
 
@@ -452,4 +455,7 @@ label ch3_finish:
     $ unlock_chapter(3)
     call progress_autosave from ch3_completion_autosaved
     call show_chapter_end("images/chapter_end/final_boss_cleared.png") from ch3_end_card_done
+    # 이번 훈련 결과 보여 주기
+    window hide
+    call screen ui_results_screen()
     $ renpy.full_restart(config.game_main_transition, save=False)
