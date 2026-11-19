@@ -130,7 +130,7 @@ label intro:
 
     # Key words start with the clearest syllable from the assessment.
     call screen ui_word_selection(
-        "Choose a Key Word",
+        "Choose a Core Word",
         ui_core_words()
     )
 

@@ -230,22 +230,23 @@ screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monst
                 use intro_ch1_recorder(ui_record_state, Function(record_with_battle_audio, word, battle_music),
                     enabled=True, width=500)
 
-            fixed:
-                xysize (460, 56)
-                xalign 0.5
-                ypos 674
-                use intro_ch1_status("Test mode (recording and scoring are off)")
+            if monster_name != "Dust Monster":
+                fixed:
+                    xysize (460, 56)
+                    xalign 0.5
+                    ypos 674
+                    use intro_ch1_status("Test mode (recording and scoring are off)")
 
-            hbox:
-                xalign 0.5
-                ypos 758
-                spacing 12
-                use intro_ch1_button("Next", "next", None, width=140, height=60, enabled=False)
-                use intro_ch1_button("Success", "success", play_result_actions(monster_name, word, "success", is_test=True), width=140, height=60)
-                use intro_ch1_button("Try Again", "fail", play_result_actions(monster_name, word, "fail", is_test=True), width=140, height=60)
-                use intro_ch1_button("No Reading", "unrecognized",
-                    [Function(ui_unrec_next_test)] + play_result_actions(monster_name, word, "unrecognized", is_test=True),
-                    width=160, height=60)
+                hbox:
+                    xalign 0.5
+                    ypos 758
+                    spacing 12
+                    use intro_ch1_button("Next", "next", None, width=140, height=60, enabled=False)
+                    use intro_ch1_button("Success", "success", play_result_actions(monster_name, word, "success", is_test=True), width=140, height=60)
+                    use intro_ch1_button("Try Again", "fail", play_result_actions(monster_name, word, "fail", is_test=True), width=140, height=60)
+                    use intro_ch1_button("No Reading", "unrecognized",
+                        [Function(ui_unrec_next_test)] + play_result_actions(monster_name, word, "unrecognized", is_test=True),
+                        width=160, height=60)
 
     elif not training:
         fixed:

@@ -59,7 +59,7 @@ def draw_gauge(per_feature_item: dict, out_png, width_px: int = 760, height_px: 
     fig, ax = plt.subplots(figsize=(width_px / 100, height_px / 100), dpi=100)
     ax.set_xlim(0, 1); ax.set_ylim(0, 1); ax.axis("off")
 
-    y, h = 0.5, 0.18
+    y, h = 0.54, 0.18
     # Full track
     ax.add_patch(FancyBboxPatch((0.03, y - h / 2), 0.94, h, boxstyle="round,pad=0.0,rounding_size=0.09",
                                  facecolor=_TRACK, edgecolor="none"))
@@ -75,10 +75,12 @@ def draw_gauge(per_feature_item: dict, out_png, width_px: int = 760, height_px: 
     ax.plot([mx], [y + h / 2 + 0.16], marker="o", color=_MARK, markersize=11)
 
     # Labels
-    ax.text(mx, y - h / 2 - 0.18, "Your sound", color=_MARK, ha="center", va="top", fontsize=15, fontweight="bold")
-    ax.text(x0 + w / 2, y - h / 2 - 0.42, "Target range", color="#3B7A57", ha="center", va="top", fontsize=15, fontweight="bold")
+    marker_label_x = min(0.84, max(0.16, mx))
+    ax.text(marker_label_x, 0.32, "Your sound", color=_MARK, ha="center", va="top", fontsize=22, fontweight="bold")
+    ax.text(x0 + w / 2, 0.14, "Target range", color="#9FD3B8", ha="center", va="top", fontsize=22, fontweight="bold")
 
-    ax.text(0.5, 0.95, per_feature_item["label"], ha="center", va="top", fontsize=13, color="white")
+    label = "Spectral Variance" if per_feature_item["feature"] == "sd_hz" else per_feature_item["label"]
+    ax.text(0.5, 0.98, label, ha="center", va="top", fontsize=21, color="white")
 
     out_png = Path(out_png)
     out_png.parent.mkdir(parents=True, exist_ok=True)
