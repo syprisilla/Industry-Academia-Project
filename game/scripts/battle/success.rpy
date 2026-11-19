@@ -254,8 +254,11 @@ label ch2_m3_success_3:
 # MONSTER 1. Letter Monster Success dialogue
 # ==================================================
 
+# ==================================================
+# MONSTER 1. Letter Monster Success dialogue
+# ==================================================
+
 label ch3_m1_success_1:
-    $ play_scene_sound(scene_wave_sound)
 
     n "Our hero's voice turns to light and flies toward the Letter Monster."
     n "The letters flying around the monster stop in midair."
@@ -268,7 +271,6 @@ label ch3_m1_success_1:
 
 
 label ch3_m1_success_2:
-    $ play_scene_sound(scene_wave_sound)
 
     n "A second flash of light reaches the Letter Monster."
     n "The darkness around the monster slowly fades."
@@ -281,7 +283,6 @@ label ch3_m1_success_2:
 
 
 label ch3_m1_success_3:
-    $ play_scene_sound(scene_wave_sound)
 
     n "The last flash of light wraps around the Letter Monster."
     n "The darkness leaves the monster completely."
@@ -298,7 +299,6 @@ label ch3_m1_success_3:
 # ==================================================
 
 label ch3_m2_success_1:
-    $ play_scene_sound(scene_wave_sound)
 
     n "Our hero's voice turns to light and flies toward the Thorny Vine Monster."
     n "The thorns covering the monster begin to shrink."
@@ -311,7 +311,6 @@ label ch3_m2_success_1:
 
 
 label ch3_m2_success_2:
-    $ play_scene_sound(scene_wave_sound)
 
     n "A second flash of light reaches the Thorny Vine Monster."
     n "The vines blocking the hallway begin to unwind."
@@ -324,7 +323,6 @@ label ch3_m2_success_2:
 
 
 label ch3_m2_success_3:
-    $ play_scene_sound(scene_wave_sound)
 
     n "The last flash of light wraps around the Thorny Vine Monster."
     n "The darkness surrounding the monster disappears."
@@ -334,7 +332,6 @@ label ch3_m2_success_3:
     ghost "Great! It worked again!"
 
     return
-
 
 # ==================================================
 # MONSTER 3. Final Boss Success dialogue
