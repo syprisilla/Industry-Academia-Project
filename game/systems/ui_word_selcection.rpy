@@ -35,29 +35,26 @@ init python:
         # A newer assessment may have a different best syllable than the saved word.
         return persistent.ui_core_word if persistent.ui_core_word in words else words[0]
 
-    def ui_target_word(monster):
-        """Return one random target word for a monster (e.g. "ch1_m1") from the worst syllable."""
+    def ui_target_words():
         # Fallback 수 differs from the key-word fallback 사, so the two never share a syllable.
-        # renpy.random keeps the same pick when the player rolls back and forward again.
-        return renpy.random.choice(ui_result_words("worst", "수")["target"][monster])
+        return ui_result_words("worst", "수")["target"]
 
-    def ui_retry_target_words(monster, current_word):
-        """Prefer the assessed syllable group, then other groups for this monster."""
-        preferred = ui_result_words("worst", "수")["target"].get(monster, [])
-        alternatives = [word for word in preferred if word != current_word]
-        if alternatives:
-            return alternatives
+    def ui_target_word(monster, targets=None):
+        targets = ui_target_words() if targets is None else targets
+        return renpy.random.choice(targets[monster])
 
-        return list(dict.fromkeys(
-            word
-            for group in ui_word_pool.values()
-            for word in group["target"].get(monster, [])
-            if word != current_word
-        ))
+    def ui_retry_target_words(monster, current_word, targets=None):
+        targets = ui_target_words() if targets is None else targets
+        alternatives = [word for word in targets.get(monster, []) if word != current_word]
+        return alternatives or [current_word]
 
-    def ui_choose_retry_target_word(candidates):
-        # TODO: Connect future retry word selection policy here.
-        return renpy.random.choice(candidates)
+    def ui_final_boss_words(targets):
+        # The opening CV item is the assessed syllable itself.
+        syllable = ui_target_word("ch1_m1", targets)
+        chapter2_words = targets.get("ch2_m1", [])
+        matching_words = [word for word in chapter2_words if word.startswith(syllable)]
+        return (syllable, renpy.random.choice(matching_words or [syllable]),
+                intro_recording_sentence)
 
 screen ui_word_selection(title, words):
 

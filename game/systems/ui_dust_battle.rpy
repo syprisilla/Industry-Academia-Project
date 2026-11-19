@@ -120,7 +120,7 @@ screen ui_dust_hp(monster_name="Dust Monster"):
                         fit "fill"
 
 
-screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monster_name=None):
+screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monster_name=None, sentence=False):
 
     modal True
     default ui_record_state = "ready"
@@ -167,19 +167,19 @@ screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monst
                 fit "fill"
                 alpha 0.84
 
-            text ("Say the practice word to attack!" if training else "Warm up with your key word first!"):
+            text ("Read the sentence to attack!" if sentence else ("Say the practice word to attack!" if training else "Warm up with your key word first!")):
                 style "intro_ch1_caption"
                 xalign 0.5
                 ypos 29
                 size 34
 
             fixed:
-                xysize (300, 116)
+                xysize (1040 if sentence else 300, 116)
                 align (0.5, 0.76)
-                if training:
+                if training and not sentence:
 
                     add intro_ch1_ui + "panel_word_focus.png" xysize (300, 116) fit "fill"
-                text word style "intro_ch1_text" align (0.5, 0.5) size 70 bold True
+                text word style "intro_ch1_text" align (0.5, 0.5) size (54 if sentence else 70) bold True
 
 
     if training and not ui_feedback_open:
