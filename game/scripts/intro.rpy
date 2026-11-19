@@ -168,4 +168,13 @@ label intro:
     # --------------------------------------------------
 
     call show_chapter_end("images/chapter_end/intro.png") from intro_end_card_done
-    jump chapter1
+
+    menu:
+        "Start Chapter 1":
+            jump chapter1
+
+        "Start Chapter 2 (Test)":
+            jump chapter2
+
+        "Start Chapter 3 (Test)":
+            jump chapter3
