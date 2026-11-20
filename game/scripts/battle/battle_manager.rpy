@@ -2,6 +2,7 @@ default success_count = 0
 default failure_count = 0
 default ui_battle_targets = None
 default ui_boss_words = None
+default ui_battle_attempt_id = None
 
 
 label ch1_m1_battle:
@@ -25,6 +26,7 @@ label .restart:
     $ success_count = 0
     $ failure_count = 0
     $ ui_battle_training_word = initial_target_word
+    $ ui_battle_attempt_id = None
 
     if sprite:
         $ renpy.show("ui_{} before".format(sprite), at_list=[sprite_position, ui_dust_idle])
@@ -47,8 +49,10 @@ label .restart:
         # A recording we couldn't measure is repeated within the same attempt.
         $ ui_battle_result = "unrecognized"
         while ui_battle_result == "unrecognized":
+            if ui_battle_attempt_id is None:
+                $ ui_battle_attempt_id = uuid4().hex
             window hide
-            call screen ui_dust_word(ui_battle_training_word, training=True, battle_music=battle_music, monster_name=monster_name, sentence=(monster == "ch3_m3" and success_count == 2))
+            call screen ui_dust_word(ui_battle_training_word, training=True, battle_music=battle_music, monster_name=monster_name, sentence=(monster == "ch3_m3" and success_count == 2), attempt_id=ui_battle_attempt_id)
             $ ui_battle_result = _return
             $ play_scene_music(battle_music, volume=scene_battle_volume)
             if ui_battle_result == "unrecognized":
@@ -59,6 +63,7 @@ label .restart:
                     call ch1_m1_unrecognized from pronunciation_battle_record_again
 
         if ui_battle_result == "success":
+            $ ui_battle_attempt_id = None
             if sprite:
                 # The attack animation counts the hit when the wave lands.
                 call expression "ui_{}_light_attack".format(sprite) from pronunciation_battle_monster_hit
@@ -80,16 +85,17 @@ label .restart:
                 if failure_count >= 3:
                     $ renpy.hide_screen(hp_screen)
                     window hide
-                    call screen ui_pronunciation_battle_over(True, monster_name=monster_name)
+                    call screen ui_pronunciation_battle_over(True, monster_name=monster_name, attempt_id=ui_battle_attempt_id)
                     if _return is False:
                         jump ch3_m3_failure_ending
                     jump .restart
             elif failure_count >= 3:
                 window hide
-                call screen ui_pronunciation_battle_over(monster_name=monster_name)
+                call screen ui_pronunciation_battle_over(monster_name=monster_name, attempt_id=ui_battle_attempt_id)
                 $ retry_words = ui_retry_target_words(monster, ui_battle_training_word, ui_battle_targets)
                 $ ui_battle_training_word = renpy.random.choice(retry_words)
                 $ failure_count = 0
+                $ ui_battle_attempt_id = None
 
     $ renpy.hide_screen(hp_screen)
     window auto
