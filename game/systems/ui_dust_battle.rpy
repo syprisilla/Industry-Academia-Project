@@ -222,21 +222,32 @@ screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monst
 
         else:
 
-            # Record button (ready/recording)
+            # Record button: ready -> recording (3 seconds) -> result
             fixed:
                 xysize (500, 118)
                 xalign 0.5
                 ypos 535
-                use intro_ch1_recorder(ui_record_state, Function(record_with_battle_audio, word, battle_music),
-                    enabled=True, width=500)
+
+                if ui_record_state == "recording":
+                    # Show the recording state first, then start the 3-second recording
+                    use intro_ch1_button("Recording...", "recording", NullAction(),
+                        width=500, height=118, icon="icon_microphone")
+                    timer 0.05 action Function(record_with_battle_audio, word, battle_music)
+                else:
+                    use intro_ch1_recorder(ui_record_state,
+                        SetScreenVariable("ui_record_state", "recording"),
+                        enabled=True, width=500)
+
+            fixed:
+                xysize (460, 56)
+                xalign 0.5
+                ypos 674
+                if ui_record_state == "recording":
+                    use intro_ch1_status("Say the word now!")
+                else:
+                    use intro_ch1_status("Press Record, then say the word.")
 
             if monster_name != "Dust Monster":
-                fixed:
-                    xysize (460, 56)
-                    xalign 0.5
-                    ypos 674
-                    use intro_ch1_status("Test mode (recording and scoring are off)")
-
                 hbox:
                     xalign 0.5
                     ypos 758
