@@ -29,21 +29,21 @@ init python:
 
     config.after_load_callbacks.append(remember_play_progress)
 
-    def record_play_event(monster_name, result, word=None, is_test=False):
+    def record_play_event(monster_name, result, word=None, is_test=False, attempt_id=None):
         if monster_name and not _in_replay:
-            persistent.play_events[uuid4().hex] = (time(), monster_name, result, word, is_test)
+            persistent.play_events[uuid4().hex] = (time(), monster_name, result, word, is_test, attempt_id)
             renpy.save_persistent()
 
-    def play_result_actions(monster_name, word, result, is_test=False):
+    def play_result_actions(monster_name, word, result, is_test=False, attempt_id=None):
         # Log fresh screen actions. Ren'Py can roll forward a Return value without
         # running the action again.
         return [
-            Function(record_play_event, monster_name, result, word, is_test, _update_screens=False),
+            Function(record_play_event, monster_name, result, word, is_test, attempt_id, _update_screens=False),
             Return(result),
         ]
 
     def format_play_event(event):
-        timestamp, monster_name, result, word, is_test = event
+        timestamp, monster_name, result, word, is_test = event[:5]
         result_labels = {
             "success": _("Success"),
             "fail": _("Failed"),

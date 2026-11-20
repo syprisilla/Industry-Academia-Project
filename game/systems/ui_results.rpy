@@ -2,7 +2,7 @@
 # 결과 화면: 발음 훈련 기록 요약
 #
 # 데이터: persistent.play_events (play_records.rpy 에서 저장)
-#   (시간, 괴물 이름, 결과, 단어, 테스트 여부)
+#   (시간, 괴물 이름, 결과, 단어, 테스트 여부, 연습 묶음 ID)
 #   결과 = "success" / "fail" / "unrecognized" / "retry"
 #
 # 사용
@@ -23,38 +23,50 @@ init python:
 
     import time as _ui_time
 
-    def ui_results_events(scope="today", include_test=False):
+    def ui_results_events(include_test=False):
         """조건에 맞는 기록을 시간 순서대로 반환"""
         events = sorted((persistent.play_events or {}).values(), key=lambda e: e[0])
 
         if not include_test:
             events = [e for e in events if not e[4]]
 
-        if scope == "today":
-            now = _ui_time.localtime()
-            midnight = _ui_time.mktime((now.tm_year, now.tm_mon, now.tm_mday, 0, 0, 0, 0, 0, -1))
-            events = [e for e in events if e[0] >= midnight]
-
         return events
 
     def ui_results_stats(scope="today", include_test=False):
         """화면에 보여 줄 숫자 계산"""
-        events = ui_results_events(scope, include_test)
+        events = ui_results_events(include_test)
+
+        midnight = None
+        if scope == "today":
+            now = _ui_time.localtime()
+            midnight = _ui_time.mktime((now.tm_year, now.tm_mon, now.tm_mday, 0, 0, 0, 0, 0, -1))
 
         success = fail = no_reading = first_try = 0
+        retries_before_success = grouped_successes = 0
         words = {}
         monsters = {}
+        attempt_failures = {}
 
-        # 첫 시도 성공: 새 세트의 첫 시도에서 바로 성공한 경우
-        # (전투 시작, 재도전, 직전 성공 후에 시작되는 시도가 새 세트)
-        fresh = {}
+        # 묶음 ID가 없는 이전 기록은 기존 첫 시도 판정 방식을 유지한다.
+        legacy_fresh = {}
 
-        for timestamp, monster, result, word, is_test in events:
+        for event in events:
+            timestamp, monster, result, word, _ = event[:5]
+            attempt_id = event[5] if len(event) > 5 else None
+
+            # 묶음의 실패 횟수는 자정을 넘겨도 이어서 센다.
+            if attempt_id is not None and result == "fail":
+                attempt_failures[attempt_id] = attempt_failures.get(attempt_id, 0) + 1
+            if midnight is not None and timestamp < midnight:
+                if attempt_id is not None and result == "success":
+                    attempt_failures.pop(attempt_id, None)
+                continue
 
             m = monsters.setdefault(monster, {"success": 0, "fail": 0})
 
             if result == "retry":
-                fresh[monster] = True
+                if attempt_id is None:
+                    legacy_fresh[monster] = True
                 continue
 
             if result == "unrecognized":
@@ -64,14 +76,21 @@ init python:
             if result == "success":
                 success += 1
                 m["success"] += 1
-                if fresh.get(monster, True):
+                if attempt_id is not None:
+                    retries = attempt_failures.pop(attempt_id, 0)
+                    retries_before_success += retries
+                    grouped_successes += 1
+                    if retries == 0:
+                        first_try += 1
+                elif legacy_fresh.get(monster, True):
                     first_try += 1
-                fresh[monster] = True
+                legacy_fresh[monster] = True
 
             elif result == "fail":
                 fail += 1
                 m["fail"] += 1
-                fresh[monster] = False
+                if attempt_id is None:
+                    legacy_fresh[monster] = False
 
             else:
                 continue
@@ -93,7 +112,7 @@ init python:
             "no_reading": no_reading,
             "success_rate": (100.0 * success / attempts) if attempts else None,
             "first_try_rate": (100.0 * first_try / success) if success else None,
-            "avg_retries": (1.0 * fail / success) if success else None,
+            "avg_retries": (1.0 * retries_before_success / grouped_successes) if grouped_successes else None,
             "purified": len(persistent.play_cleared_monsters or ()),
             "words": word_rows,
             "monsters": monsters,
