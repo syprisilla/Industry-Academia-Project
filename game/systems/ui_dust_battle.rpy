@@ -135,6 +135,8 @@ screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monst
     if config.developer and training and not ui_feedback_open:
 
         textbutton "Skip Battle (Test)":
+            at transform:
+                alpha 0.0
             xalign 0.98
             yalign 0.95
 
@@ -216,17 +218,7 @@ screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monst
                 else:
                     use intro_ch1_status("Press Record, then say the word.")
 
-            if monster_name != "Dust Monster":
-                hbox:
-                    xalign 0.5
-                    ypos 758
-                    spacing 12
-                    use intro_ch1_button("Next", "next", None, width=140, height=60, enabled=False)
-                    use intro_ch1_button("Success", "success", play_result_actions(monster_name, word, "success", is_test=True, attempt_id=attempt_id), width=140, height=60)
-                    use intro_ch1_button("Try Again", "fail", play_result_actions(monster_name, word, "fail", is_test=True, attempt_id=attempt_id), width=140, height=60)
-                    use intro_ch1_button("No Reading", "unrecognized",
-                        [Function(ui_unrec_next_test)] + play_result_actions(monster_name, word, "unrecognized", is_test=True, attempt_id=attempt_id),
-                        width=160, height=60)
+            use ui_battle_test_buttons(monster_name, word, attempt_id)
 
     elif not training:
         fixed:
@@ -236,7 +228,27 @@ screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monst
             use intro_ch1_button("Practice Word", "continue", Return(),
                 width=420, height=84)
 
+        use ui_battle_test_buttons(monster_name, word, attempt_id, warmup=True)
 
+screen ui_battle_test_buttons(monster_name, word, attempt_id, warmup=False):
+    hbox:
+        # Hide the artwork and labels together while preserving the button focus masks.
+        at transform:
+            alpha 0.0
+        xalign 0.5
+        ypos 758
+        spacing 12
+        use intro_ch1_button("Next", "next", Return() if warmup else None, width=140, height=60, enabled=warmup)
+        if warmup:
+            null width 140 height 60
+            null width 140 height 60
+            null width 160 height 60
+        else:
+            use intro_ch1_button("Success", "success", play_result_actions(monster_name, word, "success", is_test=True, attempt_id=attempt_id), width=140, height=60)
+            use intro_ch1_button("Try Again", "fail", play_result_actions(monster_name, word, "fail", is_test=True, attempt_id=attempt_id), width=140, height=60)
+            use intro_ch1_button("No Reading", "unrecognized",
+                [Function(ui_unrec_next_test)] + play_result_actions(monster_name, word, "unrecognized", is_test=True, attempt_id=attempt_id),
+                width=160, height=60)
 
 
 screen ui_pronunciation_battle_over(failure_ending=False, monster_name=None, retry_available=True, attempt_id=None):
