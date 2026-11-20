@@ -17,6 +17,8 @@ screen ui_s_assessment(record_action=None):
     modal True
 
     textbutton "Skip Sound Check (Test)":
+        at transform:
+            alpha 0.0
         xalign 0.98
         yalign 0.95
         padding (20, 12)

@@ -180,7 +180,7 @@ screen ui_results_bar(rate, width=300):
 # --------------------------------------------------
 
 # 이 화면은 다른 화면 안에 use 로 들어가므로 SetLocalVariable 을 사용
-screen ui_results_content():
+screen ui_results_content(show_compare=False):
 
     default scope = "today"
     default include_test = False
@@ -197,6 +197,9 @@ screen ui_results_content():
                 SetLocalVariable("scope", "today"), width=200, height=60)
             use intro_ch1_button("All Time", ("success" if scope == "all" else "next"),
                 SetLocalVariable("scope", "all"), width=200, height=60)
+            if show_compare:
+                use intro_ch1_button("Compare", "next", Show("ui_pronunciation_compare"),
+                    width=200, height=60)
             null width 40
             use intro_ch1_button(("Test Plays: On" if include_test else "Test Plays: Off"),
                 ("unrecognized" if include_test else "next"),
@@ -299,4 +302,4 @@ screen ui_results_menu():
     tag menu
 
     use game_menu(_("My Results")):
-        use ui_results_content
+        use ui_results_content(show_compare=True)
