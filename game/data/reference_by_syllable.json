@@ -1,0 +1,191 @@
+{
+  "사": {
+    "n": 21,
+    "cog_hz": {
+      "mean": 9085.099,
+      "std": 589.469
+    },
+    "sd_hz": {
+      "mean": 2905.39,
+      "std": 513.926
+    },
+    "skewness": {
+      "mean": 1.589,
+      "std": 0.369
+    },
+    "kurtosis": {
+      "mean": 3.625,
+      "std": 1.843
+    },
+    "duration_ms": {
+      "mean": 102.143,
+      "std": 37.134
+    },
+    "norm_energy": {
+      "mean": 0.019,
+      "std": 0.013
+    }
+  },
+  "서": {
+    "n": 21,
+    "cog_hz": {
+      "mean": 9066.255,
+      "std": 557.188
+    },
+    "sd_hz": {
+      "mean": 2988.372,
+      "std": 462.062
+    },
+    "skewness": {
+      "mean": 1.331,
+      "std": 0.211
+    },
+    "kurtosis": {
+      "mean": 3.003,
+      "std": 1.62
+    },
+    "duration_ms": {
+      "mean": 107.857,
+      "std": 31.128
+    },
+    "norm_energy": {
+      "mean": 0.023,
+      "std": 0.017
+    }
+  },
+  "세": {
+    "n": 21,
+    "cog_hz": {
+      "mean": 8550.332,
+      "std": 631.475
+    },
+    "sd_hz": {
+      "mean": 2474.993,
+      "std": 400.55
+    },
+    "skewness": {
+      "mean": 1.786,
+      "std": 0.377
+    },
+    "kurtosis": {
+      "mean": 5.912,
+      "std": 2.236
+    },
+    "duration_ms": {
+      "mean": 110.952,
+      "std": 27.867
+    },
+    "norm_energy": {
+      "mean": 0.04,
+      "std": 0.034
+    }
+  },
+  "소": {
+    "n": 21,
+    "cog_hz": {
+      "mean": 9191.986,
+      "std": 700.038
+    },
+    "sd_hz": {
+      "mean": 3509.713,
+      "std": 419.474
+    },
+    "skewness": {
+      "mean": 1.159,
+      "std": 0.263
+    },
+    "kurtosis": {
+      "mean": 1.738,
+      "std": 1.629
+    },
+    "duration_ms": {
+      "mean": 119.048,
+      "std": 36.695
+    },
+    "norm_energy": {
+      "mean": 0.024,
+      "std": 0.017
+    }
+  },
+  "수": {
+    "n": 21,
+    "cog_hz": {
+      "mean": 9492.958,
+      "std": 586.166
+    },
+    "sd_hz": {
+      "mean": 3590.654,
+      "std": 359.491
+    },
+    "skewness": {
+      "mean": 1.414,
+      "std": 0.396
+    },
+    "kurtosis": {
+      "mean": 1.685,
+      "std": 1.642
+    },
+    "duration_ms": {
+      "mean": 141.667,
+      "std": 43.426
+    },
+    "norm_energy": {
+      "mean": 0.058,
+      "std": 0.04
+    }
+  },
+  "스": {
+    "n": 21,
+    "cog_hz": {
+      "mean": 9074.202,
+      "std": 508.58
+    },
+    "sd_hz": {
+      "mean": 2820.3,
+      "std": 511.306
+    },
+    "skewness": {
+      "mean": 1.86,
+      "std": 0.421
+    },
+    "kurtosis": {
+      "mean": 4.66,
+      "std": 2.767
+    },
+    "duration_ms": {
+      "mean": 171.19,
+      "std": 48.345
+    },
+    "norm_energy": {
+      "mean": 0.13,
+      "std": 0.095
+    }
+  },
+  "시": {
+    "n": 19,
+    "cog_hz": {
+      "mean": 9076.8,
+      "std": 649.1
+    },
+    "sd_hz": {
+      "mean": 3048.2,
+      "std": 588.2
+    },
+    "skewness": {
+      "mean": 0.487,
+      "std": 0.634
+    },
+    "kurtosis": {
+      "mean": 3.606,
+      "std": 4.408
+    },
+    "duration_ms": {
+      "mean": 168.684,
+      "std": 34.353
+    },
+    "norm_energy": {
+      "mean": 0.543,
+      "std": 0.218
+    }
+  }
+}
