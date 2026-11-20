@@ -126,8 +126,8 @@ screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monst
     default ui_record_state = "ready"
     default ui_voice = {"result": None, "feedback": "", "gauges": {}}
 
-    # A failed practice word opens the feedback screen in place of the word panel.
-    $ ui_feedback_open = training and ui_record_state == "result" and ui_voice["result"] == "fail"
+    # A scored practice word (success or fail) opens the feedback screen in place of the word panel.
+    $ ui_feedback_open = training and ui_record_state == "result" and ui_voice["result"] in ("success", "fail")
 
 
         # 개발자용 전투 건너뛰기
@@ -153,7 +153,7 @@ screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monst
     if ui_feedback_open:
 
         use ui_pronunciation_feedback(ui_voice,
-            [Function(ui_feedback_show_hp, monster_name)] + play_result_actions(monster_name, word, "fail", attempt_id=attempt_id))
+            [Function(ui_feedback_show_hp, monster_name)] + play_result_actions(monster_name, word, ui_voice["result"], attempt_id=attempt_id))
 
     else:
 
@@ -188,37 +188,6 @@ screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monst
 
             # Unrecognized recordings go straight to mic help.
             timer 0.01 action play_result_actions(monster_name, word, "unrecognized", attempt_id=attempt_id)
-
-        elif ui_record_state == "result":
-
-            # Show feedback, an OK button, and gauges when detection succeeded.
-            fixed:
-                xysize (900, 400)
-                xalign 0.5
-                ypos 500
-
-                vbox:
-                    xalign 0.5
-                    spacing 20
-
-                    if not ui_voice.get("segment_estimated"):
-                        hbox:
-                            xalign 0.5
-                            spacing 20
-                            for feat in ("cog_hz", "sd_hz"):
-                                if feat in ui_voice["gauges"]:
-                                    add im.Image(ui_voice["gauges"][feat]):
-                                        xysize (500, 200)  
-                                        fit "contain"
-
-                    text ui_voice["feedback"]:
-                        xalign 0.5
-                        size 30
-                        color "#FFFFFF"
-                        outlines [(2, "#241D35", 0, 0)]
-
-                    use intro_ch1_button("OK", "continue", play_result_actions(monster_name, word, ui_voice["result"], attempt_id=attempt_id),
-                        width=200, height=70)
 
         else:
 
