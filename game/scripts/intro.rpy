@@ -78,6 +78,7 @@ label intro:
     $ persistent.intro_sentence = intro_recording_sentence   
     $ renpy.music.set_pause(True, channel="music")
     call screen ui_sentence(intro_recording_sentence)
+    $ ui_compare_intro = ui_compare_capture_intro(intro_recording_sentence)
 
     $ renpy.music.set_pause(False, channel="music")
     $ play_scene_music(scene_entrance_music)

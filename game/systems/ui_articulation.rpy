@@ -76,7 +76,10 @@ screen ui_articulation():
     fixed:
         xysize (240, 68)
         pos (1498, 890)
-        use intro_ch1_button("Get Ready", "continue", Return(), width=240, height=68)
+        # Next shows the Mouth tab first, so it isn't missed; on the last tab it closes the guide.
+        use intro_ch1_button("Next", "continue",
+            SetScreenVariable("page", page + 1) if page < len(ui_artic_pages) - 1 else Return(),
+            width=240, height=68)
 
 
 # The instruction card, shared with the pronunciation feedback screen.

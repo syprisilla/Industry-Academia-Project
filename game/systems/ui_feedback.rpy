@@ -1,4 +1,4 @@
-# Feedback after a failed practice word: gauges first, then the shared tongue guide.
+# Feedback after a practice word: gauges first; a failure then shows the shared tongue guide.
 define ui_feedback_cards = [("cog_hz", "Center of gravity (CoG)"), ("sd_hz", "Spectral Variance")]
 
 # Set by pronunciation_battle; the default only covers screens shown outside a battle.
@@ -21,6 +21,8 @@ init python:
 
 screen ui_pronunciation_feedback(data, done):
 
+    $ success = data["result"] == "success"
+
     # Weak frication has no reliable gauges, so it goes straight to the tongue guide.
     default step = "guide" if data.get("segment_estimated") else "result"
 
@@ -29,7 +31,7 @@ screen ui_pronunciation_feedback(data, done):
 
     # Redraw the background and Little Ghost on top so the monster behind is covered.
     add ui_feedback_image("apartment", "apartment corridor_1")
-    add ui_feedback_image("ui_ghost", "ui_ghost intro_idle") at ui_ghost_corridor, ui_ghost_idle
+    add ("ui_ghost intro_happy" if success else ui_feedback_image("ui_ghost", "ui_ghost intro_idle")) at ui_ghost_corridor, ui_ghost_idle
 
     text "Pronunciation Feedback":
         style "intro_ch1_text"
@@ -48,13 +50,13 @@ screen ui_pronunciation_feedback(data, done):
 
             add intro_ch1_ui + "panel_assessment.png" xysize (1188, 488) fit "fill" alpha 0.92
 
-            text "Let's practice once more":
+            text ("You did it!" if success else "Let's practice once more"):
                 style "intro_ch1_text"
                 xalign 0.5
-                ypos 46
-                size 46
+                ypos (28 if success else 46)
+                size (56 if success else 46)
                 bold True
-                color "#FFF2C7"
+                color ("#C8F2DC" if success else "#FFF2C7")
                 outlines []
 
             hbox:
@@ -65,7 +67,7 @@ screen ui_pronunciation_feedback(data, done):
                 for feat, label in ui_feedback_cards:
                     fixed:
                         xysize (520, 300)
-                        add Frame(intro_ch1_ui + "panel_hint.png", 30, 30) xysize (520, 300)
+                        add Frame(Transform(intro_ch1_ui + "panel_hint.png", matrixcolor=TintMatrix("#7FE8C4") if success else IdentityMatrix()), 30, 30) xysize (520, 300)
                         text label:
                             style "intro_ch1_text"
                             xpos 48
@@ -80,7 +82,7 @@ screen ui_pronunciation_feedback(data, done):
 
         $ ghost_line = data["feedback"]
         # SetLocalVariable: this screen is included with "use", so SetScreenVariable would miss "step".
-        $ button = ("Next", SetLocalVariable("step", "guide"))
+        $ button = ("Continue", done) if success else ("Next", SetLocalVariable("step", "guide"))
 
     else:
 

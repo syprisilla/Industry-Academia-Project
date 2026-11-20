@@ -126,8 +126,8 @@ screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monst
     default ui_record_state = "ready"
     default ui_voice = {"result": None, "feedback": "", "gauges": {}}
 
-    # A failed practice word opens the feedback screen in place of the word panel.
-    $ ui_feedback_open = training and ui_record_state == "result" and ui_voice["result"] == "fail"
+    # A scored practice word (success or fail) opens the feedback screen in place of the word panel.
+    $ ui_feedback_open = training and ui_record_state == "result" and ui_voice["result"] in ("success", "fail")
 
 
         # 개발자용 전투 건너뛰기
@@ -135,6 +135,8 @@ screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monst
     if config.developer and training and not ui_feedback_open:
 
         textbutton "Skip Battle (Test)":
+            at transform:
+                alpha 0.0
             xalign 0.98
             yalign 0.95
 
@@ -153,7 +155,7 @@ screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monst
     if ui_feedback_open:
 
         use ui_pronunciation_feedback(ui_voice,
-            [Function(ui_feedback_show_hp, monster_name)] + play_result_actions(monster_name, word, "fail", attempt_id=attempt_id))
+            [Function(ui_feedback_show_hp, monster_name)] + play_result_actions(monster_name, word, ui_voice["result"], attempt_id=attempt_id))
 
     else:
 
@@ -189,37 +191,6 @@ screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monst
             # Unrecognized recordings go straight to mic help.
             timer 0.01 action play_result_actions(monster_name, word, "unrecognized", attempt_id=attempt_id)
 
-        elif ui_record_state == "result":
-
-            # Show feedback, an OK button, and gauges when detection succeeded.
-            fixed:
-                xysize (900, 400)
-                xalign 0.5
-                ypos 500
-
-                vbox:
-                    xalign 0.5
-                    spacing 20
-
-                    if not ui_voice.get("segment_estimated"):
-                        hbox:
-                            xalign 0.5
-                            spacing 20
-                            for feat in ("cog_hz", "sd_hz"):
-                                if feat in ui_voice["gauges"]:
-                                    add im.Image(ui_voice["gauges"][feat]):
-                                        xysize (500, 200)  
-                                        fit "contain"
-
-                    text ui_voice["feedback"]:
-                        xalign 0.5
-                        size 30
-                        color "#FFFFFF"
-                        outlines [(2, "#241D35", 0, 0)]
-
-                    use intro_ch1_button("OK", "continue", play_result_actions(monster_name, word, ui_voice["result"], attempt_id=attempt_id),
-                        width=200, height=70)
-
         else:
 
             # Record button: ready -> recording (3 seconds) -> result
@@ -232,7 +203,7 @@ screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monst
                     # Show the recording state first, then start the 3-second recording
                     use intro_ch1_button("Recording...", "recording", NullAction(),
                         width=500, height=118, icon="icon_microphone")
-                    timer 0.05 action Function(record_with_battle_audio, word, battle_music)
+                    timer 0.05 action Function(record_with_battle_audio, word, battle_music, sentence=sentence and monster_name == "Final Boss")
                 else:
                     use intro_ch1_recorder(ui_record_state,
                         SetScreenVariable("ui_record_state", "recording"),
@@ -247,17 +218,7 @@ screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monst
                 else:
                     use intro_ch1_status("Press Record, then say the word.")
 
-            if monster_name != "Dust Monster":
-                hbox:
-                    xalign 0.5
-                    ypos 758
-                    spacing 12
-                    use intro_ch1_button("Next", "next", None, width=140, height=60, enabled=False)
-                    use intro_ch1_button("Success", "success", play_result_actions(monster_name, word, "success", is_test=True, attempt_id=attempt_id), width=140, height=60)
-                    use intro_ch1_button("Try Again", "fail", play_result_actions(monster_name, word, "fail", is_test=True, attempt_id=attempt_id), width=140, height=60)
-                    use intro_ch1_button("No Reading", "unrecognized",
-                        [Function(ui_unrec_next_test)] + play_result_actions(monster_name, word, "unrecognized", is_test=True, attempt_id=attempt_id),
-                        width=160, height=60)
+            use ui_battle_test_buttons(monster_name, word, attempt_id)
 
     elif not training:
         fixed:
@@ -267,7 +228,27 @@ screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monst
             use intro_ch1_button("Practice Word", "continue", Return(),
                 width=420, height=84)
 
+        use ui_battle_test_buttons(monster_name, word, attempt_id, warmup=True)
 
+screen ui_battle_test_buttons(monster_name, word, attempt_id, warmup=False):
+    hbox:
+        # Hide the artwork and labels together while preserving the button focus masks.
+        at transform:
+            alpha 0.0
+        xalign 0.5
+        ypos 758
+        spacing 12
+        use intro_ch1_button("Next", "next", Return() if warmup else None, width=140, height=60, enabled=warmup)
+        if warmup:
+            null width 140 height 60
+            null width 140 height 60
+            null width 160 height 60
+        else:
+            use intro_ch1_button("Success", "success", play_result_actions(monster_name, word, "success", is_test=True, attempt_id=attempt_id), width=140, height=60)
+            use intro_ch1_button("Try Again", "fail", play_result_actions(monster_name, word, "fail", is_test=True, attempt_id=attempt_id), width=140, height=60)
+            use intro_ch1_button("No Reading", "unrecognized",
+                [Function(ui_unrec_next_test)] + play_result_actions(monster_name, word, "unrecognized", is_test=True, attempt_id=attempt_id),
+                width=160, height=60)
 
 
 screen ui_pronunciation_battle_over(failure_ending=False, monster_name=None, retry_available=True, attempt_id=None):

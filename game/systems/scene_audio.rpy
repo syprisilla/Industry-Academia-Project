@@ -17,12 +17,14 @@ init python:
     def stop_scene_music(fadeout=0.6):
         renpy.music.stop(channel="music", fadeout=fadeout)
 
-    def record_with_battle_audio(word, battle_music):
+    def record_with_battle_audio(word, battle_music, sentence=False):
         stop_scene_music(fadeout=0.0)
         renpy.music.stop(channel="sound", fadeout=0.0)
         renpy.music.pump()
         try:
             do_record(word)
+            if sentence:
+                ui_compare_capture_boss(word, renpy.get_screen_variable("ui_voice", screen="ui_dust_word"))
         finally:
             play_scene_music(battle_music, volume=scene_battle_volume)
 
