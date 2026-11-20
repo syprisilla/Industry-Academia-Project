@@ -203,7 +203,7 @@ screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monst
                     # Show the recording state first, then start the 3-second recording
                     use intro_ch1_button("Recording...", "recording", NullAction(),
                         width=500, height=118, icon="icon_microphone")
-                    timer 0.05 action Function(record_with_battle_audio, word, battle_music)
+                    timer 0.05 action Function(record_with_battle_audio, word, battle_music, sentence=sentence and monster_name == "Final Boss")
                 else:
                     use intro_ch1_recorder(ui_record_state,
                         SetScreenVariable("ui_record_state", "recording"),
