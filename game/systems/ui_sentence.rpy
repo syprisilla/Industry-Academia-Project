@@ -31,22 +31,21 @@ screen ui_sentence(sentence, record_action=None):
             xysize (620, 128)
             xalign 0.5
 
-            if ui_record_state == "recording":
-                # recording 8 seconds
-                text "Recording... read it clearly!" style "intro_ch1_text":
-                    align (0.5, 0.5)
-                    size 34
-                timer 0.05 action Function(do_sentence, sentence)
+            fixed:
+                xysize (620, 118)
+                align (0.5, 0.5)
 
-            elif ui_record_state == "done":
-                text "Recording complete! ✓" style "intro_ch1_text":
-                    align (0.5, 0.5)
-                    size 34
+                if ui_record_state == "recording":
+                    # recording 8 seconds: keep the button shape, not clickable
+                    use intro_ch1_button("Recording...", "recording", NullAction(),
+                        width=620, height=118, icon="icon_microphone")
+                    timer 0.05 action Function(do_sentence, sentence)
 
-            else:  # ready
-                fixed:
-                    xysize (620, 118)
-                    align (0.5, 0.5)
+                elif ui_record_state == "done":
+                    # finished: same button, greyed out
+                    use intro_ch1_recorder("done", None, width=620)
+
+                else:  # ready
                     use intro_ch1_recorder(ui_record_state,
                         SetScreenVariable("ui_record_state", "recording"),
                         width=620)
@@ -58,7 +57,7 @@ screen ui_sentence(sentence, record_action=None):
                 size 28
                 color "#F4C96B"
         else:
-            $ status = {"ready": "Ready to record.", "recording": "Recording...", "done": "Recording complete."}[ui_record_state]
+            $ status = {"ready": "Ready to record.", "recording": "Read the sentence clearly!", "done": "Recording complete."}[ui_record_state]
             text status style "intro_ch1_caption" xalign 0.5 size 28
 
         fixed:

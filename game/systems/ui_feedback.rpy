@@ -1,5 +1,5 @@
 # Feedback after a failed practice word: gauges first, then the shared tongue guide.
-define ui_feedback_cards = [("cog_hz", "Center of gravity (CoG)"), ("sd_hz", "Spread")]
+define ui_feedback_cards = [("cog_hz", "Center of gravity (CoG)"), ("sd_hz", "Spectral Variance")]
 
 # Set by pronunciation_battle; the default only covers screens shown outside a battle.
 default hp_screen = "ui_dust_hp"

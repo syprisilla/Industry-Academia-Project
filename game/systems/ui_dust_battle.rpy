@@ -120,7 +120,7 @@ screen ui_dust_hp(monster_name="Dust Monster"):
                         fit "fill"
 
 
-screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monster_name=None, sentence=False):
+screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monster_name=None, sentence=False, attempt_id=None):
 
     modal True
     default ui_record_state = "ready"
@@ -153,7 +153,7 @@ screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monst
     if ui_feedback_open:
 
         use ui_pronunciation_feedback(ui_voice,
-            [Function(ui_feedback_show_hp, monster_name)] + play_result_actions(monster_name, word, "fail"))
+            [Function(ui_feedback_show_hp, monster_name)] + play_result_actions(monster_name, word, "fail", attempt_id=attempt_id))
 
     else:
 
@@ -187,7 +187,7 @@ screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monst
         if ui_record_state == "result" and ui_voice["result"] == "unrecognized":
 
             # Unrecognized recordings go straight to mic help.
-            timer 0.01 action play_result_actions(monster_name, word, "unrecognized")
+            timer 0.01 action play_result_actions(monster_name, word, "unrecognized", attempt_id=attempt_id)
 
         elif ui_record_state == "result":
 
@@ -217,35 +217,47 @@ screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monst
                         color "#FFFFFF"
                         outlines [(2, "#241D35", 0, 0)]
 
-                    use intro_ch1_button("OK", "continue", play_result_actions(monster_name, word, ui_voice["result"]),
+                    use intro_ch1_button("OK", "continue", play_result_actions(monster_name, word, ui_voice["result"], attempt_id=attempt_id),
                         width=200, height=70)
 
         else:
 
-            # Record button (ready/recording)
+            # Record button: ready -> recording (3 seconds) -> result
             fixed:
                 xysize (500, 118)
                 xalign 0.5
                 ypos 535
-                use intro_ch1_recorder(ui_record_state, Function(record_with_battle_audio, word, battle_music),
-                    enabled=True, width=500)
+
+                if ui_record_state == "recording":
+                    # Show the recording state first, then start the 3-second recording
+                    use intro_ch1_button("Recording...", "recording", NullAction(),
+                        width=500, height=118, icon="icon_microphone")
+                    timer 0.05 action Function(record_with_battle_audio, word, battle_music)
+                else:
+                    use intro_ch1_recorder(ui_record_state,
+                        SetScreenVariable("ui_record_state", "recording"),
+                        enabled=True, width=500)
 
             fixed:
                 xysize (460, 56)
                 xalign 0.5
                 ypos 674
-                use intro_ch1_status("Test mode (recording and scoring are off)")
+                if ui_record_state == "recording":
+                    use intro_ch1_status("Say the word now!")
+                else:
+                    use intro_ch1_status("Press Record, then say the word.")
 
-            hbox:
-                xalign 0.5
-                ypos 758
-                spacing 12
-                use intro_ch1_button("Next", "next", None, width=140, height=60, enabled=False)
-                use intro_ch1_button("Success", "success", play_result_actions(monster_name, word, "success", is_test=True), width=140, height=60)
-                use intro_ch1_button("Try Again", "fail", play_result_actions(monster_name, word, "fail", is_test=True), width=140, height=60)
-                use intro_ch1_button("No Reading", "unrecognized",
-                    [Function(ui_unrec_next_test)] + play_result_actions(monster_name, word, "unrecognized", is_test=True),
-                    width=160, height=60)
+            if monster_name != "Dust Monster":
+                hbox:
+                    xalign 0.5
+                    ypos 758
+                    spacing 12
+                    use intro_ch1_button("Next", "next", None, width=140, height=60, enabled=False)
+                    use intro_ch1_button("Success", "success", play_result_actions(monster_name, word, "success", is_test=True, attempt_id=attempt_id), width=140, height=60)
+                    use intro_ch1_button("Try Again", "fail", play_result_actions(monster_name, word, "fail", is_test=True, attempt_id=attempt_id), width=140, height=60)
+                    use intro_ch1_button("No Reading", "unrecognized",
+                        [Function(ui_unrec_next_test)] + play_result_actions(monster_name, word, "unrecognized", is_test=True, attempt_id=attempt_id),
+                        width=160, height=60)
 
     elif not training:
         fixed:
@@ -258,7 +270,7 @@ screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monst
 
 
 
-screen ui_pronunciation_battle_over(failure_ending=False, monster_name=None, retry_available=True):
+screen ui_pronunciation_battle_over(failure_ending=False, monster_name=None, retry_available=True, attempt_id=None):
     modal True
     zorder 20
 
@@ -284,7 +296,7 @@ screen ui_pronunciation_battle_over(failure_ending=False, monster_name=None, ret
             hbox:
                 spacing 20
                 use intro_ch1_button(_("Retry"), "continue",
-                    [Function(record_play_event, monster_name, "retry", _update_screens=False), Return(True)],
+                    [Function(record_play_event, monster_name, "retry", attempt_id=attempt_id, _update_screens=False), Return(True)],
                     width=220, enabled=retry_available)
                 use intro_ch1_button(_("Exit"), "next",
                     Return(False) if failure_ending else MainMenu(confirm=False, save=False), width=220)
