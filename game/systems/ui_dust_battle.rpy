@@ -127,7 +127,7 @@ screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monst
     default ui_voice = {"result": None, "feedback": "", "gauges": {}}
 
     # A scored practice word (success or fail) opens the feedback screen in place of the word panel.
-    $ ui_feedback_open = training and ui_record_state == "result" and ui_voice["result"] in ("success", "fail")
+    $ ui_feedback_open = training and (not sentence) and ui_record_state == "result" and ui_voice["result"] in ("success", "fail")
 
 
         # 개발자용 전투 건너뛰기
@@ -187,10 +187,14 @@ screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monst
     if training and not ui_feedback_open:
 
         if ui_record_state == "result" and ui_voice["result"] == "unrecognized":
-
-            # Unrecognized recordings go straight to mic help.
             timer 0.01 action play_result_actions(monster_name, word, "unrecognized", attempt_id=attempt_id)
 
+        elif sentence and ui_record_state == "result" and ui_voice["result"] in ("success", "fail"):
+            # 문장 모드(보스 3R): 게이지는 나중에. 지금은 성공/실패만 전투로 반환.
+            use ui_sentence_result_feedback(
+                ui_voice.get("targets", []),
+                ui_voice["result"] == "success",
+                play_result_actions(monster_name, word, ui_voice["result"], attempt_id=attempt_id))
         else:
 
             # Record button: ready -> recording (3 seconds) -> result
@@ -206,7 +210,7 @@ screen ui_dust_word(word, training=False, battle_music=scene_battle_music, monst
                     timer 0.05 action Function(record_with_battle_audio, word, battle_music, sentence=sentence and monster_name == "Final Boss")
                 else:
                     use intro_ch1_recorder(ui_record_state,
-                        SetScreenVariable("ui_record_state", "recording"),
+                       SetScreenVariable("ui_record_state", "recording"),
                         enabled=True, width=500)
 
             fixed:
@@ -281,6 +285,40 @@ screen ui_pronunciation_battle_over(failure_ending=False, monster_name=None, ret
                     width=220, enabled=retry_available)
                 use intro_ch1_button(_("Exit"), "next",
                     Return(False) if failure_ending else MainMenu(confirm=False, save=False), width=220)
+
+screen ui_sentence_result_feedback(targets, success, continue_action):
+    modal True
+    zorder 30
+    add Solid("#10152F99")
+
+    vbox:
+        align (0.5, 0.5)
+        spacing 20
+
+        text ("Great! Every ㅅ was clear!" if success else "Almost! Let's try once more."):
+            style "intro_ch1_text"
+            size 44
+            bold True
+            color ("#C8F2DC" if success else "#FFF2C7")
+            xalign 0.5
+
+        for t in targets:
+            hbox:
+                spacing 12
+                yalign 0.5
+                fixed:
+                    xysize (70, 240)
+                    text t["syllable"] style "intro_ch1_text" size 46 bold True align (0.5, 0.5)
+                for feature, label in ui_feedback_cards:
+                    if feature in t.get("per_feature", {}):
+                        use ui_compare_gauge(label, t["per_feature"][feature]["gauge"])
+
+        fixed:
+            xysize (260, 68)
+            xalign 0.5
+            use intro_ch1_button("Continue", "continue", continue_action, width=260, height=68)
+
+
 
 
 # Update the hit count once, when the sound wave lands.

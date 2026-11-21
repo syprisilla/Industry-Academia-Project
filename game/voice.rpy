@@ -128,3 +128,53 @@ init python:
         renpy.set_screen_variable("ui_record_state",
                                   "done" if data.get("status") == "ok" else "ready")
         renpy.restart_interaction()
+
+
+    def _save_sentence_result_copy(dest_name):
+        """sentence_result.json을 고정 이름으로 복사해 인트로/보스가 서로 덮어쓰지 않게 한다."""
+        import shutil
+        gamedir = renpy.config.gamedir
+        src = os.path.join(gamedir, "data", "sentence_result.json")
+        dst = os.path.join(gamedir, "data", dest_name)
+        try:
+            shutil.copyfile(src, dst)
+            return True
+        except Exception as e:
+            renpy.log("Could not copy sentence result to %s: %r" % (dest_name, e))
+            return False
+
+    def run_voice_engine_sentence(sentence, seconds=8):
+        gamedir = renpy.config.gamedir
+        exe = os.path.join(gamedir, "python", "voice_engine", "voice_engine.exe")
+        result_json = os.path.join(gamedir, "data", "sentence_result.json")
+        try:
+            subprocess.run([exe, "sentence", sentence, str(seconds)],
+                           check=True, capture_output=True,
+                           creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+            with open(result_json, encoding="utf-8") as f:
+                return json.load(f)
+        except Exception as e:
+            renpy.log("sentence run/read failed: %r" % e)
+            return None
+
+    def do_record_sentence_boss(sentence):
+        """보스 3라운드: 문장(다중 /ㅅ/) 녹음 → 보스 복사본 저장 → 전투 화면용 ui_voice 설정.
+        타깃 전부 success일 때만 성공."""
+        data = run_voice_engine_sentence(sentence)
+        targets = []                                   # ← 미리 초기화 (실패 분기 대비)
+        if not data or data.get("status") != "ok":
+            if data is not None:
+                ui_unrec_set_kind(data.get("reason") or data.get("status"))
+            result = {"result": "unrecognized",
+                      "feedback": "We couldn't hear you clearly. Want to try again?",
+                      "gauges": {}, "segment_estimated": False, "targets": targets}
+        else:
+            _save_sentence_result_copy("sentence_boss.json")
+            targets = data.get("targets", [])
+            all_ok = bool(targets) and all(t.get("success") for t in targets)
+            result = {"result": "success" if all_ok else "fail",
+                      "feedback": "", "gauges": {}, "segment_estimated": False,
+                      "targets": targets}
+        renpy.set_screen_variable("ui_voice", result)
+        renpy.set_screen_variable("ui_record_state", "result")
+        renpy.restart_interaction()

@@ -22,9 +22,10 @@ init python:
         renpy.music.stop(channel="sound", fadeout=0.0)
         renpy.music.pump()
         try:
-            do_record(word)
             if sentence:
-                ui_compare_capture_boss(word, renpy.get_screen_variable("ui_voice", screen="ui_dust_word"))
+                do_record_sentence_boss(word)      # 문장 모드 (sentence_boss.json 생성)
+            else:
+                do_record(word)                    # 단어 모드 (기존)
         finally:
             play_scene_music(battle_music, volume=scene_battle_volume)
 
