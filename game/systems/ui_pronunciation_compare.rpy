@@ -38,6 +38,25 @@ init python:
         if sample:
             persistent.ui_compare_pair = (ui_compare_intro, sample)
             renpy.save_persistent()
+    def ui_load_sentence_compare():
+        """intro/boss 문장 결과 로드. (intro_targets, boss_targets, sentence) 반환."""
+        gamedir = renpy.config.gamedir
+        def _load(name):
+            p = os.path.join(gamedir, "data", name)
+            try:
+                with open(p, encoding="utf-8") as f:
+                    d = json.load(f)
+                if d.get("status") == "ok":
+                    return d
+            except Exception as e:
+                renpy.log("compare load %s failed: %r" % (name, e))
+            return None
+        intro = _load("sentence_intro.json")
+        boss = _load("sentence_boss.json")
+        intro_t = intro.get("targets", []) if intro else []
+        boss_t = boss.get("targets", []) if boss else []
+        sentence = (boss or intro or {}).get("sentence", "")
+        return intro_t, boss_t, sentence
 
 
 screen ui_pronunciation_compare():
@@ -45,35 +64,35 @@ screen ui_pronunciation_compare():
     zorder 100
     key "game_menu" action Hide("ui_pronunciation_compare")
 
-    $ intro_sample, boss_sample = persistent.ui_compare_pair or (persistent.ui_compare_latest_intro, None)
+    $ intro_t, boss_t, sentence = ui_load_sentence_compare()
 
     add "apartment corridor_1"
     add Solid("#10152F88")
 
     vbox:
         xalign 0.5
-        ypos 105
-        spacing 32
+        ypos 54
+        spacing 22
 
         fixed:
-            xysize (930, 108)
+            xysize (930, 100)
             xalign 0.5
-            add intro_ch1_ui + "panel_assessment.png" xysize (930, 108) fit "fill"
-            text "Compare Pronunciation" style "intro_ch1_text" size 58 bold True align (0.5, 0.5)
+            add intro_ch1_ui + "panel_assessment.png" xysize (930, 100) fit "fill"
+            text "Compare Pronunciation" style "intro_ch1_text" size 52 bold True align (0.5, 0.5)
 
-        if intro_sample:
-            text intro_sample["sentence"] style "intro_ch1_caption" xalign 0.5 size 38
+        if sentence:
+            text sentence style "intro_ch1_caption" xalign 0.5 size 32
 
         hbox:
-            spacing 22
-            use ui_compare_result("Intro", intro_sample)
-            use ui_compare_result("Final Boss (Round 3)", boss_sample)
+            xalign 0.5
+            spacing 40
+            use ui_sentence_compare_block("Intro", intro_t)
+            use ui_sentence_compare_block("Final Boss (Round 3)", boss_t)
 
         fixed:
-            xysize (240, 68)
+            xysize (240, 64)
             xalign 0.5
-            use intro_ch1_button("Back", "continue", Hide("ui_pronunciation_compare"), width=240, height=68)
-
+            use intro_ch1_button("Back", "continue", Hide("ui_pronunciation_compare"), width=240, height=64)
 
 screen ui_compare_result(title, sample):
     fixed:
@@ -115,3 +134,30 @@ screen ui_compare_gauge(label, gauge):
         text "●" style "intro_ch1_text" color "#D8A13A" size 23 xpos marker xanchor 0.5 ypos 77
         text "Your sound" style "intro_ch1_text" color "#F4C96B" size 22 xpos max(83, min(marker, 297)) xanchor 0.5 ypos 154
         text "Target range" style "intro_ch1_text" color "#9FD3B8" size 22 xpos ((start + end) // 2) xanchor 0.5 ypos 185
+
+
+screen ui_sentence_compare_block(title, targets):
+    fixed:
+        xysize (920, 820)
+        add intro_ch1_ui + "panel_assessment.png" xysize (920, 820) fit "fill" alpha 0.92
+
+        vbox:
+            xalign 0.5
+            ypos 22
+            spacing 14
+
+            text title style "intro_ch1_text" size 34 bold True xalign 0.5
+
+            if targets:
+                for t in targets:
+                    hbox:
+                        spacing 12
+                        yalign 0.5
+                        fixed:
+                            xysize (70, 240)
+                            text t["syllable"] style "intro_ch1_text" size 46 bold True align (0.5, 0.5)
+                        for feature, label in ui_feedback_cards:
+                            if feature in t.get("per_feature", {}):
+                                use ui_compare_gauge(label, t["per_feature"][feature]["gauge"])
+            else:
+                text "No recording yet." style "intro_ch1_caption" align (0.5, 0.5)
