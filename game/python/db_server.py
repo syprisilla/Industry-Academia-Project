@@ -1,6 +1,7 @@
 import json
 import sqlite3
 from pathlib import Path
+from urllib.parse import urlparse, parse_qs
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 DB_PATH = Path(__file__).resolve().parent.parent / "data" / "pronunciation.db"
@@ -32,7 +33,49 @@ def init_db():
                           for s, r in reference.items()])
 
 
+def get_words(conn, q):
+    """Return one syllable's lists in the same shape as a words.json entry."""
+    out = {"core": [], "target": {}}
+    rows = conn.execute("SELECT word_text, chapter, difficulty_level, pool_type FROM target_words"
+                        " WHERE syllable = ? ORDER BY word_id", (q["syllable"],))
+    for word, chapter, level, pool in rows:
+        if pool == "core":
+            out["core"].append(word)
+        else:
+            out["target"].setdefault("ch%d_%s" % (chapter, level), []).append(word)
+    if not out["core"]:
+        raise KeyError(q["syllable"])
+    return out
+
+
+GET_ROUTES = {"/words": get_words}
+
+
 class DBHandler(BaseHTTPRequestHandler):
+
+    def send_json(self, data):
+        response = json.dumps(dict(ok=True, **data), ensure_ascii=False).encode("utf-8")
+        self.send_response(200)
+        self.send_header("Content-Type", "application/json")
+        self.end_headers()
+        self.wfile.write(response)
+
+    def run_route(self, handler, data):
+        try:
+            with sqlite3.connect(DB_PATH) as conn:
+                result = handler(conn, data)
+        except (KeyError, ValueError, TypeError, sqlite3.Error) as e:
+            # Missing or bad fields: report them instead of dropping the connection.
+            self.send_error(400, repr(e))
+            return
+        self.send_json(result)
+
+    def do_GET(self):
+        url = urlparse(self.path)
+        if url.path not in GET_ROUTES:
+            self.send_error(404)
+            return
+        self.run_route(GET_ROUTES[url.path], {k: v[0] for k, v in parse_qs(url.query).items()})
 
     def do_POST(self):
         self.send_error(404)
