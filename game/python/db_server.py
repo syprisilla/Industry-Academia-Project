@@ -48,7 +48,45 @@ def get_words(conn, q):
     return out
 
 
+def start_session(conn, d):
+    """Find or create the child by name, then open a new session."""
+    # Look up first: INSERT OR IGNORE would still use up an AUTOINCREMENT id and leave gaps.
+    row = conn.execute("SELECT child_id FROM children WHERE name = ?", (d["name"],)).fetchone()
+    child_id = row[0] if row else conn.execute("INSERT INTO children (name) VALUES (?)", (d["name"],)).lastrowid
+    session_id = conn.execute("INSERT INTO sessions (child_id) VALUES (?)", (child_id,)).lastrowid
+    return {"child_id": child_id, "session_id": session_id}
+
+
+def save_core_word(conn, d):
+    conn.execute("UPDATE children SET core_word = ?, syllable = ? WHERE child_id = ?",
+                 (d["core_word"], d.get("syllable"), d["child_id"]))
+    return {}
+
+
+def log_attempt(conn, d):
+    # The same text can be a core word and a target word; prefer this monster's slot, then any target.
+    chapter, _, level = (d.get("slot") or "").partition("_")
+    word = conn.execute("SELECT word_id FROM target_words WHERE word_text = ?"
+                        " ORDER BY (chapter = ? AND difficulty_level = ?) DESC, pool_type = 'core', word_id LIMIT 1",
+                        (d["word_text"], int(chapter[2:]) if chapter[2:].isdigit() else None, level)).fetchone()
+    attempt_number = conn.execute("SELECT COUNT(*) + 1 FROM attempt_log WHERE session_id = ? AND set_number = ?",
+                                  (d["session_id"], d["set_number"])).fetchone()[0]
+    attempt_id = conn.execute(
+        "INSERT INTO attempt_log (session_id, word_id, word_text, set_number, attempt_number, result, cog, spectral_variance)"
+        " VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        (d["session_id"], word and word[0], d["word_text"], d["set_number"], attempt_number,
+         d["result"], d.get("cog"), d.get("spectral_variance"))).lastrowid
+    return {"attempt_id": attempt_id, "attempt_number": attempt_number}
+
+
+def end_boss(conn, d):
+    conn.execute("UPDATE sessions SET boss_result = ? WHERE session_id = ?", (d["boss_result"], d["session_id"]))
+    return {}
+
+
 GET_ROUTES = {"/words": get_words}
+POST_ROUTES = {"/sessions": start_session, "/children/core": save_core_word,
+               "/attempts": log_attempt, "/sessions/boss": end_boss}
 
 
 class DBHandler(BaseHTTPRequestHandler):
@@ -78,6 +116,15 @@ class DBHandler(BaseHTTPRequestHandler):
         self.run_route(GET_ROUTES[url.path], {k: v[0] for k, v in parse_qs(url.query).items()})
 
     def do_POST(self):
+        if self.path in POST_ROUTES:
+            length = int(self.headers.get("Content-Length", 0))
+            try:
+                data = json.loads(self.rfile.read(length) or b"{}")
+            except ValueError as e:
+                self.send_error(400, repr(e))
+                return
+            self.run_route(POST_ROUTES[self.path], data)
+            return
         self.send_error(404)
 
 
