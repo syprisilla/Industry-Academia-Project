@@ -33,6 +33,7 @@ init python:
         if monster_name and not _in_replay:
             persistent.play_events[uuid4().hex] = (time(), monster_name, result, word, is_test, attempt_id)
             renpy.save_persistent()
+            db_log_attempt(monster_name, result, word, is_test)
 
     def play_result_actions(monster_name, word, result, is_test=False, attempt_id=None):
         # Log fresh screen actions. Ren'Py can roll forward a Return value without
