@@ -6,7 +6,10 @@ label start:
     $ renpy.stop_skipping()
     $ play_scene_music(scene_field_music)
 
-    $ player_name = renpy.input("Enter your name.").strip() or player_name
+    # A name is required: a blank name would reuse the last child's records in the DB.
+    $ player_name = ""
+    while not player_name:
+        $ player_name = renpy.input("Enter your name.").strip()
     $ remember_player_name(player_name)
 
     call progress_autosave from intro_name_autosaved
