@@ -11,6 +11,7 @@ label start:
     while not player_name:
         $ player_name = renpy.input("Enter your name.").strip()
     $ remember_player_name(player_name)
+    $ db_start_session()
 
     call progress_autosave from intro_name_autosaved
 
@@ -140,6 +141,7 @@ label intro:
     )
 
     $ ui_selected_core_word = persistent.ui_core_word = _return
+    $ db_save_core_word(_return)
 
     window auto
     # Done saves the chosen key word in ui_selected_core_word.
