@@ -1,9 +1,9 @@
--- "syllable" replaces vowel_environment (Korean: 사 서 세 소 수 스 시).
+-- Syllables are stored in Korean (사 서 세 소 수 스 시); target_words uses "syllable" in place of vowel_environment.
 CREATE TABLE IF NOT EXISTS children (
     child_id  INTEGER PRIMARY KEY AUTOINCREMENT,
     name      TEXT UNIQUE NOT NULL,  -- the game only knows a child by the entered name
     core_word TEXT,
-    syllable  TEXT REFERENCES reference_stats(syllable)  -- clearest syllable from the assessment
+    vowel_environment TEXT REFERENCES reference_stats(syllable)  -- stable: clearest syllable from the assessment
 );
 
 CREATE TABLE IF NOT EXISTS sessions (

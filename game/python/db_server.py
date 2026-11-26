@@ -58,7 +58,7 @@ def start_session(conn, d):
 
 
 def save_core_word(conn, d):
-    conn.execute("UPDATE children SET core_word = ?, syllable = ? WHERE child_id = ?",
+    conn.execute("UPDATE children SET core_word = ?, vowel_environment = ? WHERE child_id = ?",
                  (d["core_word"], d.get("syllable"), d["child_id"]))
     return {}
 
