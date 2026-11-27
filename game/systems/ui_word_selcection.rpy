@@ -23,7 +23,9 @@ init python:
             renpy.log("Could not read syllable_result.json: %r" % e)
         key = UI_SYLLABLE_KEYS.get(syllable, syllable)
         # Use a fixed syllable when the result is missing (e.g. a chapter started from chapter select).
-        return ui_word_pool.get(key, ui_word_pool[fallback])
+        key = key if key in ui_word_pool else fallback
+        # Read from the DB (target_words) when db_server.py is running, otherwise from words.json.
+        return db_words(key) or ui_word_pool[key]
 
     def ui_core_words():
         """Return the key-word choices for the best syllable."""

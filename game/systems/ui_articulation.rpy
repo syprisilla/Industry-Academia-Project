@@ -76,9 +76,10 @@ screen ui_articulation():
     fixed:
         xysize (240, 68)
         pos (1498, 890)
-        # Next shows the Mouth tab first, so it isn't missed; on the last tab it closes the guide.
-        use intro_ch1_button("Next", "continue",
-            SetScreenVariable("page", page + 1) if page < len(ui_artic_pages) - 1 else Return(),
+        # Next shows the Mouth tab first, so it isn't missed; Continue on the last tab closes the guide.
+        $ last_page = page == len(ui_artic_pages) - 1
+        use intro_ch1_button("Continue" if last_page else "Next", "continue",
+            Return() if last_page else SetScreenVariable("page", page + 1),
             width=240, height=68)
 
 

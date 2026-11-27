@@ -298,6 +298,7 @@ label ch3_m3_start:
 
 label ch3_m3_failure_ending:
 
+    $ db_end_boss("fail")
     window hide
 
     # 어떤 경로로 들어와도 보스 장면이 보이도록 다시 세움
@@ -342,6 +343,7 @@ label ch3_m3_prompt:
 
 label ch3_m3_clear:
 
+    $ db_end_boss("clear")
     # ==========================================
     # SCENE 10. The Final Boss disappears
     # ==========================================

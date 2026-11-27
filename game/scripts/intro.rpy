@@ -6,8 +6,12 @@ label start:
     $ renpy.stop_skipping()
     $ play_scene_music(scene_field_music)
 
-    $ player_name = renpy.input("Enter your name.").strip() or player_name
+    # A name is required: a blank name would reuse the last child's records in the DB.
+    $ player_name = ""
+    while not player_name:
+        $ player_name = renpy.input("Enter your name.").strip()
     $ remember_player_name(player_name)
+    $ db_start_session()
 
     call progress_autosave from intro_name_autosaved
 
@@ -137,6 +141,7 @@ label intro:
     )
 
     $ ui_selected_core_word = persistent.ui_core_word = _return
+    $ db_save_core_word(_return)
 
     window auto
     # Done saves the chosen key word in ui_selected_core_word.
